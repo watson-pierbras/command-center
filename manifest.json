@@ -1,0 +1,23 @@
+{
+  "name": "Command Center",
+  "short_name": "CmdCenter",
+  "id": "/dashboard/v2/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "description": "Kanban-style command center with offline support.",
+  "display": "standalone",
+  "theme_color": "#0f1117",
+  "background_color": "#edf2f8",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='192' height='192' viewBox='0 0 192 192'><rect width='192' height='192' rx='36' fill='%230f1117'/><path d='M96 24c20 16 32 40 32 64 0 30-18 56-32 72-14-16-32-42-32-72 0-24 12-48 32-64z' fill='%236366f1'/><circle cx='96' cy='78' r='14' fill='%23e2e8f0'/><path d='M64 126l-20 34 36-12' fill='%23f59e0b'/><path d='M128 126l20 34-36-12' fill='%23f59e0b'/><path d='M96 156l-10 24 10-6 10 6-10-24z' fill='%23ef4444'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 192 192'><rect width='192' height='192' rx='36' fill='%230f1117'/><path d='M96 24c20 16 32 40 32 64 0 30-18 56-32 72-14-16-32-42-32-72 0-24 12-48 32-64z' fill='%236366f1'/><circle cx='96' cy='78' r='14' fill='%23e2e8f0'/><path d='M64 126l-20 34 36-12' fill='%23f59e0b'/><path d='M128 126l20 34-36-12' fill='%23f59e0b'/><path d='M96 156l-10 24 10-6 10 6-10-24z' fill='%23ef4444'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
