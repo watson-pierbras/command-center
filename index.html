@@ -596,6 +596,131 @@
     .feed-error { border-left-color: #ef4444; }
     .feed-message { border-left-color: #14b8a6; }
 
+    .pipeline-shell {
+      display: grid;
+      gap: 12px;
+    }
+
+    .pipeline-progress {
+      display: grid;
+      gap: 10px;
+    }
+
+    .pipeline-progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .pipeline-progress-row strong { color: var(--text); }
+
+    .pipeline-progress-track {
+      width: 100%;
+      height: 10px;
+      border: 1px solid var(--chip-border);
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--chip-bg);
+    }
+
+    .pipeline-progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #22c55e, #06b6d4);
+      border-radius: 999px;
+      animation: growBar 0.8s ease forwards;
+    }
+
+    .pipeline-stats {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .pipeline-stat .label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+    }
+
+    .pipeline-stat .value {
+      margin-top: 4px;
+      font-size: 20px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .pipeline-components {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pipeline-component {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .pipeline-component strong {
+      font-size: 13px;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .pipeline-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: 999px;
+      border: 1px solid var(--chip-border);
+      padding: 2px 8px;
+      color: var(--text);
+      background: var(--chip-bg);
+    }
+
+    .pipeline-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .pipeline-status.built .pipeline-status-dot { background: var(--success); }
+    .pipeline-status.needs-work .pipeline-status-dot { background: var(--warn); }
+    .pipeline-status.not-started .pipeline-status-dot { background: var(--danger); }
+
+    .pipeline-alert {
+      border: 1px solid rgba(239, 68, 68, 0.6);
+      border-left: 4px solid var(--danger);
+      border-radius: 12px;
+      background: rgba(239, 68, 68, 0.12);
+      padding: 10px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    [data-theme='light'] .pipeline-alert {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: rgba(185, 28, 28, 0.55);
+      color: #7f1d1d;
+    }
+
     .tabbar-mobile {
       position: fixed;
       bottom: 0;
@@ -850,6 +975,8 @@
       }
       .column { min-width: 0; }
       .cost-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .pipeline-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pipeline-components { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .form-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
@@ -914,6 +1041,7 @@
         <button class="tab-btn active" data-tab="board">📋 Board</button>
         <button class="tab-btn" data-tab="agents">🤝 Agents</button>
         <button class="tab-btn" data-tab="costs">💸 Costs</button>
+        <button class="tab-btn" data-tab="pipeline">🔬 Pipeline</button>
         <button class="tab-btn" data-tab="feed">📰 Feed</button>
       </nav>
     </header>
@@ -951,11 +1079,63 @@
                     <th>Tokens In</th>
                     <th>Tokens Out</th>
                     <th>Cost</th>
+                    <th>Note</th>
                   </tr>
                 </thead>
                 <tbody id="costTableBody"></tbody>
               </table>
             </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-pipeline">
+          <div class="pipeline-shell">
+            <article class="breakdown-shell pipeline-progress">
+              <div class="pipeline-progress-row">
+                <span>CoachFinder progress</span>
+                <strong id="pipelineCompletion">85%</strong>
+              </div>
+              <div class="pipeline-progress-track">
+                <div class="pipeline-progress-fill" id="pipelineProgressFill" style="--bar-width:85%"></div>
+              </div>
+            </article>
+
+            <div class="pipeline-stats">
+              <article class="cost-card pipeline-stat">
+                <div class="label">Schools</div>
+                <div class="value" id="pipelineSchools">4 / 130,000</div>
+              </article>
+              <article class="cost-card pipeline-stat">
+                <div class="label">Coaches Found</div>
+                <div class="value" id="pipelineCoaches">1</div>
+              </article>
+              <article class="cost-card pipeline-stat">
+                <div class="label">Python Files</div>
+                <div class="value" id="pipelinePythonFiles">31</div>
+              </article>
+              <article class="cost-card pipeline-stat">
+                <div class="label">Lines of Code</div>
+                <div class="value" id="pipelineTotalLines">7,358</div>
+              </article>
+              <article class="cost-card pipeline-stat">
+                <div class="label">Last Scrape Run</div>
+                <div class="value" id="pipelineLastScrape">Never</div>
+              </article>
+              <article class="cost-card pipeline-stat">
+                <div class="label">Last HubSpot Sync</div>
+                <div class="value" id="pipelineLastHubspot">Never</div>
+              </article>
+            </div>
+
+            <article class="breakdown-shell">
+              <h3 style="margin:0 0 10px;">Pipeline Components</h3>
+              <div class="pipeline-components" id="pipelineComponents"></div>
+            </article>
+
+            <article class="breakdown-shell">
+              <h3 style="margin:0 0 10px;">Security Warnings</h3>
+              <div id="pipelineSecurity"></div>
+            </article>
           </div>
         </section>
 
@@ -975,6 +1155,7 @@
       <button class="tab-mobile active" data-tab="board"><span>📋</span><span>Board</span></button>
       <button class="tab-mobile" data-tab="agents"><span>🤝</span><span>Agents</span></button>
       <button class="tab-mobile" data-tab="costs"><span>💸</span><span>Costs</span></button>
+      <button class="tab-mobile" data-tab="pipeline"><span>🔬</span><span>Pipeline</span></button>
       <button class="tab-mobile" data-tab="feed"><span>📰</span><span>Feed</span></button>
     </nav>
 
@@ -1123,6 +1304,16 @@
     const costTableBody = document.getElementById("costTableBody");
     const agentsContainer = document.getElementById("agentsContainer");
     const feedTimeline = document.getElementById("feedTimeline");
+    const pipelineCompletionEl = document.getElementById("pipelineCompletion");
+    const pipelineProgressFillEl = document.getElementById("pipelineProgressFill");
+    const pipelineSchoolsEl = document.getElementById("pipelineSchools");
+    const pipelineCoachesEl = document.getElementById("pipelineCoaches");
+    const pipelinePythonFilesEl = document.getElementById("pipelinePythonFiles");
+    const pipelineTotalLinesEl = document.getElementById("pipelineTotalLines");
+    const pipelineLastScrapeEl = document.getElementById("pipelineLastScrape");
+    const pipelineLastHubspotEl = document.getElementById("pipelineLastHubspot");
+    const pipelineComponentsEl = document.getElementById("pipelineComponents");
+    const pipelineSecurityEl = document.getElementById("pipelineSecurity");
 
     const columns = [
       { key: "done", title: "Done", icon: "✅" },
@@ -1262,7 +1453,8 @@
           model: typeof entry.model === "string" && entry.model ? entry.model : "unknown",
           tokensIn: Number.isFinite(Number(entry.tokensIn)) ? Number(entry.tokensIn) : 0,
           tokensOut: Number.isFinite(Number(entry.tokensOut)) ? Number(entry.tokensOut) : 0,
-          cost: Number.isFinite(Number(entry.cost)) ? Number(entry.cost) : 0
+          cost: Number.isFinite(Number(entry.cost)) ? Number(entry.cost) : 0,
+          note: typeof entry.note === "string" ? entry.note : ""
         }));
 
       const valueOr = (v, fallbackValue) => Number.isFinite(Number(v)) ? Number(v) : fallbackValue;
@@ -1301,6 +1493,7 @@
           month: valueOr(input.costs?.month, fallback.costs.month),
           entries
         },
+        coachfinder: input.coachfinder && typeof input.coachfinder === "object" ? input.coachfinder : null,
         feed
       };
     }
@@ -1627,11 +1820,13 @@
     function renderCosts() {
       const costs = appState.costs || { today: 0, week: 0, month: 0, entries: [] };
       const entries = Array.isArray(costs.entries) ? costs.entries : [];
+      const zeroLabel = entries.some(entry => /api key|chatgpt/i.test(entry.note || "")) ? "API Key" : "Included";
+      const displayCost = (value) => Number(value) === 0 ? zeroLabel : money(value);
 
       costSummaryEl.innerHTML = [
-        { label: "Today", value: money(costs.today) },
-        { label: "This Week", value: money(costs.week) },
-        { label: "This Month", value: money(costs.month) }
+        { label: "Today", value: displayCost(costs.today) },
+        { label: "This Week", value: displayCost(costs.week) },
+        { label: "This Month", value: displayCost(costs.month) }
       ].map(item => `<article class='cost-card'><div class='label'>${item.label}</div><div class='value'>${item.value}</div></article>`).join("");
 
       const byModel = entries.reduce((acc, entry) => {
@@ -1658,7 +1853,7 @@
       costTableBody.innerHTML = "";
       if (!entries.length) {
         const tr = document.createElement("tr");
-        tr.innerHTML = "<td colspan='6'>No entries yet.</td>";
+        tr.innerHTML = "<td colspan='7'>No entries yet.</td>";
         costTableBody.appendChild(tr);
       } else {
         entries
@@ -1674,9 +1869,71 @@
               <td>${entry.tokensIn.toLocaleString()}</td>
               <td>${entry.tokensOut.toLocaleString()}</td>
               <td>${money(entry.cost)}</td>
+              <td>${entry.note || "-"}</td>
             `;
             costTableBody.appendChild(tr);
           });
+      }
+    }
+
+    function coachfinderState() {
+      const components = ["scraper", "discovery", "extractor", "verifier", "hubspot", "celeryWorker", "changeDetection", "deduplication", "telegram"];
+      const source = appState.coachfinder && typeof appState.coachfinder === "object" ? appState.coachfinder : {};
+      const pipeline = source.pipeline && typeof source.pipeline === "object" ? source.pipeline : {};
+      const cleanStatus = (status) => ["built", "needs-work", "not-started"].includes(status) ? status : "not-started";
+      const normalizedPipeline = {};
+      components.forEach(key => {
+        normalizedPipeline[key] = cleanStatus(pipeline[key]);
+      });
+      return {
+        completion: Number.isFinite(Number(source.completion)) ? Math.max(0, Math.min(100, Number(source.completion))) : 85,
+        schools: Number.isFinite(Number(source.database?.schools)) ? Number(source.database.schools) : 4,
+        targetSchools: Number.isFinite(Number(source.database?.targetSchools)) ? Number(source.database.targetSchools) : 130000,
+        coaches: Number.isFinite(Number(source.database?.coaches)) ? Number(source.database.coaches) : 1,
+        pythonFiles: Number.isFinite(Number(source.codebase?.pythonFiles)) ? Number(source.codebase.pythonFiles) : 31,
+        totalLines: Number.isFinite(Number(source.codebase?.totalLines)) ? Number(source.codebase.totalLines) : 7358,
+        securityIssues: Array.isArray(source.securityIssues) ? source.securityIssues.filter(issue => typeof issue === "string" && issue.trim()) : [],
+        lastScrapeRun: typeof source.lastScrapeRun === "string" ? source.lastScrapeRun : null,
+        lastHubSpotSync: typeof source.lastHubSpotSync === "string" ? source.lastHubSpotSync : null,
+        pipeline: normalizedPipeline
+      };
+    }
+
+    function renderPipeline() {
+      const pipeline = coachfinderState();
+      pipelineCompletionEl.textContent = `${Math.round(pipeline.completion)}%`;
+      pipelineProgressFillEl.style.setProperty("--bar-width", `${pipeline.completion}%`);
+      pipelineSchoolsEl.textContent = `${pipeline.schools.toLocaleString()} / ${pipeline.targetSchools.toLocaleString()}`;
+      pipelineCoachesEl.textContent = pipeline.coaches.toLocaleString();
+      pipelinePythonFilesEl.textContent = pipeline.pythonFiles.toLocaleString();
+      pipelineTotalLinesEl.textContent = pipeline.totalLines.toLocaleString();
+      pipelineLastScrapeEl.textContent = pipeline.lastScrapeRun ? formatDate(pipeline.lastScrapeRun, true) : "Never";
+      pipelineLastHubspotEl.textContent = pipeline.lastHubSpotSync ? formatDate(pipeline.lastHubSpotSync, true) : "Never";
+
+      pipelineComponentsEl.innerHTML = "";
+      Object.entries(pipeline.pipeline).forEach(([name, status]) => {
+        const card = document.createElement("article");
+        card.className = "pipeline-component";
+        card.innerHTML = `
+          <strong>${name}</strong>
+          <span class="pipeline-status ${status}">
+            <span class="pipeline-status-dot"></span>
+            ${status}
+          </span>
+        `;
+        pipelineComponentsEl.appendChild(card);
+      });
+
+      pipelineSecurityEl.innerHTML = "";
+      if (!pipeline.securityIssues.length) {
+        pipelineSecurityEl.innerHTML = "<div class='model-bar-row'>No security issues reported.</div>";
+      } else {
+        pipeline.securityIssues.forEach(issue => {
+          const alert = document.createElement("div");
+          alert.className = "pipeline-alert";
+          alert.textContent = issue;
+          pipelineSecurityEl.appendChild(alert);
+        });
       }
     }
 
@@ -1742,6 +1999,7 @@
       if (activeTab === "board") renderBoard();
       if (activeTab === "agents") renderAgents();
       if (activeTab === "costs") renderCosts();
+      if (activeTab === "pipeline") renderPipeline();
       if (activeTab === "feed") renderFeed();
     }
 
@@ -2031,26 +2289,22 @@
     }
 
     async function fetchState() {
-      const endpoints = ["./state.json", "state.json"];
-      for (const endpoint of endpoints) {
-        try {
-          const response = await fetch(endpoint, { cache: "no-store" });
-          if (!response.ok) continue;
-          const payload = await response.json();
-          appState = normalizeState(payload);
-          stateSource = endpoint;
-          stateSourceEl.textContent = endpoint;
-          lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
-          return true;
-        } catch {
-          // continue fallback attempts
-        }
+      try {
+        const response = await fetch("./state.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("unavailable");
+        const payload = await response.json();
+        appState = normalizeState(payload);
+        stateSource = "Live";
+        stateSourceEl.textContent = stateSource;
+        lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
+        return true;
+      } catch {
+        appState = normalizeState(demoState());
+        stateSource = "Demo fallback";
+        stateSourceEl.textContent = stateSource;
+        lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
+        return false;
       }
-      appState = normalizeState(demoState());
-      stateSource = "Demo fallback";
-      stateSourceEl.textContent = stateSource;
-      lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
-      return false;
     }
 
     async function refreshState(showLog = true) {
@@ -2060,6 +2314,7 @@
       }
       if (activeTab === "agents") renderAgents();
       if (activeTab === "costs") renderCosts();
+      if (activeTab === "pipeline") renderPipeline();
       if (activeTab === "feed") renderFeed();
     }
 
