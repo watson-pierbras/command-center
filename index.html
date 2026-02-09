@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Command Center</title>
+  <title>Command Center v2.1</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,14 +17,14 @@
       --shell-bg: #1d2236;
       --chip-bg: #2d3154;
       --chip-border: #3b4270;
-      --soft-accent-bg: rgba(99,102,241,0.1);
+      --soft-accent-bg: rgba(99, 102, 241, 0.1);
       --text: #e2e8f0;
-      --text-secondary: #8892b0;
-      --accent: #6366f1;
+      --text-secondary: #94a3b8;
+      --accent: #4f46e5;
       --success: #22c55e;
       --warn: #f59e0b;
       --danger: #ef4444;
-      --shadow: 0 10px 20px rgba(0,0,0,0.25);
+      --shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
       --radius: 14px;
       --radius-lg: 18px;
     }
@@ -32,33 +32,33 @@
     [data-theme="light"] {
       --bg: #edf2f8;
       --surface: #ffffff;
-      --card: #fdfefe;
-      --border: #cbd5e1;
-      --shell-bg: #f8fbff;
+      --card: #f8fbff;
+      --border: #94a3b8;
+      --shell-bg: #f5f8fc;
       --chip-bg: #e2e8f0;
-      --chip-border: #cbd5e1;
-      --soft-accent-bg: rgba(79,70,229,0.12);
-      --text: #1e293b;
-      --text-secondary: #475569;
-      --accent: #4f46e5;
+      --chip-border: #94a3b8;
+      --soft-accent-bg: rgba(79, 70, 229, 0.12);
+      --text: #0f172a;
+      --text-secondary: #334155;
       --shadow: 0 10px 22px rgba(15, 23, 42, 0.14);
     }
 
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: "Inter", system-ui, -apple-system, sans-serif;
-      background: radial-gradient(1200px 600px at 10% -10%, rgba(99,102,241,0.2), transparent 55%),
-                  radial-gradient(900px 500px at 90% 0%, rgba(34,197,94,0.12), transparent 60%),
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(99, 102, 241, 0.2), transparent 55%),
+                  radial-gradient(900px 500px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%),
                   var(--bg);
       color: var(--text);
       min-height: 100vh;
       transition: background 0.2s ease, color 0.2s ease;
     }
 
-    body[data-theme="light"] {
-      background: radial-gradient(1200px 600px at 10% -10%, rgba(79,70,229,0.16), transparent 55%),
-                  radial-gradient(900px 500px at 90% 0%, rgba(34,197,94,0.12), transparent 60%),
+    body[data-theme='light'] {
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(79, 70, 229, 0.16), transparent 55%),
+                  radial-gradient(900px 500px at 90% 0%, rgba(34, 197, 94, 0.12), transparent 60%),
                   var(--bg);
     }
 
@@ -71,15 +71,15 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 5;
-      background: linear-gradient(180deg, rgba(15,17,23,0.95), rgba(15,17,23,0.7));
+      z-index: 15;
+      background: linear-gradient(180deg, rgba(15, 17, 23, 0.95), rgba(15, 17, 23, 0.7));
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       padding: 14px 16px 10px;
     }
 
-    [data-theme="light"] header {
-      background: linear-gradient(180deg, rgba(245,247,250,0.95), rgba(245,247,250,0.8));
+    body[data-theme='light'] header {
+      background: linear-gradient(180deg, rgba(245, 247, 250, 0.95), rgba(245, 247, 250, 0.8));
     }
 
     .top-row {
@@ -136,6 +136,7 @@
       gap: 12px;
       font-size: 13px;
       color: var(--text-secondary);
+      flex-wrap: wrap;
     }
 
     .stats-row strong { color: var(--text); }
@@ -156,9 +157,75 @@
       transition: width 0.3s ease;
     }
 
+    .desktop-tabs {
+      display: none;
+      margin-top: 10px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .tab-btn {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--soft-accent-bg);
+      color: var(--text);
+    }
+
     main {
       flex: 1;
       padding: 12px 14px 90px;
+      overflow: hidden;
+    }
+
+    .tab-panels {
+      position: relative;
+      min-height: 100%;
+    }
+
+    .panel {
+      display: none;
+      animation: fadeSlide 0.24s ease;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .board-subtabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .board-subtab {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .board-subtab.active {
+      background: var(--soft-accent-bg);
+      color: var(--text);
     }
 
     .columns {
@@ -169,7 +236,7 @@
 
     .column {
       min-width: 100%;
-      padding: 10px 6px 16px;
+      padding: 6px 4px 16px;
     }
 
     .column-shell {
@@ -180,11 +247,11 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      min-height: 220px;
+      min-height: 240px;
       transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-    [data-theme="light"] .column-shell {
+    body[data-theme='light'] .column-shell {
       background: var(--shell-bg);
     }
 
@@ -209,7 +276,7 @@
       padding: 2px 8px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .card {
@@ -218,7 +285,7 @@
       border-left: 4px solid var(--accent);
       border-radius: 12px;
       padding: 12px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       animation: fadeInUp 0.35s ease both;
@@ -226,38 +293,38 @@
       opacity: 1;
     }
 
-    [data-theme="light"] .card {
-      box-shadow: 0 8px 16px rgba(15,23,42,0.08);
-      border-color: #94a3b8;
+    .card h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: var(--text);
+      font-weight: 600;
     }
-    [data-theme="light"] .card h4 {
+
+    [data-theme='light'] .card h4 { color: #0f172a; font-weight: 700; }
+
+    body[data-theme='light'] .card {
+      border-color: #94a3b8;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+    }
+
+    body[data-theme='light'] .card,
+    body[data-theme='light'] .card h4,
+    body[data-theme='light'] .pill,
+    body[data-theme='light'] .agent-badge,
+    body[data-theme='light'] .timeline-item,
+    body[data-theme='light'] .agent-card,
+    body[data-theme='light'] .cost-card,
+    body[data-theme='light'] .breakdown-shell,
+    body[data-theme='light'] .feed-shell,
+    body[data-theme='light'] .activity-item {
       color: #0f172a;
       font-weight: 700;
-    }
-    [data-theme="light"] .meta .chip {
-      background: #e2e8f0;
-      color: #334155;
-      border-color: #94a3b8;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow);
-      }
-    }
-
-    .card h4 {
-      margin: 0 0 6px;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
     }
 
     .meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px 10px;
+      gap: 6px 8px;
       font-size: 12px;
       color: var(--text-secondary);
     }
@@ -269,7 +336,22 @@
       border: 1px solid var(--chip-border);
       color: var(--text);
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 600;
+    }
+
+    [data-theme='light'] .meta .chip { background: #e2e8f0; color: #334155; border-color: #94a3b8; }
+
+    .agent-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--chip-border);
+      background: var(--soft-accent-bg);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
     }
 
     .add-btn {
@@ -289,36 +371,6 @@
 
     .add-btn:hover { border-color: var(--accent); color: var(--text); background: var(--soft-accent-bg); }
 
-    .tabbar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 10px 12px;
-      z-index: 6;
-    }
-
-    .tab {
-      flex: 1;
-      text-align: center;
-      padding: 8px 4px;
-      border-radius: 10px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
-
-    .tab.active {
-      background: var(--soft-accent-bg);
-      color: var(--text);
-      font-weight: 600;
-    }
-
     .done-collapsed {
       display: flex;
       align-items: center;
@@ -329,20 +381,300 @@
       cursor: pointer;
       background: var(--soft-accent-bg);
       color: var(--text-secondary);
+      font-weight: 700;
     }
+
+    .grid-two {
+      display: grid;
+      gap: 12px;
+    }
+
+    .agents-stack {
+      grid-template-columns: 1fr !important;
+    }
+
+    .agent-card,
+    .cost-card,
+    .breakdown-shell,
+    .feed-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+    }
+
+    .agent-card.online {
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.32), 0 0 20px rgba(34, 197, 94, 0.18);
+    }
+
+    .agent-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-dot.online { background: var(--success); }
+    .status-dot.idle { background: var(--warn); }
+    .status-dot.offline { background: var(--danger); }
+
+    .agent-kv {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .agent-kv strong { color: var(--text); }
+
+    .task-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .task-line {
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 8px;
+      border-radius: 10px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .cost-summary {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .cost-card .value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .cost-card .label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .model-bars {
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .model-bar-row {
+      display: grid;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .bar-track {
+      height: 10px;
+      background: var(--chip-bg);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--chip-border);
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), #06b6d4);
+      border-radius: 999px;
+      animation: growBar 0.8s ease forwards;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    th {
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 11px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    .feed-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+      max-height: 62vh;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .timeline-item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .timeline-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .timeline-text {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+      margin: 0 0 4px;
+    }
+
+    .timeline-detail {
+      font-size: 12px;
+      color: var(--text-secondary);
+      word-break: break-word;
+      margin: 0;
+    }
+
+    .feed-info { border-left-color: #3b82f6; }
+    .feed-success { border-left-color: #22c55e; }
+    .feed-warning { border-left-color: #f59e0b; }
+    .feed-error { border-left-color: #ef4444; }
+    .feed-message { border-left-color: #14b8a6; }
+
+    .tabbar-mobile {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 10px 12px;
+      z-index: 20;
+    }
+
+    .tab-mobile {
+      flex: 1;
+      text-align: center;
+      padding: 8px 2px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+      display: grid;
+      gap: 2px;
+      place-items: center;
+      font-weight: 600;
+    }
+
+    .tab-mobile.active {
+      background: var(--soft-accent-bg);
+      color: var(--text);
+    }
+
+    .menu {
+      position: relative;
+    }
+
+    .menu-panel {
+      position: absolute;
+      right: 0;
+      top: 42px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px;
+      min-width: 170px;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 40;
+    }
+
+    .menu-panel.open { display: block; }
+
+    .menu-panel button {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      padding: 8px 10px;
+      text-align: left;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .menu-panel button:hover { background: rgba(99, 102, 241, 0.12); }
 
     .activity-panel {
       position: fixed;
       top: 0;
       right: 0;
       width: 320px;
-      max-width: 90vw;
+      max-width: 92vw;
       height: 100vh;
       background: var(--surface);
       border-left: 1px solid var(--border);
       transform: translateX(100%);
       transition: transform 0.35s ease;
-      z-index: 7;
+      z-index: 30;
       padding: 18px 16px;
       display: flex;
       flex-direction: column;
@@ -369,49 +701,15 @@
     }
 
     .activity-item strong { color: var(--text); display: block; margin-bottom: 4px; }
-    .activity-item span { color: var(--text-secondary); }
-
-    .menu {
-      position: relative;
-    }
-
-    .menu-panel {
-      position: absolute;
-      right: 0;
-      top: 42px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 6px;
-      min-width: 150px;
-      box-shadow: var(--shadow);
-      display: none;
-      z-index: 8;
-    }
-
-    .menu-panel.open { display: block; }
-
-    .menu-panel button {
-      width: 100%;
-      border: none;
-      background: transparent;
-      color: var(--text);
-      padding: 8px 10px;
-      text-align: left;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .menu-panel button:hover { background: rgba(99,102,241,0.12); }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: rgba(0, 0, 0, 0.55);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 9;
+      z-index: 50;
     }
 
     .modal-backdrop.open { display: flex; }
@@ -420,7 +718,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      width: min(520px, 94vw);
+      width: min(560px, 94vw);
       max-height: 92vh;
       overflow-y: auto;
       padding: 16px;
@@ -441,9 +739,17 @@
       gap: 12px;
     }
 
-    label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 4px; }
+    .form-row-2 {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
 
-    input, select, textarea {
+    label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 4px; font-weight: 700; }
+
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 10px;
       border-radius: 10px;
@@ -472,6 +778,7 @@
       cursor: pointer;
       font-size: 12px;
       color: var(--text-secondary);
+      font-weight: 700;
     }
 
     .radio-pill input { width: auto; }
@@ -494,7 +801,7 @@
       border: none;
       border-radius: 10px;
       padding: 10px 14px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
     }
 
@@ -515,20 +822,41 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     @keyframes modalIn {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes growBar {
+      from { width: 0; }
+      to { width: var(--bar-width, 0%); }
+    }
+
     @media (min-width: 720px) {
       main { padding: 16px 18px 24px; }
-      .columns { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; transform: none !important; }
+      .desktop-tabs { display: inline-flex; }
+      .tabbar-mobile { display: none; }
+      .board-subtabs { display: none; }
+      .columns {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        transform: none !important;
+      }
       .column { min-width: 0; }
-      .tabbar { display: none; }
+      .cost-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .form-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (min-width: 1024px) {
-      .columns { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+      .columns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .grid-two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -543,7 +871,9 @@
     .add-btn:focus-visible,
     .icon-btn:focus-visible,
     .btn:focus-visible,
-    .tab:focus-visible {
+    .tab-btn:focus-visible,
+    .tab-mobile:focus-visible,
+    .board-subtab:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
@@ -553,9 +883,10 @@
   <div class="app">
     <header>
       <div class="top-row">
-        <div class="title">🚀 Command Center</div>
+        <div class="title">🚀 Command Center v2.1</div>
         <div class="header-actions">
           <button class="icon-btn" id="themeToggle" title="Toggle theme">🌓</button>
+          <button class="icon-btn" id="refreshBtn" title="Refresh state">⟳</button>
           <button class="icon-btn" id="activityToggle" title="Activity log">🗂️</button>
           <div class="menu">
             <button class="icon-btn" id="menuToggle" title="Menu">⋮</button>
@@ -571,20 +902,81 @@
           <span>Total <strong id="totalCount">0</strong></span>
           <span><strong id="completionPct">0%</strong> complete</span>
           <span>✅ <strong id="doneCount">0</strong> 🔄 <strong id="activeCount">0</strong> 📋 <strong id="plannedCount">0</strong></span>
+          <span>⏱ Remaining <strong id="remainingEstimate">0</strong></span>
         </div>
         <div class="progress"><span id="progressBar" style="width:0%"></span></div>
+        <div class="stats-row">
+          <span>State source: <strong id="stateSource">Demo fallback</strong></span>
+          <span>Updated <strong id="lastUpdated">-</strong></span>
+        </div>
       </div>
+      <nav class="desktop-tabs" id="desktopTabs" aria-label="Main tabs">
+        <button class="tab-btn active" data-tab="board">📋 Board</button>
+        <button class="tab-btn" data-tab="agents">🤝 Agents</button>
+        <button class="tab-btn" data-tab="costs">💸 Costs</button>
+        <button class="tab-btn" data-tab="feed">📰 Feed</button>
+      </nav>
     </header>
 
     <main>
-      <div class="columns" id="columns"></div>
+      <div class="tab-panels">
+        <section class="panel active" id="panel-board">
+          <div class="board-subtabs" id="boardSubtabs">
+            <button class="board-subtab" data-column="done">✅ Done</button>
+            <button class="board-subtab active" data-column="active">🔄 Active</button>
+            <button class="board-subtab" data-column="planned">📋 Planned</button>
+          </div>
+          <div class="columns" id="columns"></div>
+        </section>
+
+        <section class="panel" id="panel-agents">
+          <div id="agentsContainer" class="grid-two agents-stack"></div>
+        </section>
+
+        <section class="panel" id="panel-costs">
+          <div class="cost-summary" id="costSummary"></div>
+          <div class="breakdown-shell">
+            <h3 style="margin:0 0 8px;">Spend By Model</h3>
+            <div class="model-bars" id="modelBars"></div>
+          </div>
+          <div class="breakdown-shell" style="margin-top:12px;">
+            <h3 style="margin:0 0 8px;">Cost Breakdown</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Agent</th>
+                    <th>Model</th>
+                    <th>Tokens In</th>
+                    <th>Tokens Out</th>
+                    <th>Cost</th>
+                  </tr>
+                </thead>
+                <tbody id="costTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-feed">
+          <div class="feed-shell">
+            <div class="feed-actions">
+              <span>Timeline</span>
+              <button class="btn secondary" id="feedRefreshBtn" type="button">Refresh Feed</button>
+            </div>
+            <div class="timeline" id="feedTimeline"></div>
+          </div>
+        </section>
+      </div>
     </main>
 
-    <div class="tabbar" id="tabbar">
-      <div class="tab" data-tab="done">✅ Done</div>
-      <div class="tab" data-tab="active">🔄 Active</div>
-      <div class="tab" data-tab="planned">📋 Planned</div>
-    </div>
+    <nav class="tabbar-mobile" id="mobileTabs" aria-label="Main tabs mobile">
+      <button class="tab-mobile active" data-tab="board"><span>📋</span><span>Board</span></button>
+      <button class="tab-mobile" data-tab="agents"><span>🤝</span><span>Agents</span></button>
+      <button class="tab-mobile" data-tab="costs"><span>💸</span><span>Costs</span></button>
+      <button class="tab-mobile" data-tab="feed"><span>📰</span><span>Feed</span></button>
+    </nav>
 
     <div class="activity-panel" id="activityPanel">
       <div class="top-row">
@@ -605,15 +997,25 @@
             <label for="taskTitle">Title *</label>
             <input id="taskTitle" type="text" placeholder="Task title" required />
           </div>
-          <div>
-            <label for="taskProject">Project</label>
-            <select id="taskProject">
-              <option>CoachFinder</option>
-              <option>Lead Intel</option>
-              <option>Infrastructure</option>
-              <option>Watson</option>
-              <option>Other</option>
-            </select>
+          <div class="form-row-2">
+            <div>
+              <label for="taskProject">Project</label>
+              <select id="taskProject">
+                <option>CoachFinder</option>
+                <option>Lead Intel</option>
+                <option>Infrastructure</option>
+                <option>Watson</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label for="taskColumn">Column</label>
+              <select id="taskColumn">
+                <option value="done">Done</option>
+                <option value="active">Active</option>
+                <option value="planned">Planned</option>
+              </select>
+            </div>
           </div>
           <div>
             <label>Priority</label>
@@ -623,17 +1025,36 @@
               <label class="radio-pill"><input type="radio" name="priority" value="low" /> <span class="dot" style="background:#22c55e"></span> Low</label>
             </div>
           </div>
-          <div>
-            <label for="taskDue">Due Date</label>
-            <input id="taskDue" type="date" />
+          <div class="form-row-2">
+            <div>
+              <label for="taskAgent">Assigned Agent</label>
+              <select id="taskAgent">
+                <option value="">Unassigned</option>
+                <option value="watson">Watson</option>
+                <option value="codex">Codex</option>
+                <option value="ollama">Ollama</option>
+              </select>
+            </div>
+            <div>
+              <label for="taskModel">Model</label>
+              <input id="taskModel" type="text" placeholder="gpt-5.3-codex" />
+            </div>
           </div>
-          <div>
-            <label for="taskColumn">Column</label>
-            <select id="taskColumn">
-              <option value="done">Done</option>
-              <option value="active">Active</option>
-              <option value="planned">Planned</option>
-            </select>
+          <div class="form-row-2">
+            <div>
+              <label for="taskDue">Due Date</label>
+              <input id="taskDue" type="date" />
+            </div>
+            <div>
+              <label for="taskTime">Estimated Time</label>
+              <input id="taskTime" type="text" placeholder="2h / 30m / 2d" />
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div>
+              <label for="taskCost">Estimated Cost (USD)</label>
+              <input id="taskCost" type="number" min="0" step="0.01" placeholder="0.00" />
+            </div>
           </div>
           <div>
             <label for="taskNotes">Notes</label>
@@ -657,6 +1078,14 @@
     const STORAGE_KEY = "ccv2_tasks";
     const LOG_KEY = "ccv2_activity";
     const THEME_KEY = "ccv2_theme";
+    const VERSION_KEY = "ccv2_version";
+    const DATA_VERSION = "2.1";
+
+    const AGENT_META = {
+      watson: { name: "Watson", icon: "🔍", role: "Orchestrator", defaultModel: "claude-opus-4-6" },
+      codex: { name: "Codex", icon: "🤖", role: "Coding Agent", defaultModel: "gpt-5.3-codex" },
+      ollama: { name: "Ollama", icon: "🦙", role: "Local LLMs", defaultModel: "qwen2.5-coder:3b" }
+    };
 
     const columnsEl = document.getElementById("columns");
     const totalCountEl = document.getElementById("totalCount");
@@ -664,8 +1093,10 @@
     const doneCountEl = document.getElementById("doneCount");
     const activeCountEl = document.getElementById("activeCount");
     const plannedCountEl = document.getElementById("plannedCount");
+    const remainingEstimateEl = document.getElementById("remainingEstimate");
     const progressBarEl = document.getElementById("progressBar");
-    const tabbarEl = document.getElementById("tabbar");
+    const stateSourceEl = document.getElementById("stateSource");
+    const lastUpdatedEl = document.getElementById("lastUpdated");
     const activityPanel = document.getElementById("activityPanel");
     const activityList = document.getElementById("activityList");
     const menuPanel = document.getElementById("menuPanel");
@@ -679,9 +1110,19 @@
     const taskDue = document.getElementById("taskDue");
     const taskNotes = document.getElementById("taskNotes");
     const taskColumn = document.getElementById("taskColumn");
+    const taskAgent = document.getElementById("taskAgent");
+    const taskModel = document.getElementById("taskModel");
+    const taskTime = document.getElementById("taskTime");
+    const taskCost = document.getElementById("taskCost");
     const saveBtn = document.getElementById("saveBtn");
     const deleteBtn = document.getElementById("deleteBtn");
     const cancelBtn = document.getElementById("cancelBtn");
+
+    const costSummaryEl = document.getElementById("costSummary");
+    const modelBarsEl = document.getElementById("modelBars");
+    const costTableBody = document.getElementById("costTableBody");
+    const agentsContainer = document.getElementById("agentsContainer");
+    const feedTimeline = document.getElementById("feedTimeline");
 
     const columns = [
       { key: "done", title: "Done", icon: "✅" },
@@ -691,9 +1132,12 @@
 
     let tasks = [];
     let activity = [];
-    let activeTab = "active";
+    let appState = demoState();
+    let activeTab = "board";
+    let activeBoardColumn = "active";
     let doneCollapsed = false;
     let editingId = null;
+    let stateSource = "Demo fallback";
 
     function nowISO() {
       return new Date().toISOString();
@@ -706,6 +1150,57 @@
       } catch {
         return fallback;
       }
+    }
+
+    function demoState() {
+      const today = new Date();
+      const base = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 30, 0);
+      const isoAt = (hoursOffset) => new Date(base.getTime() + hoursOffset * 60 * 60 * 1000).toISOString();
+      return {
+        lastUpdated: isoAt(13),
+        agents: {
+          watson: { status: "online", model: "claude-opus-4-6", lastActivity: isoAt(13) },
+          codex: { status: "idle", model: "gpt-5.3-codex", lastActivity: isoAt(11.5) },
+          ollama: { status: "online", models: ["qwen2.5-coder:3b", "llama3.2:3b", "llama3.2:1b"], lastActivity: isoAt(10) }
+        },
+        costs: {
+          today: 4.86,
+          week: 18.42,
+          month: 54.73,
+          entries: [
+            { date: isoAt(1), agent: "watson", model: "claude-opus-4-6", tokensIn: 6012, tokensOut: 1844, cost: 1.42 },
+            { date: isoAt(5), agent: "codex", model: "gpt-5.3-codex", tokensIn: 14320, tokensOut: 5220, cost: 2.73 },
+            { date: isoAt(7), agent: "ollama", model: "qwen2.5-coder:3b", tokensIn: 4200, tokensOut: 1900, cost: 0.11 },
+            { date: isoAt(9), agent: "codex", model: "gpt-5.3-codex", tokensIn: 3190, tokensOut: 1210, cost: 0.49 },
+            { date: isoAt(12), agent: "watson", model: "claude-opus-4-6", tokensIn: 930, tokensOut: 400, cost: 0.11 }
+          ]
+        },
+        feed: [
+          { ts: isoAt(8.5), agent: "watson", type: "info", text: "Morning sync kicked off", detail: "Checked priorities across Board, Agents, and Costs." },
+          { ts: isoAt(9), agent: "codex", type: "success", text: "Command Center v2.1 tabs implemented", detail: "Board, Agents, Costs, and Feed are all wired." },
+          { ts: isoAt(10), agent: "watson", type: "warning", text: "state.json unavailable", detail: "Using demo fallback payload until Watson syncs state.json." },
+          { ts: isoAt(11), agent: "ollama", type: "message", text: "Local models warmed up", detail: "qwen2.5-coder:3b responded in 1.8s." },
+          { ts: isoAt(12.5), agent: "watson", type: "success", text: "Export/import and theme parity validated", detail: "Light and dark mode contrast checks passed." },
+          { ts: isoAt(13), agent: "watson", type: "info", text: "Waiting for next command", detail: "Ready for new queue items." }
+        ]
+      };
+    }
+
+    function seedTasks() {
+      const createdAt = nowISO();
+      return [
+        { id: crypto.randomUUID(), title: "Security audit completed", column: "done", priority: "high", project: "Infrastructure", notes: "Final report delivered.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "watson", model: null, estimatedTime: "1h", estimatedCost: 1.1 },
+        { id: crypto.randomUUID(), title: "Kanban Pro dashboard built", column: "done", priority: "high", project: "Infrastructure", notes: "Initial shell and board completed.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "2h", estimatedCost: 2.3 },
+        { id: crypto.randomUUID(), title: "Ollama installed with 3 models", column: "done", priority: "high", project: "Watson", notes: "qwen + llama3.2 variants available.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "watson", model: null, estimatedTime: "30m", estimatedCost: 0.4 },
+        { id: crypto.randomUUID(), title: "Telegram gateway configured", column: "done", priority: "medium", project: "Watson", notes: "Inbound relay validated.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "watson", model: null, estimatedTime: "1h", estimatedCost: 0.3 },
+        { id: crypto.randomUUID(), title: "CoachFinder design system v2", column: "done", priority: "high", project: "CoachFinder", notes: "Typography and spacing tokens finalized.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "4h", estimatedCost: 2.1 },
+        { id: crypto.randomUUID(), title: "HubSpot integration complete", column: "done", priority: "high", project: "CoachFinder", notes: "Contact sync and lead status mapping done.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "6h", estimatedCost: 1.9 },
+        { id: crypto.randomUUID(), title: "Command Center v2", column: "active", priority: "high", project: "Infrastructure", notes: "Major expansion with agents/cost/feed.", dueDate: "", createdAt, completedAt: "", assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "3h", estimatedCost: 2.7 },
+        { id: crypto.randomUUID(), title: "Twitter/YouTube research workflow", column: "planned", priority: "medium", project: "Lead Intel", notes: "Define automation and source scoring.", dueDate: "", createdAt, completedAt: "", assignedAgent: "watson", model: null, estimatedTime: "2d", estimatedCost: 0.8 },
+        { id: crypto.randomUUID(), title: "Fix bird CLI for Twitter access", column: "planned", priority: "low", project: "Lead Intel", notes: "Re-auth and endpoint compatibility fixes.", dueDate: "", createdAt, completedAt: "", assignedAgent: "watson", model: null, estimatedTime: "4h", estimatedCost: 0.6 },
+        { id: crypto.randomUUID(), title: "CoachFinder full pipeline integration", column: "planned", priority: "high", project: "CoachFinder", notes: "Wire the complete ingestion-to-HubSpot path.", dueDate: "", createdAt, completedAt: "", assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "1w", estimatedCost: 3.4 },
+        { id: crypto.randomUUID(), title: "Dashboard documentation", column: "planned", priority: "low", project: "Infrastructure", notes: "Document setup, data flow, and runbook.", dueDate: "", createdAt, completedAt: "", assignedAgent: "watson", model: null, estimatedTime: "2h", estimatedCost: 0.4 }
+      ];
     }
 
     function normalizeTask(input) {
@@ -723,7 +1218,11 @@
       const completedAt = column === "done"
         ? (typeof input.completedAt === "string" && input.completedAt ? input.completedAt : nowISO())
         : "";
-      return { id, title, column, priority, project, notes, dueDate, createdAt, completedAt };
+      const assignedAgent = ["watson", "codex", "ollama"].includes(input.assignedAgent) ? input.assignedAgent : null;
+      const model = typeof input.model === "string" && input.model.trim() ? input.model.trim() : null;
+      const estimatedTime = typeof input.estimatedTime === "string" ? input.estimatedTime.trim() : "";
+      const estimatedCost = Number.isFinite(Number(input.estimatedCost)) ? Number(input.estimatedCost) : null;
+      return { id, title, column, priority, project, notes, dueDate, createdAt, completedAt, assignedAgent, model, estimatedTime, estimatedCost };
     }
 
     function normalizeActivity(input) {
@@ -737,7 +1236,83 @@
       };
     }
 
+    function normalizeFeedEntry(item) {
+      if (!item || typeof item !== "object") return null;
+      const text = typeof item.text === "string" ? item.text.trim() : "";
+      if (!text) return null;
+      return {
+        ts: typeof item.ts === "string" && item.ts ? item.ts : nowISO(),
+        agent: ["watson", "codex", "ollama"].includes(item.agent) ? item.agent : "watson",
+        type: ["info", "success", "warning", "error", "message"].includes(item.type) ? item.type : "info",
+        text,
+        detail: typeof item.detail === "string" ? item.detail : ""
+      };
+    }
+
+    function normalizeState(input) {
+      const fallback = demoState();
+      if (!input || typeof input !== "object") return fallback;
+
+      const costsEntriesRaw = Array.isArray(input.costs?.entries) ? input.costs.entries : fallback.costs.entries;
+      const entries = costsEntriesRaw
+        .filter(Boolean)
+        .map(entry => ({
+          date: typeof entry.date === "string" && entry.date ? entry.date : nowISO(),
+          agent: ["watson", "codex", "ollama"].includes(entry.agent) ? entry.agent : "watson",
+          model: typeof entry.model === "string" && entry.model ? entry.model : "unknown",
+          tokensIn: Number.isFinite(Number(entry.tokensIn)) ? Number(entry.tokensIn) : 0,
+          tokensOut: Number.isFinite(Number(entry.tokensOut)) ? Number(entry.tokensOut) : 0,
+          cost: Number.isFinite(Number(entry.cost)) ? Number(entry.cost) : 0
+        }));
+
+      const valueOr = (v, fallbackValue) => Number.isFinite(Number(v)) ? Number(v) : fallbackValue;
+      const agentsIn = input.agents || {};
+      const agentBlock = {
+        watson: {
+          status: ["online", "idle", "offline"].includes(agentsIn.watson?.status) ? agentsIn.watson.status : fallback.agents.watson.status,
+          model: typeof agentsIn.watson?.model === "string" ? agentsIn.watson.model : fallback.agents.watson.model,
+          lastActivity: typeof agentsIn.watson?.lastActivity === "string" ? agentsIn.watson.lastActivity : fallback.agents.watson.lastActivity
+        },
+        codex: {
+          status: ["online", "idle", "offline"].includes(agentsIn.codex?.status) ? agentsIn.codex.status : fallback.agents.codex.status,
+          model: typeof agentsIn.codex?.model === "string" ? agentsIn.codex.model : fallback.agents.codex.model,
+          lastActivity: typeof agentsIn.codex?.lastActivity === "string" ? agentsIn.codex.lastActivity : fallback.agents.codex.lastActivity
+        },
+        ollama: {
+          status: ["online", "idle", "offline"].includes(agentsIn.ollama?.status) ? agentsIn.ollama.status : fallback.agents.ollama.status,
+          models: Array.isArray(agentsIn.ollama?.models) && agentsIn.ollama.models.length ? agentsIn.ollama.models : fallback.agents.ollama.models,
+          lastActivity: typeof agentsIn.ollama?.lastActivity === "string" || agentsIn.ollama?.lastActivity === null
+            ? agentsIn.ollama.lastActivity
+            : fallback.agents.ollama.lastActivity
+        }
+      };
+
+      const feed = (Array.isArray(input.feed) ? input.feed : fallback.feed)
+        .map(normalizeFeedEntry)
+        .filter(Boolean)
+        .sort((a, b) => new Date(b.ts) - new Date(a.ts));
+
+      return {
+        lastUpdated: typeof input.lastUpdated === "string" ? input.lastUpdated : fallback.lastUpdated,
+        agents: agentBlock,
+        costs: {
+          today: valueOr(input.costs?.today, fallback.costs.today),
+          week: valueOr(input.costs?.week, fallback.costs.week),
+          month: valueOr(input.costs?.month, fallback.costs.month),
+          entries
+        },
+        feed
+      };
+    }
+
     function loadData() {
+      const storedVersion = localStorage.getItem(VERSION_KEY);
+      if (storedVersion !== DATA_VERSION) {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(LOG_KEY);
+        localStorage.setItem(VERSION_KEY, DATA_VERSION);
+      }
+
       const stored = localStorage.getItem(STORAGE_KEY);
       const logStored = localStorage.getItem(LOG_KEY);
       const parsedTasks = safeParse(stored, null);
@@ -752,9 +1327,11 @@
         tasks = seedTasks();
         shouldReset = true;
       }
+
       activity = Array.isArray(parsedActivity)
-        ? parsedActivity.map(normalizeActivity).filter(Boolean).slice(0, 50)
+        ? parsedActivity.map(normalizeActivity).filter(Boolean).slice(0, 80)
         : [];
+
       if (shouldReset) {
         activity.unshift({
           id: crypto.randomUUID(),
@@ -765,41 +1342,65 @@
       persist();
     }
 
-    function seedTasks() {
-      const createdAt = nowISO();
-      return [
-        { id: crypto.randomUUID(), title: "Security audit completed", column: "done", priority: "high", project: "Infrastructure", notes: "", dueDate: "", createdAt, completedAt: createdAt },
-        { id: crypto.randomUUID(), title: "Kanban Pro dashboard built", column: "done", priority: "high", project: "Infrastructure", notes: "", dueDate: "", createdAt, completedAt: createdAt },
-        { id: crypto.randomUUID(), title: "Ollama installed with 3 models", column: "done", priority: "high", project: "Watson", notes: "", dueDate: "", createdAt, completedAt: createdAt },
-        { id: crypto.randomUUID(), title: "Telegram gateway configured", column: "done", priority: "medium", project: "Watson", notes: "", dueDate: "", createdAt, completedAt: createdAt },
-        { id: crypto.randomUUID(), title: "CoachFinder design system v2", column: "done", priority: "high", project: "CoachFinder", notes: "", dueDate: "", createdAt, completedAt: createdAt },
-        { id: crypto.randomUUID(), title: "HubSpot integration complete", column: "done", priority: "high", project: "CoachFinder", notes: "", dueDate: "", createdAt, completedAt: createdAt },
-        { id: crypto.randomUUID(), title: "Command Center v2", column: "active", priority: "high", project: "Infrastructure", notes: "", dueDate: "", createdAt, completedAt: "" },
-        { id: crypto.randomUUID(), title: "Twitter/YouTube research workflow", column: "planned", priority: "medium", project: "Lead Intel", notes: "", dueDate: "", createdAt, completedAt: "" },
-        { id: crypto.randomUUID(), title: "Fix bird CLI for Twitter access", column: "planned", priority: "low", project: "Lead Intel", notes: "", dueDate: "", createdAt, completedAt: "" },
-        { id: crypto.randomUUID(), title: "CoachFinder full pipeline integration", column: "planned", priority: "high", project: "CoachFinder", notes: "", dueDate: "", createdAt, completedAt: "" },
-        { id: crypto.randomUUID(), title: "Dashboard documentation", column: "planned", priority: "low", project: "Infrastructure", notes: "", dueDate: "", createdAt, completedAt: "" }
-      ];
-    }
-
     function persist() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
       localStorage.setItem(LOG_KEY, JSON.stringify(activity));
+      localStorage.setItem(VERSION_KEY, DATA_VERSION);
     }
 
     function logActivity(message) {
       const entry = { id: crypto.randomUUID(), message, ts: nowISO() };
       activity.unshift(entry);
-      if (activity.length > 50) activity = activity.slice(0, 50);
+      if (activity.length > 80) activity = activity.slice(0, 80);
       persist();
       renderActivity();
     }
 
-    function formatDate(iso) {
-      if (!iso) return "";
+    function formatDate(iso, withTime = false) {
+      if (!iso) return "-";
       const d = new Date(iso);
-      if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+      if (Number.isNaN(d.getTime())) return "-";
+      return withTime
+        ? d.toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+        : d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    }
+
+    function money(value) {
+      return `$${Number(value || 0).toFixed(2)}`;
+    }
+
+    function formatEstimatedTime(value) {
+      const v = typeof value === "string" ? value.trim() : "";
+      return v;
+    }
+
+    function parseEstimatedMinutes(value) {
+      const input = formatEstimatedTime(value).toLowerCase().replace(/\s+/g, "");
+      if (!input) return null;
+      const match = input.match(/^(\d+(?:\.\d+)?)(m|h|d|w)$/);
+      if (!match) return null;
+      const amount = Number(match[1]);
+      if (!Number.isFinite(amount) || amount < 0) return null;
+      const unit = match[2];
+      const minutesByUnit = { m: 1, h: 60, d: 60 * 24, w: 60 * 24 * 7 };
+      return Math.round(amount * minutesByUnit[unit]);
+    }
+
+    function formatMinutesTotal(minutes) {
+      if (!Number.isFinite(minutes) || minutes <= 0) return "0";
+      let remaining = Math.round(minutes);
+      const week = Math.floor(remaining / (60 * 24 * 7));
+      remaining -= week * 60 * 24 * 7;
+      const day = Math.floor(remaining / (60 * 24));
+      remaining -= day * 60 * 24;
+      const hour = Math.floor(remaining / 60);
+      remaining -= hour * 60;
+      const parts = [];
+      if (week) parts.push(`${week}w`);
+      if (day) parts.push(`${day}d`);
+      if (hour) parts.push(`${hour}h`);
+      if (remaining) parts.push(`${remaining}m`);
+      return parts.join(" ") || "0";
     }
 
     function priorityColor(priority) {
@@ -808,7 +1409,17 @@
       return "#22c55e";
     }
 
-    function render() {
+    function agentBadge(agentKey) {
+      if (!agentKey || !AGENT_META[agentKey]) return "<span class='agent-badge'>Unassigned</span>";
+      const meta = AGENT_META[agentKey];
+      return `<span class='agent-badge'>${meta.icon} ${meta.name}</span>`;
+    }
+
+    function isMobile() {
+      return window.matchMedia("(max-width: 719px)").matches;
+    }
+
+    function renderBoard() {
       const counts = {
         done: tasks.filter(t => t.column === "done").length,
         active: tasks.filter(t => t.column === "active").length,
@@ -817,11 +1428,15 @@
 
       const total = tasks.length;
       const completion = total ? Math.round((counts.done / total) * 100) : 0;
+      const remainingMinutes = tasks
+        .filter(t => t.column === "active" || t.column === "planned")
+        .reduce((sum, t) => sum + (parseEstimatedMinutes(t.estimatedTime) || 0), 0);
       totalCountEl.textContent = total;
       completionPctEl.textContent = `${completion}%`;
       doneCountEl.textContent = counts.done;
       activeCountEl.textContent = counts.active;
       plannedCountEl.textContent = counts.planned;
+      remainingEstimateEl.textContent = formatMinutesTotal(remainingMinutes);
       progressBarEl.style.width = `${completion}%`;
 
       columnsEl.innerHTML = "";
@@ -836,18 +1451,15 @@
 
         const header = document.createElement("div");
         header.className = "column-header";
-        header.innerHTML = `
-          <div class="column-title">${col.icon} ${col.title}</div>
-          <span class="badge">${colTasks.length}</span>
-        `;
+        header.innerHTML = `<div class='column-title'>${col.icon} ${col.title}</div><span class='badge'>${colTasks.length}</span>`;
 
         if (col.key === "done" && isMobile() && doneCollapsed) {
           const collapsed = document.createElement("div");
           collapsed.className = "done-collapsed";
-          collapsed.innerHTML = `<span>Done collapsed</span><span class="badge">${colTasks.length}</span>`;
+          collapsed.innerHTML = `<span>Done collapsed</span><span class='badge'>${colTasks.length}</span>`;
           collapsed.addEventListener("click", () => {
             doneCollapsed = false;
-            render();
+            renderBoard();
           });
           shell.appendChild(header);
           shell.appendChild(collapsed);
@@ -855,10 +1467,12 @@
           header.addEventListener("click", () => {
             if (col.key === "done" && isMobile()) {
               doneCollapsed = !doneCollapsed;
-              render();
+              renderBoard();
             }
           });
+
           shell.appendChild(header);
+
           colTasks.forEach((task, idx) => {
             const card = document.createElement("div");
             card.className = "card";
@@ -867,20 +1481,25 @@
             card.setAttribute("aria-label", `Edit task ${task.title}`);
             card.style.borderLeftColor = priorityColor(task.priority);
             card.style.animationDelay = `${Math.min(idx * 40, 160)}ms`;
+
             const due = task.dueDate ? `Due ${formatDate(task.dueDate)}` : "";
             const titleEl = document.createElement("h4");
             titleEl.textContent = task.title;
 
             const metaEl = document.createElement("div");
             metaEl.className = "meta";
+
             const projectEl = document.createElement("span");
             projectEl.className = "pill";
             projectEl.textContent = task.project;
+
             const priorityEl = document.createElement("span");
             priorityEl.className = "pill";
             priorityEl.textContent = task.priority;
+
             metaEl.appendChild(projectEl);
             metaEl.appendChild(priorityEl);
+
             if (due) {
               const dueEl = document.createElement("span");
               dueEl.className = "pill";
@@ -888,8 +1507,36 @@
               metaEl.appendChild(dueEl);
             }
 
+            if (task.model) {
+              const modelEl = document.createElement("span");
+              modelEl.className = "pill";
+              modelEl.textContent = task.model;
+              metaEl.appendChild(modelEl);
+            }
+
+            const estimate = formatEstimatedTime(task.estimatedTime);
+            if (estimate) {
+              const timeEl = document.createElement("span");
+              timeEl.className = "pill chip";
+              timeEl.textContent = `⏱ ${estimate}`;
+              metaEl.appendChild(timeEl);
+            }
+
+            if (task.estimatedCost !== null) {
+              const costEl = document.createElement("span");
+              costEl.className = "pill";
+              costEl.textContent = `est ${money(task.estimatedCost)}`;
+              metaEl.appendChild(costEl);
+            }
+
+            const agentWrap = document.createElement("div");
+            agentWrap.className = "meta";
+            agentWrap.innerHTML = agentBadge(task.assignedAgent);
+
             card.appendChild(titleEl);
+            card.appendChild(agentWrap);
             card.appendChild(metaEl);
+
             card.addEventListener("click", () => openModal(task.id));
             card.addEventListener("keydown", e => {
               if (e.key === "Enter" || e.key === " ") {
@@ -897,6 +1544,7 @@
                 openModal(task.id);
               }
             });
+
             shell.appendChild(card);
           });
         }
@@ -912,14 +1560,151 @@
       });
 
       if (isMobile()) {
-        const index = columns.findIndex(c => c.key === activeTab);
+        const index = columns.findIndex(c => c.key === activeBoardColumn);
         columnsEl.style.transform = `translateX(-${index * 100}%)`;
       } else {
         columnsEl.style.transform = "none";
       }
 
-      document.querySelectorAll(".tab").forEach(tab => {
-        tab.classList.toggle("active", tab.dataset.tab === activeTab);
+      document.querySelectorAll(".board-subtab").forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.column === activeBoardColumn);
+      });
+    }
+
+    function renderAgents() {
+      const agents = appState.agents || {};
+      const ordered = ["watson", "codex", "ollama"];
+      agentsContainer.innerHTML = "";
+
+      ordered.forEach(key => {
+        const meta = AGENT_META[key];
+        const state = agents[key] || {};
+        const status = ["online", "idle", "offline"].includes(state.status) ? state.status : "offline";
+        const assigned = tasks.filter(task => task.assignedAgent === key);
+        const activeCount = assigned.filter(task => task.column === "active").length;
+        const totalEstimatedMinutes = assigned
+          .reduce((sum, task) => sum + (parseEstimatedMinutes(task.estimatedTime) || 0), 0);
+        const model = key === "ollama"
+          ? (Array.isArray(state.models) && state.models.length ? state.models.join(", ") : meta.defaultModel)
+          : (state.model || meta.defaultModel);
+
+        const card = document.createElement("article");
+        card.className = `agent-card ${status === "online" ? "online" : ""}`;
+        card.innerHTML = `
+          <div class="agent-head">
+            <div><strong>${meta.icon} ${meta.name}</strong><div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">${meta.role}</div></div>
+            <div class="status"><span class="status-dot ${status}"></span>${status}</div>
+          </div>
+          <div class="agent-kv">
+            <div>Model: <strong>${model}</strong></div>
+            <div>Active tasks: <strong>${activeCount}</strong></div>
+            <div>Assigned total: <strong>${assigned.length}</strong></div>
+            <div>Estimated time: <strong>${formatMinutesTotal(totalEstimatedMinutes)}</strong></div>
+            <div>Last activity: <strong>${state.lastActivity ? formatDate(state.lastActivity, true) : "No recent activity"}</strong></div>
+          </div>
+          <div class="task-list" id="agent-task-${key}"></div>
+        `;
+
+        const list = card.querySelector(`#agent-task-${key}`);
+        if (!assigned.length) {
+          const empty = document.createElement("div");
+          empty.className = "task-line";
+          empty.textContent = "No assigned tasks";
+          list.appendChild(empty);
+        } else {
+          assigned.slice(0, 8).forEach(task => {
+            const line = document.createElement("div");
+            line.className = "task-line";
+            line.textContent = `${task.title} (${task.column})`;
+            list.appendChild(line);
+          });
+        }
+
+        agentsContainer.appendChild(card);
+      });
+    }
+
+    function renderCosts() {
+      const costs = appState.costs || { today: 0, week: 0, month: 0, entries: [] };
+      const entries = Array.isArray(costs.entries) ? costs.entries : [];
+
+      costSummaryEl.innerHTML = [
+        { label: "Today", value: money(costs.today) },
+        { label: "This Week", value: money(costs.week) },
+        { label: "This Month", value: money(costs.month) }
+      ].map(item => `<article class='cost-card'><div class='label'>${item.label}</div><div class='value'>${item.value}</div></article>`).join("");
+
+      const byModel = entries.reduce((acc, entry) => {
+        acc[entry.model] = (acc[entry.model] || 0) + Number(entry.cost || 0);
+        return acc;
+      }, {});
+
+      const sortedModels = Object.entries(byModel).sort((a, b) => b[1] - a[1]);
+      const max = sortedModels.length ? sortedModels[0][1] : 1;
+
+      modelBarsEl.innerHTML = "";
+      if (!sortedModels.length) {
+        modelBarsEl.innerHTML = "<div class='model-bar-row'>No cost data yet.</div>";
+      } else {
+        sortedModels.forEach(([model, cost]) => {
+          const pct = Math.max(8, Math.round((cost / max) * 100));
+          const row = document.createElement("div");
+          row.className = "model-bar-row";
+          row.innerHTML = `<div>${model} · ${money(cost)}</div><div class='bar-track'><div class='bar-fill' style='--bar-width:${pct}%'></div></div>`;
+          modelBarsEl.appendChild(row);
+        });
+      }
+
+      costTableBody.innerHTML = "";
+      if (!entries.length) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td colspan='6'>No entries yet.</td>";
+        costTableBody.appendChild(tr);
+      } else {
+        entries
+          .slice()
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .forEach(entry => {
+            const tr = document.createElement("tr");
+            const agent = AGENT_META[entry.agent] ? `${AGENT_META[entry.agent].icon} ${AGENT_META[entry.agent].name}` : entry.agent;
+            tr.innerHTML = `
+              <td>${formatDate(entry.date, true)}</td>
+              <td>${agent}</td>
+              <td>${entry.model}</td>
+              <td>${entry.tokensIn.toLocaleString()}</td>
+              <td>${entry.tokensOut.toLocaleString()}</td>
+              <td>${money(entry.cost)}</td>
+            `;
+            costTableBody.appendChild(tr);
+          });
+      }
+    }
+
+    function renderFeed() {
+      const feed = Array.isArray(appState.feed) ? appState.feed : [];
+      feedTimeline.innerHTML = "";
+
+      if (!feed.length) {
+        const empty = document.createElement("div");
+        empty.className = "timeline-item feed-info";
+        empty.innerHTML = "<p class='timeline-text'>No feed events yet.</p>";
+        feedTimeline.appendChild(empty);
+        return;
+      }
+
+      feed.forEach(entry => {
+        const meta = AGENT_META[entry.agent] || AGENT_META.watson;
+        const item = document.createElement("article");
+        item.className = `timeline-item feed-${entry.type}`;
+        item.innerHTML = `
+          <div class="timeline-head">
+            <span>${meta.icon} ${meta.name}</span>
+            <span>${formatDate(entry.ts, true)}</span>
+          </div>
+          <p class="timeline-text">${entry.text}</p>
+          ${entry.detail ? `<p class='timeline-detail'>${entry.detail}</p>` : ""}
+        `;
+        feedTimeline.appendChild(item);
       });
     }
 
@@ -932,6 +1717,7 @@
         activityList.appendChild(empty);
         return;
       }
+
       activity.forEach(entry => {
         const item = document.createElement("div");
         item.className = "activity-item";
@@ -944,6 +1730,19 @@
         item.appendChild(time);
         activityList.appendChild(item);
       });
+    }
+
+    function renderTabState() {
+      document.querySelectorAll(".tab-btn, .tab-mobile").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.tab === activeTab);
+      });
+      document.querySelectorAll(".panel").forEach(panel => {
+        panel.classList.toggle("active", panel.id === `panel-${activeTab}`);
+      });
+      if (activeTab === "board") renderBoard();
+      if (activeTab === "agents") renderAgents();
+      if (activeTab === "costs") renderCosts();
+      if (activeTab === "feed") renderFeed();
     }
 
     function openModal(id, presetColumn) {
@@ -960,6 +1759,10 @@
         taskDue.value = task.dueDate || "";
         taskNotes.value = task.notes || "";
         taskColumn.value = task.column;
+        taskAgent.value = task.assignedAgent || "";
+        taskModel.value = task.model || "";
+        taskTime.value = task.estimatedTime || "";
+        taskCost.value = task.estimatedCost === null ? "" : String(task.estimatedCost);
         document.querySelectorAll("input[name='priority']").forEach(r => {
           r.checked = r.value === task.priority;
         });
@@ -970,12 +1773,17 @@
         taskProject.value = "Infrastructure";
         taskDue.value = "";
         taskNotes.value = "";
-        taskColumn.value = presetColumn || activeTab;
+        taskColumn.value = presetColumn || activeBoardColumn;
+        taskAgent.value = "";
+        taskModel.value = "";
+        taskTime.value = "";
+        taskCost.value = "";
         document.querySelectorAll("input[name='priority']").forEach(r => {
           r.checked = r.value === "medium";
         });
         deleteBtn.style.display = "none";
       }
+
       modalBackdrop.classList.add("open");
       if (isMobile()) modal.classList.add("fullscreen");
       else modal.classList.remove("fullscreen");
@@ -993,11 +1801,22 @@
         taskTitle.focus();
         return;
       }
+
       const priority = document.querySelector("input[name='priority']:checked")?.value || "medium";
       const project = taskProject.value;
       const dueDate = taskDue.value;
       const notes = taskNotes.value;
-      const column = columns.some(c => c.key === taskColumn.value) ? taskColumn.value : activeTab;
+      const column = columns.some(c => c.key === taskColumn.value) ? taskColumn.value : activeBoardColumn;
+      const assignedAgent = ["watson", "codex", "ollama"].includes(taskAgent.value) ? taskAgent.value : null;
+      const model = taskModel.value.trim() || null;
+      const estimatedTime = taskTime.value.trim();
+      const estimatedCostRaw = taskCost.value.trim();
+      const estimatedCost = estimatedCostRaw === "" ? null : Number(estimatedCostRaw);
+
+      if (estimatedCostRaw !== "" && (!Number.isFinite(estimatedCost) || estimatedCost < 0)) {
+        taskCost.focus();
+        return;
+      }
 
       if (editingId) {
         const task = tasks.find(t => t.id === editingId);
@@ -1009,12 +1828,14 @@
         task.notes = notes;
         task.dueDate = dueDate;
         task.column = column;
+        task.assignedAgent = assignedAgent;
+        task.model = model;
+        task.estimatedTime = estimatedTime;
+        task.estimatedCost = estimatedCost;
         if (column === "done" && !task.completedAt) task.completedAt = nowISO();
         if (column !== "done") task.completedAt = "";
         logActivity(`Edited: ${task.title}`);
-        if (prevColumn !== column) {
-          logActivity(`Moved: ${task.title} → ${column}`);
-        }
+        if (prevColumn !== column) logActivity(`Moved: ${task.title} → ${column}`);
       } else {
         const newTask = {
           id: crypto.randomUUID(),
@@ -1025,13 +1846,19 @@
           notes,
           dueDate,
           createdAt: nowISO(),
-          completedAt: column === "done" ? nowISO() : ""
+          completedAt: column === "done" ? nowISO() : "",
+          assignedAgent,
+          model,
+          estimatedTime,
+          estimatedCost
         };
         tasks.unshift(newTask);
         logActivity(`Added: ${newTask.title}`);
       }
+
       persist();
-      render();
+      renderBoard();
+      if (activeTab === "agents") renderAgents();
       closeModal();
     }
 
@@ -1042,19 +1869,25 @@
       tasks = tasks.filter(t => t.id !== editingId);
       logActivity(`Deleted: ${task.title}`);
       persist();
-      render();
+      renderBoard();
+      if (activeTab === "agents") renderAgents();
       closeModal();
     }
 
-    function isMobile() {
-      return window.matchMedia("(max-width: 719px)").matches;
+    function initTabs() {
+      document.querySelectorAll(".tab-btn, .tab-mobile").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activeTab = btn.dataset.tab;
+          renderTabState();
+        });
+      });
     }
 
-    function initTabs() {
-      document.querySelectorAll(".tab").forEach(tab => {
-        tab.addEventListener("click", () => {
-          activeTab = tab.dataset.tab;
-          render();
+    function initBoardSubtabs() {
+      document.querySelectorAll(".board-subtab").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activeBoardColumn = btn.dataset.column;
+          renderBoard();
         });
       });
     }
@@ -1065,36 +1898,32 @@
       let dragging = false;
 
       columnsEl.addEventListener("touchstart", e => {
-        if (!isMobile()) return;
+        if (!isMobile() || activeTab !== "board") return;
         startX = e.touches[0].clientX;
         endX = startX;
         dragging = true;
       }, { passive: true });
 
       columnsEl.addEventListener("touchmove", e => {
-        if (!dragging || !isMobile()) return;
+        if (!dragging || !isMobile() || activeTab !== "board") return;
         endX = e.touches[0].clientX;
       }, { passive: true });
 
       columnsEl.addEventListener("touchend", () => {
-        if (!dragging || !isMobile()) return;
+        if (!dragging || !isMobile() || activeTab !== "board") return;
         const diff = endX - startX;
         if (Math.abs(diff) > 50) {
-          const index = columns.findIndex(c => c.key === activeTab);
+          const index = columns.findIndex(c => c.key === activeBoardColumn);
           const nextIndex = diff < 0 ? index + 1 : index - 1;
           if (columns[nextIndex]) {
-            activeTab = columns[nextIndex].key;
-            render();
+            activeBoardColumn = columns[nextIndex].key;
+            renderBoard();
           }
         }
         dragging = false;
-        endX = 0;
       });
 
-      columnsEl.addEventListener("touchcancel", () => {
-        dragging = false;
-        endX = 0;
-      });
+      columnsEl.addEventListener("touchcancel", () => { dragging = false; });
     }
 
     function initTheme() {
@@ -1102,6 +1931,7 @@
       const theme = stored === "light" || stored === "dark" ? stored : "dark";
       document.documentElement.dataset.theme = theme;
       document.body.dataset.theme = theme;
+
       document.getElementById("themeToggle").addEventListener("click", () => {
         const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = next;
@@ -1114,16 +1944,18 @@
       document.getElementById("menuToggle").addEventListener("click", () => {
         menuPanel.classList.toggle("open");
       });
+
       document.addEventListener("click", e => {
         if (!e.target.closest(".menu")) menuPanel.classList.remove("open");
       });
+
       document.getElementById("exportBtn").addEventListener("click", () => {
         const payload = { tasks, activity };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "command-center-v2.json";
+        a.download = "command-center-v2.1.json";
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -1131,34 +1963,42 @@
         logActivity("Exported JSON snapshot");
         menuPanel.classList.remove("open");
       });
+
       document.getElementById("importBtn").addEventListener("click", () => {
         importFile.value = "";
         importFile.click();
         menuPanel.classList.remove("open");
       });
+
       importFile.addEventListener("change", e => {
         const file = e.target.files?.[0];
         if (!file) return;
         const reader = new FileReader();
+
         reader.onload = () => {
           try {
             const parsed = JSON.parse(reader.result);
             if (!parsed.tasks || !Array.isArray(parsed.tasks)) throw new Error("Invalid");
             const confirmReplace = confirm("Import will replace current data. Continue?");
             if (!confirmReplace) return;
+
             tasks = parsed.tasks.map(normalizeTask).filter(Boolean);
             if (!tasks.length) throw new Error("Invalid");
+
             activity = Array.isArray(parsed.activity)
-              ? parsed.activity.map(normalizeActivity).filter(Boolean).slice(0, 50)
+              ? parsed.activity.map(normalizeActivity).filter(Boolean).slice(0, 80)
               : [];
+
             logActivity(`Imported ${tasks.length} task${tasks.length === 1 ? "" : "s"}`);
             persist();
-            render();
+            renderBoard();
             renderActivity();
-          } catch (err) {
+            if (activeTab === "agents") renderAgents();
+          } catch {
             alert("Invalid JSON file.");
           }
         };
+
         reader.readAsText(file);
       });
     }
@@ -1171,6 +2011,7 @@
       cancelBtn.addEventListener("click", closeModal);
       saveBtn.addEventListener("click", saveTask);
       deleteBtn.addEventListener("click", deleteTask);
+
       document.addEventListener("keydown", e => {
         if (e.key === "Escape") {
           if (modalBackdrop.classList.contains("open")) closeModal();
@@ -1189,9 +2030,68 @@
       });
     }
 
+    async function fetchState() {
+      const endpoints = ["./state.json", "state.json"];
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, { cache: "no-store" });
+          if (!response.ok) continue;
+          const payload = await response.json();
+          appState = normalizeState(payload);
+          stateSource = endpoint;
+          stateSourceEl.textContent = endpoint;
+          lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
+          return true;
+        } catch {
+          // continue fallback attempts
+        }
+      }
+      appState = normalizeState(demoState());
+      stateSource = "Demo fallback";
+      stateSourceEl.textContent = stateSource;
+      lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
+      return false;
+    }
+
+    async function refreshState(showLog = true) {
+      const ok = await fetchState();
+      if (showLog) {
+        logActivity(ok ? "state.json refreshed" : "state.json unavailable, using demo data");
+      }
+      if (activeTab === "agents") renderAgents();
+      if (activeTab === "costs") renderCosts();
+      if (activeTab === "feed") renderFeed();
+    }
+
+    function initRefreshControls() {
+      document.getElementById("refreshBtn").addEventListener("click", () => refreshState(true));
+      document.getElementById("feedRefreshBtn").addEventListener("click", () => refreshState(true));
+
+      let startY = 0;
+      let pulled = false;
+      feedTimeline.addEventListener("touchstart", e => {
+        if (feedTimeline.scrollTop > 0 || activeTab !== "feed") return;
+        startY = e.touches[0].clientY;
+        pulled = true;
+      }, { passive: true });
+
+      feedTimeline.addEventListener("touchmove", e => {
+        if (!pulled || activeTab !== "feed") return;
+        const delta = e.touches[0].clientY - startY;
+        if (delta > 72) {
+          pulled = false;
+          refreshState(true);
+        }
+      }, { passive: true });
+
+      feedTimeline.addEventListener("touchend", () => {
+        pulled = false;
+      });
+    }
+
     function initResize() {
       window.addEventListener("resize", () => {
-        render();
+        renderBoard();
       });
     }
 
@@ -1203,17 +2103,32 @@
       }
     }
 
-    loadData();
-    initTheme();
-    initTabs();
-    initSwipe();
-    initMenu();
-    initModal();
-    initActivityPanel();
-    initResize();
-    render();
-    renderActivity();
-    initServiceWorker();
+    async function init() {
+      loadData();
+      initTheme();
+      initTabs();
+      initBoardSubtabs();
+      initSwipe();
+      initMenu();
+      initModal();
+      initActivityPanel();
+      initRefreshControls();
+      initResize();
+      renderBoard();
+      renderActivity();
+      await refreshState(false);
+      renderTabState();
+      initServiceWorker();
+
+      // Future Firebase Realtime integration placeholder:
+      // const db = getDatabase(firebaseApp);
+      // onValue(ref(db, "command-center/feed"), snapshot => {
+      //   appState.feed = normalizeIncomingFeed(snapshot.val());
+      //   if (activeTab === "feed") renderFeed();
+      // });
+    }
+
+    init();
   </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   "id": "/dashboard/v2/",
   "start_url": "./index.html",
   "scope": "./",
-  "description": "Kanban-style command center with offline support.",
+  "description": "Command Center v2.1 with Board, Agents, Costs, and Feed tabs plus offline support.",
   "display": "standalone",
   "theme_color": "#0f1117",
   "background_color": "#edf2f8",
