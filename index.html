@@ -622,7 +622,7 @@
     .cost-card .label {
       font-size: 12px;
       color: var(--text-secondary);
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: 0.04em;
     }
 
@@ -674,7 +674,7 @@
 
     th {
       color: var(--text-secondary);
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: 0.04em;
       font-size: 11px;
     }
@@ -789,7 +789,7 @@
     .pipeline-stat .label {
       font-size: 12px;
       color: var(--text-secondary);
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: 0.04em;
       font-weight: 700;
     }
@@ -829,7 +829,7 @@
       width: fit-content;
       font-size: 11px;
       font-weight: 700;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: 0.04em;
       border-radius: 999px;
       border: 1px solid var(--chip-border);
@@ -874,13 +874,15 @@
       background: var(--surface);
       border-top: 1px solid var(--border);
       display: flex;
-      justify-content: space-around;
+      justify-content: stretch;
+      gap: 8px;
       padding: 8px 10px 12px;
       z-index: 20;
     }
 
     .tab-mobile {
-      flex: 1;
+      flex: 1 1 0;
+      min-width: 0;
       text-align: center;
       padding: 8px 2px;
       border-radius: 10px;
@@ -1093,6 +1095,13 @@
       padding-top: 12px;
     }
 
+    .card-detail-meta .pill {
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-border);
+      padding: 4px 10px;
+      font-weight: 600;
+    }
+
     .card-detail-section {
       border: 1px solid var(--border);
       background: var(--card);
@@ -1103,11 +1112,23 @@
     }
 
     .card-detail-section h3,
-    .card-detail-section h4,
-    .card-detail-panel h3,
-    .card-detail-panel h4 {
+    .card-detail-panel h3 {
       margin: 0;
       text-transform: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      letter-spacing: 0;
+    }
+
+    .card-detail-section > h4,
+    .card-detail .card-detail-section h4,
+    #cardDetail .card-detail-section h4 {
+      margin: 0;
+      text-transform: none !important;
       font-size: 0.95rem;
       font-weight: 600;
       color: var(--text);
