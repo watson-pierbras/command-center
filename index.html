@@ -781,89 +781,68 @@
     }
 
     .pipeline-stats {
-      display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-
-    .pipeline-stat .label {
-      font-size: 12px;
-      color: var(--text-secondary);
-      text-transform: none;
-      letter-spacing: 0.04em;
-      font-weight: 700;
-    }
-
-    .pipeline-stat .value {
-      margin-top: 4px;
-      font-size: 20px;
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .pipeline-components {
-      display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .pipeline-component {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      display: grid;
+      display: flex;
+      flex-wrap: wrap;
       gap: 8px;
     }
 
-    .pipeline-component strong {
-      font-size: 13px;
-      color: var(--text);
-      word-break: break-word;
+    .pipeline-project-list {
+      display: grid;
+      gap: 10px;
     }
 
-    .pipeline-status {
-      display: inline-flex;
-      align-items: center;
+    .pipeline-project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .pipeline-project-card:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .pipeline-project-card .project-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .pipeline-project-card .project-meta {
+      display: flex;
+      flex-wrap: wrap;
       gap: 6px;
-      width: fit-content;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: none;
-      letter-spacing: 0.04em;
-      border-radius: 999px;
-      border: 1px solid var(--chip-border);
-      padding: 2px 8px;
-      color: var(--text);
-      background: var(--chip-bg);
+      margin-bottom: 6px;
     }
 
-    .pipeline-status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .pipeline-status.built .pipeline-status-dot { background: var(--success); }
-    .pipeline-status.needs-work .pipeline-status-dot { background: var(--warn); }
-    .pipeline-status.not-started .pipeline-status-dot { background: var(--danger); }
-
-    .pipeline-alert {
-      border: 1px solid rgba(239, 68, 68, 0.6);
-      border-left: 4px solid var(--danger);
-      border-radius: 12px;
-      background: rgba(239, 68, 68, 0.12);
-      padding: 10px;
-      color: var(--text);
+    .pipeline-project-card .project-notes {
       font-size: 13px;
-      font-weight: 700;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
-    [data-theme='light'] .pipeline-alert {
-      background: rgba(239, 68, 68, 0.16);
-      border-color: rgba(185, 28, 28, 0.55);
-      color: #7f1d1d;
+    .pipeline-project-card .project-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .pipeline-project-card.done {
+      opacity: 0.7;
+    }
+
+    .pipeline-project-card.done .project-title {
+      text-decoration: line-through;
+      text-decoration-color: var(--text-secondary);
     }
 
     .tabbar-mobile {
@@ -1378,8 +1357,6 @@
       }
       .column { min-width: auto; }
       .cost-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .pipeline-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .pipeline-components { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .form-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
@@ -1534,50 +1511,31 @@
           <div class="pipeline-shell">
             <article class="breakdown-shell pipeline-progress">
               <div class="pipeline-progress-row">
-                <span>CoachFinder progress</span>
-                <strong id="pipelineCompletion">85%</strong>
+                <span>Overall progress</span>
+                <strong id="pipelineCompletion">55%</strong>
               </div>
               <div class="pipeline-progress-track">
-                <div class="pipeline-progress-fill" id="pipelineProgressFill" style="--bar-width:85%"></div>
+                <div class="pipeline-progress-fill" id="pipelineProgressFill" style="--bar-width:55%"></div>
+              </div>
+              <div class="pipeline-stats" id="pipelineSummaryStats">
+                <!-- Dynamically: Active: X, Planned: X, Done: X -->
               </div>
             </article>
 
-            <div class="pipeline-stats">
-              <article class="cost-card pipeline-stat">
-                <div class="label">Schools</div>
-                <div class="value" id="pipelineSchools">4 / 130,000</div>
-              </article>
-              <article class="cost-card pipeline-stat">
-                <div class="label">Coaches Found</div>
-                <div class="value" id="pipelineCoaches">1</div>
-              </article>
-              <article class="cost-card pipeline-stat">
-                <div class="label">Python Files</div>
-                <div class="value" id="pipelinePythonFiles">31</div>
-              </article>
-              <article class="cost-card pipeline-stat">
-                <div class="label">Lines of Code</div>
-                <div class="value" id="pipelineTotalLines">7,358</div>
-              </article>
-              <article class="cost-card pipeline-stat">
-                <div class="label">Last Scrape Run</div>
-                <div class="value" id="pipelineLastScrape">Never</div>
-              </article>
-              <article class="cost-card pipeline-stat">
-                <div class="label">Last HubSpot Sync</div>
-                <div class="value" id="pipelineLastHubspot">Never</div>
-              </article>
-            </div>
-
             <article class="breakdown-shell">
-              <h3 style="margin:0 0 10px;">Pipeline Components</h3>
-              <div class="pipeline-components" id="pipelineComponents"></div>
+              <h3 style="margin:0 0 12px;">Active</h3>
+              <div id="pipelineActive" class="pipeline-project-list"></div>
             </article>
 
             <article class="breakdown-shell">
-              <h3 style="margin:0 0 10px;">Security Warnings</h3>
-              <div id="pipelineSecurity"></div>
+              <h3 style="margin:0 0 12px;">Planned</h3>
+              <div id="pipelinePlanned" class="pipeline-project-list"></div>
             </article>
+
+            <details class="breakdown-shell">
+              <summary style="cursor:pointer; font-weight:600; margin-bottom:8px;">Recently Completed</summary>
+              <div id="pipelineDone" class="pipeline-project-list"></div>
+            </details>
           </div>
         </section>
 
@@ -1845,14 +1803,10 @@
     const feedTimeline = document.getElementById("feedTimeline");
     const pipelineCompletionEl = document.getElementById("pipelineCompletion");
     const pipelineProgressFillEl = document.getElementById("pipelineProgressFill");
-    const pipelineSchoolsEl = document.getElementById("pipelineSchools");
-    const pipelineCoachesEl = document.getElementById("pipelineCoaches");
-    const pipelinePythonFilesEl = document.getElementById("pipelinePythonFiles");
-    const pipelineTotalLinesEl = document.getElementById("pipelineTotalLines");
-    const pipelineLastScrapeEl = document.getElementById("pipelineLastScrape");
-    const pipelineLastHubspotEl = document.getElementById("pipelineLastHubspot");
-    const pipelineComponentsEl = document.getElementById("pipelineComponents");
-    const pipelineSecurityEl = document.getElementById("pipelineSecurity");
+    const pipelineSummaryStatsEl = document.getElementById("pipelineSummaryStats");
+    const pipelineActiveEl = document.getElementById("pipelineActive");
+    const pipelinePlannedEl = document.getElementById("pipelinePlanned");
+    const pipelineDoneEl = document.getElementById("pipelineDone");
 
     const columns = [
       { key: "done", title: "Done", indicatorClass: "done" },
@@ -2663,64 +2617,85 @@
       }
     }
 
-    function coachfinderState() {
-      const components = ["scraper", "discovery", "extractor", "verifier", "hubspot", "celeryWorker", "changeDetection", "deduplication", "telegram"];
-      const source = appState.coachfinder && typeof appState.coachfinder === "object" ? appState.coachfinder : {};
-      const pipeline = source.pipeline && typeof source.pipeline === "object" ? source.pipeline : {};
-      const cleanStatus = (status) => ["built", "needs-work", "not-started"].includes(status) ? status : "not-started";
-      const normalizedPipeline = {};
-      components.forEach(key => {
-        normalizedPipeline[key] = cleanStatus(pipeline[key]);
-      });
-      return {
-        completion: Number.isFinite(Number(source.completion)) ? Math.max(0, Math.min(100, Number(source.completion))) : 85,
-        schools: Number.isFinite(Number(source.database?.schools)) ? Number(source.database.schools) : 4,
-        targetSchools: Number.isFinite(Number(source.database?.targetSchools)) ? Number(source.database.targetSchools) : 130000,
-        coaches: Number.isFinite(Number(source.database?.coaches)) ? Number(source.database.coaches) : 1,
-        pythonFiles: Number.isFinite(Number(source.codebase?.pythonFiles)) ? Number(source.codebase.pythonFiles) : 31,
-        totalLines: Number.isFinite(Number(source.codebase?.totalLines)) ? Number(source.codebase.totalLines) : 7358,
-        securityIssues: Array.isArray(source.securityIssues) ? source.securityIssues.filter(issue => typeof issue === "string" && issue.trim()) : [],
-        lastScrapeRun: typeof source.lastScrapeRun === "string" ? source.lastScrapeRun : null,
-        lastHubSpotSync: typeof source.lastHubSpotSync === "string" ? source.lastHubSpotSync : null,
-        pipeline: normalizedPipeline
-      };
-    }
-
     function renderPipeline() {
-      const pipeline = coachfinderState();
-      pipelineCompletionEl.textContent = `${Math.round(pipeline.completion)}%`;
-      pipelineProgressFillEl.style.setProperty("--bar-width", `${pipeline.completion}%`);
-      pipelineSchoolsEl.textContent = `${pipeline.schools.toLocaleString()} / ${pipeline.targetSchools.toLocaleString()}`;
-      pipelineCoachesEl.textContent = pipeline.coaches.toLocaleString();
-      pipelinePythonFilesEl.textContent = pipeline.pythonFiles.toLocaleString();
-      pipelineTotalLinesEl.textContent = pipeline.totalLines.toLocaleString();
-      pipelineLastScrapeEl.textContent = pipeline.lastScrapeRun ? formatDate(pipeline.lastScrapeRun, true) : "Never";
-      pipelineLastHubspotEl.textContent = pipeline.lastHubSpotSync ? formatDate(pipeline.lastHubSpotSync, true) : "Never";
+      const active = tasks.filter(t => t.column === "active");
+      const planned = tasks.filter(t => t.column === "planned");
+      const done = tasks.filter(t => t.column === "done");
+      const total = tasks.length;
+      const pct = total ? Math.round((done.length / total) * 100) : 0;
 
-      pipelineComponentsEl.innerHTML = "";
-      Object.entries(pipeline.pipeline).forEach(([name, status]) => {
+      pipelineCompletionEl.textContent = `${pct}%`;
+      pipelineProgressFillEl.style.setProperty("--bar-width", `${pct}%`);
+
+      pipelineSummaryStatsEl.innerHTML = `
+        <span class="pill">${active.length} active</span>
+        <span class="pill">${planned.length} planned</span>
+        <span class="pill">${done.length} done</span>
+        <span class="pill">${total} total</span>
+      `;
+
+      function renderProjectCard(task) {
         const card = document.createElement("article");
-        card.className = "pipeline-component";
-        card.innerHTML = `
-          <strong>${name}</strong>
-          <span class="pipeline-status ${status}">
-            <span class="pipeline-status-dot"></span>
-            ${status}
-          </span>
-        `;
-        pipelineComponentsEl.appendChild(card);
-      });
+        card.className = "pipeline-project-card" + (task.column === "done" ? " done" : "");
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", "Open task details for " + task.title);
 
-      pipelineSecurityEl.innerHTML = "";
-      if (!pipeline.securityIssues.length) {
-        pipelineSecurityEl.innerHTML = "<div class='model-bar-row'>No security issues reported.</div>";
-      } else {
-        pipeline.securityIssues.forEach(issue => {
-          const alert = document.createElement("div");
-          alert.className = "pipeline-alert";
-          alert.textContent = issue;
-          pipelineSecurityEl.appendChild(alert);
+        const agent = task.assignedAgent ? agentNameBadge(task.assignedAgent) : "Unassigned";
+        const commentCount = (task.comments || []).length;
+        const latestComment = commentCount ? (task.comments || []).slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0] : null;
+        const notesPreview = task.notes ? task.notes.substring(0, 120) + (task.notes.length > 120 ? "..." : "") : "";
+
+        let footerHtml = "";
+        if (commentCount) {
+          footerHtml += `<span>${commentCount} comment${commentCount !== 1 ? "s" : ""}</span>`;
+        }
+        if (latestComment) {
+          footerHtml += `<span>Last: ${relativeTime(latestComment.timestamp)}</span>`;
+        }
+        if (task.estimatedTime) {
+          footerHtml += `<span>Est: ${task.estimatedTime}</span>`;
+        }
+
+        card.innerHTML = `
+          <div class="project-title">${task.title}</div>
+          <div class="project-meta">
+            <span class="pill">${agent}</span>
+            <span class="pill priority-${task.priority}">${task.priority}</span>
+            <span class="pill">${task.project || "Other"}</span>
+          </div>
+          ${notesPreview ? `<div class="project-notes">${notesPreview}</div>` : ""}
+          ${footerHtml ? `<div class="project-footer">${footerHtml}</div>` : ""}
+        `;
+
+        card.addEventListener("click", () => openCardDetail(task.id));
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCardDetail(task.id); }
         });
+
+        return card;
+      }
+
+      pipelineActiveEl.innerHTML = "";
+      if (!active.length) {
+        pipelineActiveEl.innerHTML = '<p class="empty-state-text">No active projects right now.</p>';
+      } else {
+        active.forEach(t => pipelineActiveEl.appendChild(renderProjectCard(t)));
+      }
+
+      pipelinePlannedEl.innerHTML = "";
+      if (!planned.length) {
+        pipelinePlannedEl.innerHTML = '<p class="empty-state-text">No planned projects.</p>';
+      } else {
+        planned.forEach(t => pipelinePlannedEl.appendChild(renderProjectCard(t)));
+      }
+
+      pipelineDoneEl.innerHTML = "";
+      const recentDone = done.slice().sort((a, b) => new Date(b.completedAt || b.createdAt) - new Date(a.completedAt || a.createdAt)).slice(0, 5);
+      if (!recentDone.length) {
+        pipelineDoneEl.innerHTML = '<p class="empty-state-text">No completed projects yet.</p>';
+      } else {
+        recentDone.forEach(t => pipelineDoneEl.appendChild(renderProjectCard(t)));
       }
     }
 
