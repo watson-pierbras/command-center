@@ -30,17 +30,17 @@
     }
 
     [data-theme="light"] {
-      --bg: #edf2f8;
+      --bg: #F8F7F5;
       --surface: #ffffff;
-      --card: #f8fbff;
-      --border: #94a3b8;
-      --shell-bg: #f5f8fc;
-      --chip-bg: #e2e8f0;
-      --chip-border: #94a3b8;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --shell-bg: #ffffff;
+      --chip-bg: #f1f5f9;
+      --chip-border: #cbd5e1;
       --soft-accent-bg: rgba(79, 70, 229, 0.12);
       --text: #0f172a;
       --text-secondary: #334155;
-      --shadow: 0 10px 22px rgba(15, 23, 42, 0.14);
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
     }
 
     * { box-sizing: border-box; }
@@ -75,7 +75,9 @@
       background: linear-gradient(180deg, rgba(15, 17, 23, 0.95), rgba(15, 17, 23, 0.7));
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 16px 10px;
+      padding: 14px 16px 12px;
+      display: grid;
+      gap: 16px;
     }
 
     body[data-theme='light'] header {
@@ -84,10 +86,14 @@
 
     .top-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 10px;
+    }
+
+    .title-wrap {
+      display: grid;
+      gap: 4px;
     }
 
     .title {
@@ -106,13 +112,12 @@
     }
 
     .header-updated {
-      margin-top: 4px;
       font-size: 11px;
       color: var(--text-secondary);
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       min-height: 18px;
     }
 
@@ -167,13 +172,12 @@
 
     .stats {
       display: grid;
-      gap: 8px;
+      gap: 16px;
     }
 
     .stats-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 12px;
       font-size: 13px;
       color: var(--text-secondary);
@@ -181,6 +185,40 @@
     }
 
     .stats-row strong { color: var(--text); }
+
+    .stats-strip {
+      font-weight: 600;
+      align-items: center;
+      gap: 0;
+    }
+
+    .stats-strip span {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .stats-strip span + span::before {
+      content: "·";
+      margin: 0 8px;
+      color: var(--text-secondary);
+    }
+
+    .stats-support {
+      font-size: 12px;
+      gap: 10px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     .progress {
       width: 100%;
@@ -200,7 +238,6 @@
 
     .desktop-tabs {
       display: none;
-      margin-top: 10px;
       gap: 8px;
       align-items: center;
     }
@@ -226,7 +263,7 @@
 
     main {
       flex: 1;
-      padding: 12px 14px 90px;
+      padding: 20px 14px 90px;
       overflow: hidden;
     }
 
@@ -247,7 +284,7 @@
     .board-subtabs {
       display: flex;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       overflow-x: auto;
       padding-bottom: 2px;
     }
@@ -325,7 +362,7 @@
       border: 1px solid var(--border);
       border-left: 4px solid var(--accent);
       border-radius: 12px;
-      padding: 12px;
+      padding: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -344,31 +381,19 @@
     [data-theme='light'] .card h4 { color: #0f172a; font-weight: 700; }
 
     body[data-theme='light'] .card {
-      border-color: #94a3b8;
-      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
-    }
-
-    body[data-theme='light'] .card,
-    body[data-theme='light'] .card h4,
-    body[data-theme='light'] .pill,
-    body[data-theme='light'] .agent-badge,
-    body[data-theme='light'] .timeline-item,
-    body[data-theme='light'] .agent-card,
-    body[data-theme='light'] .cost-card,
-    body[data-theme='light'] .breakdown-shell,
-    body[data-theme='light'] .feed-shell,
-    body[data-theme='light'] .activity-item {
-      color: #0f172a;
-      font-weight: 700;
+      border-color: #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
     }
 
     .meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px 8px;
+      gap: 6px;
       font-size: 12px;
       color: var(--text-secondary);
     }
+
+    .card .card-detail-only { display: none; }
 
     .pill {
       padding: 2px 8px;
@@ -1193,17 +1218,17 @@
     }
 
     @media (min-width: 720px) {
-      main { padding: 16px 18px 24px; }
+      main { padding: 20px 18px 24px; }
       .desktop-tabs { display: inline-flex; }
       .tabbar-mobile { display: none; }
       .board-subtabs { display: none; }
       .columns {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
         transform: none !important;
       }
-      .column { min-width: 0; }
+      .column { min-width: auto; }
       .cost-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .pipeline-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .pipeline-components { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1219,6 +1244,18 @@
     }
 
     @media (max-width: 719px) {
+      .activity-panel {
+        display: none;
+        width: 100vw;
+        max-width: 100vw;
+        border-left: none;
+      }
+
+      .activity-panel.mobile-open {
+        display: flex;
+        transform: translateX(0);
+      }
+
       .card-detail {
         width: 100vw;
         border-left: none;
@@ -1258,7 +1295,13 @@
   <div class="app">
     <header>
       <div class="top-row">
-        <div class="title">🚀 Command Center v3.0</div>
+        <div class="title-wrap">
+          <div class="title">🚀 Command Center v3.0</div>
+          <div class="header-updated">
+            <span id="syncUpdated">Last updated: never</span>
+            <span class="sync-flash" id="githubWriteStatus" aria-live="polite"></span>
+          </div>
+        </div>
         <div class="header-actions">
           <button class="icon-btn" id="themeToggle" title="Toggle theme">🌓</button>
           <button class="icon-btn" id="refreshBtn" title="Refresh state">⟳</button>
@@ -1273,19 +1316,17 @@
           </div>
         </div>
       </div>
-      <div class="header-updated">
-        <span id="syncUpdated">Last updated: never</span>
-        <span class="sync-flash" id="githubWriteStatus" aria-live="polite"></span>
-      </div>
       <div class="stats">
-        <div class="stats-row">
-          <span>Total <strong id="totalCount">0</strong></span>
+        <div class="stats-row stats-strip">
+          <span class="visually-hidden">Total <strong id="totalCount">0</strong></span>
           <span><strong id="completionPct">0%</strong> complete</span>
-          <span>✅ <strong id="doneCount">0</strong> 🔄 <strong id="activeCount">0</strong> 📋 <strong id="plannedCount">0</strong></span>
-          <span>⏱ Remaining <strong id="remainingEstimate">0</strong></span>
+          <span><strong id="doneCount">0</strong> done</span>
+          <span><strong id="activeCount">0</strong> active</span>
+          <span><strong id="plannedCount">0</strong> planned</span>
         </div>
         <div class="progress"><span id="progressBar" style="width:0%"></span></div>
-        <div class="stats-row">
+        <div class="stats-row stats-support">
+          <span>⏱ Remaining <strong id="remainingEstimate">0</strong></span>
           <span>State source: <strong id="stateSource">Demo fallback</strong></span>
           <span>Updated <strong id="lastUpdated">-</strong></span>
         </div>
@@ -2301,7 +2342,7 @@
 
             if (task.model) {
               const modelEl = document.createElement("span");
-              modelEl.className = "pill";
+              modelEl.className = "pill card-detail-only";
               modelEl.textContent = task.model;
               metaEl.appendChild(modelEl);
             }
@@ -2309,14 +2350,14 @@
             const estimate = formatEstimatedTime(task.estimatedTime);
             if (estimate) {
               const timeEl = document.createElement("span");
-              timeEl.className = "pill chip";
+              timeEl.className = "pill chip card-detail-only";
               timeEl.textContent = `⏱ ${estimate}`;
               metaEl.appendChild(timeEl);
             }
 
             if (task.estimatedCost !== null) {
               const costEl = document.createElement("span");
-              costEl.className = "pill";
+              costEl.className = "pill card-detail-only";
               costEl.textContent = `est ${money(task.estimatedCost)}`;
               metaEl.appendChild(costEl);
             }
@@ -3099,6 +3140,7 @@
           if (modalBackdrop.classList.contains("open")) closeModal();
           if (settingsBackdrop.classList.contains("open")) closeSettings();
           if (activityPanel.classList.contains("open")) activityPanel.classList.remove("open");
+          if (activityPanel.classList.contains("mobile-open")) activityPanel.classList.remove("mobile-open");
           menuPanel.classList.remove("open");
         }
       });
@@ -3134,10 +3176,15 @@
 
     function initActivityPanel() {
       document.getElementById("activityToggle").addEventListener("click", () => {
+        if (isMobile()) {
+          activityPanel.classList.toggle("mobile-open");
+          return;
+        }
         activityPanel.classList.add("open");
       });
       document.getElementById("activityClose").addEventListener("click", () => {
         activityPanel.classList.remove("open");
+        activityPanel.classList.remove("mobile-open");
       });
     }
 
@@ -3253,6 +3300,7 @@
 
     function initResize() {
       window.addEventListener("resize", () => {
+        if (!isMobile()) activityPanel.classList.remove("mobile-open");
         renderBoard();
       });
     }
