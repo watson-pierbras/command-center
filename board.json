@@ -1,0 +1,249 @@
+{
+  "version": "3.0",
+  "lastModified": "2026-02-10T09:00:00-05:00",
+  "modifiedBy": "watson",
+  "tasks": [
+    {
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "title": "Security audit completed",
+      "column": "done",
+      "priority": "high",
+      "project": "Infrastructure",
+      "assignedAgent": "watson",
+      "model": null,
+      "estimatedTime": "1h",
+      "estimatedCost": 1.10,
+      "dueDate": "",
+      "notes": "Final report delivered. Identified .env with HubSpot keys in git and node_modules committed in hubspot-ui-extension.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T17:00:00-05:00" },
+        { "action": "moved", "from": "active", "to": "done", "by": "watson", "at": "2026-02-08T18:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T17:00:00-05:00",
+      "completedAt": "2026-02-08T18:00:00-05:00"
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-8000-000000000002",
+      "title": "Kanban Pro dashboard built",
+      "column": "done",
+      "priority": "high",
+      "project": "Infrastructure",
+      "assignedAgent": "codex",
+      "model": "gpt-5.3-codex",
+      "estimatedTime": "2h",
+      "estimatedCost": 2.30,
+      "dueDate": "",
+      "notes": "Initial shell and board completed. Single-file PWA architecture.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T18:30:00-05:00" },
+        { "action": "moved", "from": "active", "to": "done", "by": "codex", "at": "2026-02-08T19:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T18:30:00-05:00",
+      "completedAt": "2026-02-08T19:00:00-05:00"
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-8000-000000000003",
+      "title": "Ollama installed with 3 models",
+      "column": "done",
+      "priority": "high",
+      "project": "Watson",
+      "assignedAgent": "watson",
+      "model": null,
+      "estimatedTime": "30m",
+      "estimatedCost": 0.40,
+      "dueDate": "",
+      "notes": "qwen2.5-coder:3b, llama3.2:3b, llama3.2:1b available locally.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T17:30:00-05:00" },
+        { "action": "moved", "from": "active", "to": "done", "by": "watson", "at": "2026-02-08T18:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T17:30:00-05:00",
+      "completedAt": "2026-02-08T18:00:00-05:00"
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-8000-000000000004",
+      "title": "Telegram gateway configured",
+      "column": "done",
+      "priority": "medium",
+      "project": "Watson",
+      "assignedAgent": "watson",
+      "model": null,
+      "estimatedTime": "1h",
+      "estimatedCost": 0.30,
+      "dueDate": "",
+      "notes": "Inbound relay validated. Paul connected via pairing code D736QPCT.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T17:00:00-05:00" },
+        { "action": "moved", "from": "active", "to": "done", "by": "watson", "at": "2026-02-08T17:30:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T17:00:00-05:00",
+      "completedAt": "2026-02-08T17:30:00-05:00"
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-8000-000000000005",
+      "title": "CoachFinder design system v2",
+      "column": "done",
+      "priority": "high",
+      "project": "CoachFinder",
+      "assignedAgent": "codex",
+      "model": "gpt-5.3-codex",
+      "estimatedTime": "4h",
+      "estimatedCost": 2.10,
+      "dueDate": "",
+      "notes": "Typography and spacing tokens finalized.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T19:00:00-05:00" },
+        { "action": "moved", "from": "active", "to": "done", "by": "codex", "at": "2026-02-08T20:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T19:00:00-05:00",
+      "completedAt": "2026-02-08T20:00:00-05:00"
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-8000-000000000006",
+      "title": "HubSpot integration complete",
+      "column": "done",
+      "priority": "high",
+      "project": "CoachFinder",
+      "assignedAgent": "codex",
+      "model": "gpt-5.3-codex",
+      "estimatedTime": "6h",
+      "estimatedCost": 1.90,
+      "dueDate": "",
+      "notes": "Contact sync and lead status mapping done.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T18:00:00-05:00" },
+        { "action": "moved", "from": "active", "to": "done", "by": "codex", "at": "2026-02-08T20:06:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T18:00:00-05:00",
+      "completedAt": "2026-02-08T20:06:00-05:00"
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-8000-000000000007",
+      "title": "Command Center v3",
+      "column": "active",
+      "priority": "high",
+      "project": "Infrastructure",
+      "assignedAgent": "codex",
+      "model": "gpt-5.3-codex",
+      "estimatedTime": "6h",
+      "estimatedCost": 2.70,
+      "dueDate": "",
+      "notes": "Major expansion: project memory system with card details, comments, file attachments, and live sync.",
+      "attachments": [],
+      "comments": [
+        {
+          "id": "cm-0001",
+          "author": "paul",
+          "authorLabel": "Paul",
+          "text": "I want to be able to upload documents to cards, add comments you can read, and keep history per project.",
+          "timestamp": "2026-02-10T08:43:00-05:00"
+        },
+        {
+          "id": "cm-0002",
+          "author": "watson",
+          "authorLabel": "🔍 Watson",
+          "text": "Spec written and approved. Building Phase 1 now — sync script + board.json foundation.",
+          "timestamp": "2026-02-10T09:03:00-05:00"
+        }
+      ],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T18:30:00-05:00" },
+        { "action": "edited", "field": "title", "from": "Command Center v2", "to": "Command Center v3", "by": "watson", "at": "2026-02-10T09:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T18:30:00-05:00",
+      "completedAt": null
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-8000-000000000008",
+      "title": "Twitter/YouTube research workflow",
+      "column": "planned",
+      "priority": "medium",
+      "project": "Lead Intel",
+      "assignedAgent": "watson",
+      "model": null,
+      "estimatedTime": "2d",
+      "estimatedCost": 0.80,
+      "dueDate": "",
+      "notes": "Define automation and source scoring.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T20:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T20:00:00-05:00",
+      "completedAt": null
+    },
+    {
+      "id": "a1b2c3d4-0009-4000-8000-000000000009",
+      "title": "Fix bird CLI for Twitter access",
+      "column": "planned",
+      "priority": "low",
+      "project": "Lead Intel",
+      "assignedAgent": "watson",
+      "model": null,
+      "estimatedTime": "4h",
+      "estimatedCost": 0.60,
+      "dueDate": "",
+      "notes": "Re-auth and endpoint compatibility fixes.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T20:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T20:00:00-05:00",
+      "completedAt": null
+    },
+    {
+      "id": "a1b2c3d4-0010-4000-8000-000000000010",
+      "title": "CoachFinder full pipeline integration",
+      "column": "planned",
+      "priority": "high",
+      "project": "CoachFinder",
+      "assignedAgent": "codex",
+      "model": "gpt-5.3-codex",
+      "estimatedTime": "1w",
+      "estimatedCost": 3.40,
+      "dueDate": "",
+      "notes": "Wire the complete ingestion-to-HubSpot path. Scraper → discovery → extractor → verifier → HubSpot sync.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T20:00:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T20:00:00-05:00",
+      "completedAt": null
+    },
+    {
+      "id": "a1b2c3d4-0011-4000-8000-000000000011",
+      "title": "Dashboard documentation",
+      "column": "planned",
+      "priority": "low",
+      "project": "Infrastructure",
+      "assignedAgent": "watson",
+      "model": null,
+      "estimatedTime": "2h",
+      "estimatedCost": 0.40,
+      "dueDate": "",
+      "notes": "Document setup, data flow, and runbook.",
+      "attachments": [],
+      "comments": [],
+      "history": [
+        { "action": "created", "by": "watson", "at": "2026-02-08T20:30:00-05:00" }
+      ],
+      "createdAt": "2026-02-08T20:30:00-05:00",
+      "completedAt": null
+    }
+  ]
+}
