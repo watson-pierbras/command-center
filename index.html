@@ -1872,8 +1872,7 @@
     function renderCosts() {
       const costs = appState.costs || { today: 0, week: 0, month: 0, entries: [] };
       const entries = Array.isArray(costs.entries) ? costs.entries : [];
-      const zeroLabel = entries.some(entry => /api key|chatgpt/i.test(entry.note || "")) ? "API Key" : "Included";
-      const displayCost = (value) => Number(value) === 0 ? zeroLabel : money(value);
+      const displayCost = (value) => money(value);
 
       costSummaryEl.innerHTML = [
         { label: "Today", value: displayCost(costs.today) },

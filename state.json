@@ -18,15 +18,15 @@
     }
   },
   "costs": {
-    "today": 0.00,
-    "week": 0.00,
-    "month": 0.00,
+    "today": 1.38,
+    "week": 3.06,
+    "month": 3.06,
     "entries": [
-      { "date": "2026-02-08T18:00:00-05:00", "agent": "watson", "model": "claude-opus-4-6", "tokensIn": 52000, "tokensOut": 12000, "cost": 0.00, "note": "First boot session — API key based" },
-      { "date": "2026-02-08T18:30:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 28000, "tokensOut": 15000, "cost": 0.00, "note": "Command Center v2 build — ChatGPT account" },
-      { "date": "2026-02-08T19:10:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 18000, "tokensOut": 8000, "cost": 0.00, "note": "Code review + light mode fix" },
-      { "date": "2026-02-08T20:06:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 45000, "tokensOut": 32000, "cost": 0.00, "note": "v2.1 full rebuild — 4 tabs" },
-      { "date": "2026-02-08T20:15:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 22000, "tokensOut": 14000, "cost": 0.00, "note": "Time estimates + agent assignments patch" }
+      { "date": "2026-02-08T18:00:00-05:00", "agent": "watson", "model": "claude-opus-4-6", "tokensIn": 52000, "tokensOut": 12000, "cost": 1.68, "note": "First boot session" },
+      { "date": "2026-02-08T18:30:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 28000, "tokensOut": 15000, "cost": 0.31, "note": "Command Center v2 build" },
+      { "date": "2026-02-08T19:10:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 18000, "tokensOut": 8000, "cost": 0.17, "note": "Code review + light mode fix" },
+      { "date": "2026-02-08T20:06:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 45000, "tokensOut": 32000, "cost": 0.62, "note": "v2.1 full rebuild — 4 tabs" },
+      { "date": "2026-02-08T20:15:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 22000, "tokensOut": 14000, "cost": 0.28, "note": "Time estimates + agent assignments patch" }
     ]
   },
   "coachfinder": {
@@ -61,6 +61,7 @@
   },
   "feed": [
     { "ts": "2026-02-08T21:35:00-05:00", "agent": "watson", "type": "info", "text": "Live data pipeline activated", "detail": "state.json now reflects real system data" },
+    { "ts": "2026-02-10T08:10:00-05:00", "agent": "codex", "type": "success", "text": "Command Center v2.3 shipped", "detail": "Version bump, cost bars fix, mobile table, auto-refresh." },
     { "ts": "2026-02-08T20:30:00-05:00", "agent": "watson", "type": "success", "text": "Command Center v2.1 deployed", "detail": "4 tabs: Board, Agents, Costs, Feed. Time estimates and agent assignments." },
     { "ts": "2026-02-08T20:15:00-05:00", "agent": "codex", "type": "success", "text": "Time estimates + agent patch complete", "detail": "Duration parsing (m/h/d/w), per-agent totals, version migration." },
     { "ts": "2026-02-08T20:06:00-05:00", "agent": "codex", "type": "success", "text": "v2.1 full build complete", "detail": "Board, Agents, Costs, Feed tabs all implemented." },
