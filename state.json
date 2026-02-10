@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-10T20:38:53Z",
+  "lastUpdated": "2026-02-10T20:43:55Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "online",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-10T15:33:50-05:00"
+      "lastActivity": "2026-02-10T15:38:53-05:00"
     },
     "ollama": {
       "status": "online",
@@ -22,121 +22,42 @@
     }
   },
   "costs": {
-    "today": 50.7,
-    "week": 82.83,
-    "month": 82.83,
+    "today": 54.26,
+    "week": 86.39,
+    "month": 86.39,
     "byModel": [
       {
         "model": "anthropic/claude-opus-4-6",
-        "cost": 82.83,
-        "tokensIn": 1242,
-        "tokensOut": 248142
+        "cost": 86.39,
+        "tokensIn": 109493386,
+        "tokensOut": 257222,
+        "cacheRead": 105108313,
+        "cacheWrite": 4383789,
+        "calls": 1102,
+        "avgCost": 0.08
       },
       {
         "model": "openclaw/delivery-mirror",
         "cost": 0,
         "tokensIn": 0,
-        "tokensOut": 0
+        "tokensOut": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "calls": 66,
+        "avgCost": 0
       },
       {
         "model": "moonshot/kimi-k2.5",
         "cost": 0,
         "tokensIn": 602373,
-        "tokensOut": 2411
+        "tokensOut": 2411,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "calls": 13,
+        "avgCost": 0
       }
     ],
-    "entries": [
-      {
-        "date": "2026-02-10T20:38:44.673Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 86,
-        "cost": 0.08,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:38:42.093Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 103,
-        "cost": 0.08,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:38:38.982Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 103,
-        "cost": 0.08,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:38:35.532Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 291,
-        "cost": 0.08,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:38:29.968Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 87,
-        "cost": 0.07,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:38:27.075Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 3,
-        "tokensOut": 88,
-        "cost": 0.87,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:12:47.373Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 207,
-        "cost": 0.08,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:12:41.628Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 699,
-        "cost": 0.09,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:12:27.080Z",
-        "agent": "watson",
-        "model": "delivery-mirror",
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0,
-        "note": ""
-      },
-      {
-        "date": "2026-02-10T20:12:26.398Z",
-        "agent": "watson",
-        "model": "claude-opus-4-6",
-        "tokensIn": 1,
-        "tokensOut": 369,
-        "cost": 0.08,
-        "note": ""
-      }
-    ]
+    "activity": []
   },
   "coachfinder": {
     "status": "development",
