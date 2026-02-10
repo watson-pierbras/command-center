@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-10T23:50:43Z",
+  "lastUpdated": "2026-02-10T23:55:45Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "online",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-10T18:45:40-05:00"
+      "lastActivity": "2026-02-10T18:50:43-05:00"
     },
     "ollama": {
       "status": "online",
@@ -303,14 +303,6 @@
         "tokensIn": 12088514,
         "tokensOut": 18587,
         "cost": 8.51
-      },
-      {
-        "hour": "2026-02-08T23:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 4,
-        "tokensIn": 629714,
-        "tokensOut": 2729,
-        "cost": 1.3
       }
     ],
     "dailyHistory": [
