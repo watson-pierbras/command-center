@@ -1,19 +1,23 @@
 {
-  "lastUpdated": "2026-02-08T21:35:00-05:00",
+  "lastUpdated": "2026-02-10T14:09:18Z",
   "agents": {
     "watson": {
       "status": "online",
-      "model": "claude-opus-4-6",
-      "lastActivity": "2026-02-08T21:35:00-05:00"
+      "model": "moonshot/kimi-k2.5",
+      "lastActivity": "2026-02-10T13:05:05Z"
     },
     "codex": {
-      "status": "idle",
-      "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-08T20:15:00-05:00"
+      "status": "online",
+      "model": "model = \"gpt-5.3-codex\"",
+      "lastActivity": "2026-02-10T08:21:00-05:00"
     },
     "ollama": {
       "status": "online",
-      "models": ["qwen2.5-coder:3b", "llama3.2:3b", "llama3.2:1b"],
+      "models": [
+        "qwen2.5-coder:3b",
+        "llama3.2:3b",
+        "llama3.2:1b"
+      ],
       "lastActivity": null
     }
   },
@@ -22,11 +26,51 @@
     "week": 3.06,
     "month": 3.06,
     "entries": [
-      { "date": "2026-02-08T18:00:00-05:00", "agent": "watson", "model": "claude-opus-4-6", "tokensIn": 52000, "tokensOut": 12000, "cost": 1.68, "note": "First boot session" },
-      { "date": "2026-02-08T18:30:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 28000, "tokensOut": 15000, "cost": 0.31, "note": "Command Center v2 build" },
-      { "date": "2026-02-08T19:10:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 18000, "tokensOut": 8000, "cost": 0.17, "note": "Code review + light mode fix" },
-      { "date": "2026-02-08T20:06:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 45000, "tokensOut": 32000, "cost": 0.62, "note": "v2.1 full rebuild — 4 tabs" },
-      { "date": "2026-02-08T20:15:00-05:00", "agent": "codex", "model": "gpt-5.3-codex", "tokensIn": 22000, "tokensOut": 14000, "cost": 0.28, "note": "Time estimates + agent assignments patch" }
+      {
+        "date": "2026-02-08T18:00:00-05:00",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 52000,
+        "tokensOut": 12000,
+        "cost": 1.68,
+        "note": "First boot session"
+      },
+      {
+        "date": "2026-02-08T18:30:00-05:00",
+        "agent": "codex",
+        "model": "gpt-5.3-codex",
+        "tokensIn": 28000,
+        "tokensOut": 15000,
+        "cost": 0.31,
+        "note": "Command Center v2 build"
+      },
+      {
+        "date": "2026-02-08T19:10:00-05:00",
+        "agent": "codex",
+        "model": "gpt-5.3-codex",
+        "tokensIn": 18000,
+        "tokensOut": 8000,
+        "cost": 0.17,
+        "note": "Code review + light mode fix"
+      },
+      {
+        "date": "2026-02-08T20:06:00-05:00",
+        "agent": "codex",
+        "model": "gpt-5.3-codex",
+        "tokensIn": 45000,
+        "tokensOut": 32000,
+        "cost": 0.62,
+        "note": "v2.1 full rebuild — 4 tabs"
+      },
+      {
+        "date": "2026-02-08T20:15:00-05:00",
+        "agent": "codex",
+        "model": "gpt-5.3-codex",
+        "tokensIn": 22000,
+        "tokensOut": 14000,
+        "cost": 0.28,
+        "note": "Time estimates + agent assignments patch"
+      }
     ]
   },
   "coachfinder": {
@@ -53,24 +97,95 @@
       "totalLines": 7358
     },
     "securityIssues": [
-      ".env with HubSpot API keys committed to git",
-      "node_modules committed in hubspot-ui-extension"
+      ".env with HubSpot API keys committed to git"
     ],
     "lastScrapeRun": null,
     "lastHubSpotSync": null
   },
   "feed": [
-    { "ts": "2026-02-08T21:35:00-05:00", "agent": "watson", "type": "info", "text": "Live data pipeline activated", "detail": "state.json now reflects real system data" },
-    { "ts": "2026-02-10T08:10:00-05:00", "agent": "codex", "type": "success", "text": "Command Center v2.3 shipped", "detail": "Version bump, cost bars fix, mobile table, auto-refresh." },
-    { "ts": "2026-02-08T20:30:00-05:00", "agent": "watson", "type": "success", "text": "Command Center v2.1 deployed", "detail": "4 tabs: Board, Agents, Costs, Feed. Time estimates and agent assignments." },
-    { "ts": "2026-02-08T20:15:00-05:00", "agent": "codex", "type": "success", "text": "Time estimates + agent patch complete", "detail": "Duration parsing (m/h/d/w), per-agent totals, version migration." },
-    { "ts": "2026-02-08T20:06:00-05:00", "agent": "codex", "type": "success", "text": "v2.1 full build complete", "detail": "Board, Agents, Costs, Feed tabs all implemented." },
-    { "ts": "2026-02-08T19:53:00-05:00", "agent": "watson", "type": "info", "text": "Paul requested feature expansion", "detail": "Tasks by agent, costs, live feed, Telegram integration." },
-    { "ts": "2026-02-08T19:10:00-05:00", "agent": "codex", "type": "success", "text": "Code review + light mode fix", "detail": "Codex 5.3 reviewed full codebase. Light mode contrast patched." },
-    { "ts": "2026-02-08T18:58:00-05:00", "agent": "codex", "type": "success", "text": "Command Center v2 initial build", "detail": "Single HTML PWA with Kanban board, dark/light themes." },
-    { "ts": "2026-02-08T18:30:00-05:00", "agent": "watson", "type": "info", "text": "Codex CLI set to gpt-5.3-codex", "detail": "Config updated at ~/.codex/config.toml" },
-    { "ts": "2026-02-08T17:30:00-05:00", "agent": "watson", "type": "success", "text": "GitHub repos cloned", "detail": "coachfinder-core, watson-tools, watson-lead-intelligence, watson-context" },
-    { "ts": "2026-02-08T17:00:00-05:00", "agent": "watson", "type": "success", "text": "Telegram paired", "detail": "Paul connected via Telegram (pairing code D736QPCT)" },
-    { "ts": "2026-02-08T16:30:00-05:00", "agent": "watson", "type": "info", "text": "Watson Pierbras online", "detail": "First boot. Identity configured. Let's go." }
+    {
+      "ts": "2026-02-08T21:35:00-05:00",
+      "agent": "watson",
+      "type": "info",
+      "text": "Live data pipeline activated",
+      "detail": "state.json now reflects real system data"
+    },
+    {
+      "ts": "2026-02-10T08:10:00-05:00",
+      "agent": "codex",
+      "type": "success",
+      "text": "Command Center v2.3 shipped",
+      "detail": "Version bump, cost bars fix, mobile table, auto-refresh."
+    },
+    {
+      "ts": "2026-02-08T20:30:00-05:00",
+      "agent": "watson",
+      "type": "success",
+      "text": "Command Center v2.1 deployed",
+      "detail": "4 tabs: Board, Agents, Costs, Feed. Time estimates and agent assignments."
+    },
+    {
+      "ts": "2026-02-08T20:15:00-05:00",
+      "agent": "codex",
+      "type": "success",
+      "text": "Time estimates + agent patch complete",
+      "detail": "Duration parsing (m/h/d/w), per-agent totals, version migration."
+    },
+    {
+      "ts": "2026-02-08T20:06:00-05:00",
+      "agent": "codex",
+      "type": "success",
+      "text": "v2.1 full build complete",
+      "detail": "Board, Agents, Costs, Feed tabs all implemented."
+    },
+    {
+      "ts": "2026-02-08T19:53:00-05:00",
+      "agent": "watson",
+      "type": "info",
+      "text": "Paul requested feature expansion",
+      "detail": "Tasks by agent, costs, live feed, Telegram integration."
+    },
+    {
+      "ts": "2026-02-08T19:10:00-05:00",
+      "agent": "codex",
+      "type": "success",
+      "text": "Code review + light mode fix",
+      "detail": "Codex 5.3 reviewed full codebase. Light mode contrast patched."
+    },
+    {
+      "ts": "2026-02-08T18:58:00-05:00",
+      "agent": "codex",
+      "type": "success",
+      "text": "Command Center v2 initial build",
+      "detail": "Single HTML PWA with Kanban board, dark/light themes."
+    },
+    {
+      "ts": "2026-02-08T18:30:00-05:00",
+      "agent": "watson",
+      "type": "info",
+      "text": "Codex CLI set to gpt-5.3-codex",
+      "detail": "Config updated at ~/.codex/config.toml"
+    },
+    {
+      "ts": "2026-02-08T17:30:00-05:00",
+      "agent": "watson",
+      "type": "success",
+      "text": "GitHub repos cloned",
+      "detail": "coachfinder-core, watson-tools, watson-lead-intelligence, watson-context"
+    },
+    {
+      "ts": "2026-02-08T17:00:00-05:00",
+      "agent": "watson",
+      "type": "success",
+      "text": "Telegram paired",
+      "detail": "Paul connected via Telegram (pairing code D736QPCT)"
+    },
+    {
+      "ts": "2026-02-08T16:30:00-05:00",
+      "agent": "watson",
+      "type": "info",
+      "text": "Watson Pierbras online",
+      "detail": "First boot. Identity configured. Let's go."
+    }
   ]
 }
