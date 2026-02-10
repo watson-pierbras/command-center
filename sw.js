@@ -1,9 +1,10 @@
-const CACHE_NAME = "command-center-v2-1";
+const CACHE_NAME = "command-center-v3-0";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./state.json"
+  "./state.json",
+  "./board.json"
 ];
 
 self.addEventListener("install", event => {
@@ -45,7 +46,9 @@ self.addEventListener("fetch", event => {
   if (!sameOrigin) return;
 
   const isState = url.pathname.endsWith("/state.json") || url.pathname.endsWith("state.json");
-  if (isState) {
+  const isBoard = url.pathname.endsWith("/board.json") || url.pathname.endsWith("board.json");
+
+  if (isState || isBoard) {
     event.respondWith(networkFirst(event.request));
     return;
   }
