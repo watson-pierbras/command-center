@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-10T20:03:34Z",
+  "lastUpdated": "2026-02-10T20:08:31Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "online",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-10T14:58:32-05:00"
+      "lastActivity": "2026-02-10T15:03:34-05:00"
     },
     "ollama": {
       "status": "online",
@@ -22,54 +22,119 @@
     }
   },
   "costs": {
-    "today": 1.38,
-    "week": 3.06,
-    "month": 3.06,
+    "today": 45.64,
+    "week": 77.77,
+    "month": 77.77,
+    "byModel": [
+      {
+        "model": "anthropic/claude-opus-4-6",
+        "cost": 77.77,
+        "tokensIn": 1200,
+        "tokensOut": 241647
+      },
+      {
+        "model": "openclaw/delivery-mirror",
+        "cost": 0,
+        "tokensIn": 0,
+        "tokensOut": 0
+      },
+      {
+        "model": "moonshot/kimi-k2.5",
+        "cost": 0,
+        "tokensIn": 602373,
+        "tokensOut": 2411
+      }
+    ],
     "entries": [
       {
-        "date": "2026-02-08T18:00:00-05:00",
+        "date": "2026-02-10T20:08:28.239Z",
         "agent": "watson",
         "model": "claude-opus-4-6",
-        "tokensIn": 52000,
-        "tokensOut": 12000,
-        "cost": 1.68,
-        "note": "First boot session"
+        "tokensIn": 1,
+        "tokensOut": 98,
+        "cost": 0.1,
+        "note": ""
       },
       {
-        "date": "2026-02-08T18:30:00-05:00",
-        "agent": "codex",
-        "model": "gpt-5.3-codex",
-        "tokensIn": 28000,
-        "tokensOut": 15000,
-        "cost": 0.31,
-        "note": "Command Center v2 build"
+        "date": "2026-02-10T20:08:22.969Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 79,
+        "cost": 0.08,
+        "note": ""
       },
       {
-        "date": "2026-02-08T19:10:00-05:00",
-        "agent": "codex",
-        "model": "gpt-5.3-codex",
-        "tokensIn": 18000,
-        "tokensOut": 8000,
-        "cost": 0.17,
-        "note": "Code review + light mode fix"
+        "date": "2026-02-10T20:08:18.056Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 466,
+        "cost": 0.09,
+        "note": ""
       },
       {
-        "date": "2026-02-08T20:06:00-05:00",
-        "agent": "codex",
-        "model": "gpt-5.3-codex",
-        "tokensIn": 45000,
-        "tokensOut": 32000,
-        "cost": 0.62,
-        "note": "v2.1 full rebuild — 4 tabs"
+        "date": "2026-02-10T20:08:05.322Z",
+        "agent": "watson",
+        "model": "delivery-mirror",
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cost": 0,
+        "note": ""
       },
       {
-        "date": "2026-02-08T20:15:00-05:00",
-        "agent": "codex",
-        "model": "gpt-5.3-codex",
-        "tokensIn": 22000,
-        "tokensOut": 14000,
-        "cost": 0.28,
-        "note": "Time estimates + agent assignments patch"
+        "date": "2026-02-10T20:08:04.666Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 239,
+        "cost": 0.08,
+        "note": ""
+      },
+      {
+        "date": "2026-02-10T20:07:57.075Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 177,
+        "cost": 0.08,
+        "note": ""
+      },
+      {
+        "date": "2026-02-10T20:07:51.954Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 173,
+        "cost": 0.09,
+        "note": ""
+      },
+      {
+        "date": "2026-02-10T20:07:44.191Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 2173,
+        "cost": 0.13,
+        "note": ""
+      },
+      {
+        "date": "2026-02-10T20:07:04.395Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 499,
+        "cost": 0.09,
+        "note": ""
+      },
+      {
+        "date": "2026-02-10T20:06:54.865Z",
+        "agent": "watson",
+        "model": "claude-opus-4-6",
+        "tokensIn": 1,
+        "tokensOut": 520,
+        "cost": 0.11,
+        "note": ""
       }
     ]
   },
