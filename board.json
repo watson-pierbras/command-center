@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "lastModified": "2026-02-10T20:42:39.920Z",
+  "lastModified": "2026-02-10T20:45:01.888Z",
   "modifiedBy": "paul",
   "tasks": [
     {
@@ -239,6 +239,13 @@
           "authorLabel": "Paul",
           "text": "I'd love to be able to see the cards updated to TALLY up the total cost for each project. Have an estimated cost and then have a spot that shows the true cost that I have spent in API costs or anything associated with the project. Maybe even add a tab within the panel or model that could reflect costs like that. Write up a detailed PR to add this feature",
           "timestamp": "2026-02-10T20:42:39.910Z"
+        },
+        {
+          "id": "f303babf-83e7-4c3e-94f4-8290587d24e4",
+          "author": "paul",
+          "authorLabel": "Paul",
+          "text": "I would also like to see a section of all of the models that were used on the project. There could likely be way more than 1 working on it. It would be cool to see the tasks that were associated with the project. Maybe we could work out a system that tracks all of the tasks that were done for each project.",
+          "timestamp": "2026-02-10T20:45:01.884Z"
         }
       ],
       "history": [
@@ -271,6 +278,12 @@
           "action": "edited",
           "by": "paul",
           "at": "2026-02-10T20:42:39.910Z",
+          "field": "comments"
+        },
+        {
+          "action": "edited",
+          "by": "paul",
+          "at": "2026-02-10T20:45:01.884Z",
           "field": "comments"
         }
       ]
