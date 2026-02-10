@@ -640,6 +640,52 @@
       font-weight: 700;
     }
 
+    .model-bar-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .model-bar-main strong {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .model-bar-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .model-meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--chip-border);
+      background: var(--chip-bg);
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-weight: 600;
+    }
+
+    .model-meta-pill.cache {
+      border-color: rgba(99, 102, 241, 0.38);
+      background: rgba(99, 102, 241, 0.14);
+      color: #c7d2fe;
+    }
+
+    body[data-theme='light'] .model-meta-pill.cache {
+      color: #4338ca;
+      border-color: rgba(67, 56, 202, 0.3);
+      background: rgba(67, 56, 202, 0.1);
+    }
+
     .bar-track {
       height: 10px;
       background: var(--chip-bg);
@@ -1491,7 +1537,7 @@
             <div class="table-wrap">
               <table>
                 <thead>
-                  <tr>
+                  <tr id="costTableHeadRow">
                     <th>Date</th>
                     <th>Agent</th>
                     <th>Model</th>
@@ -1798,6 +1844,7 @@
 
     const costSummaryEl = document.getElementById("costSummary");
     const modelBarsEl = document.getElementById("modelBars");
+    const costTableHeadRow = document.getElementById("costTableHeadRow");
     const costTableBody = document.getElementById("costTableBody");
     const agentsContainer = document.getElementById("agentsContainer");
     const feedTimeline = document.getElementById("feedTimeline");
@@ -1856,6 +1903,16 @@
           today: 4.86,
           week: 18.42,
           month: 54.73,
+          byModel: [
+            { model: "claude-opus-4-6", cost: 1.53, tokensIn: 6942, tokensOut: 2244, calls: 2, avgCost: 0.77, cacheRead: 500, cacheWrite: 2100 },
+            { model: "gpt-5.3-codex", cost: 3.22, tokensIn: 17510, tokensOut: 6430, calls: 2, avgCost: 1.61, cacheRead: 0, cacheWrite: 3300 },
+            { model: "qwen2.5-coder:3b", cost: 0.11, tokensIn: 4200, tokensOut: 1900, calls: 1, avgCost: 0.11, cacheRead: 0, cacheWrite: 0 }
+          ],
+          activity: [
+            { hour: isoAt(12), model: "claude-opus-4-6", calls: 1, tokensIn: 930, tokensOut: 400, cost: 0.11 },
+            { hour: isoAt(9), model: "codex/gpt-5.3-codex", calls: 1, tokensIn: 3190, tokensOut: 1210, cost: 0.49 },
+            { hour: isoAt(7), model: "qwen2.5-coder:3b", calls: 1, tokensIn: 4200, tokensOut: 1900, cost: 0.11 }
+          ],
           entries: [
             { date: isoAt(1), agent: "watson", model: "claude-opus-4-6", tokensIn: 6012, tokensOut: 1844, cost: 1.42 },
             { date: isoAt(5), agent: "codex", model: "gpt-5.3-codex", tokensIn: 14320, tokensOut: 5220, cost: 2.73 },
@@ -2010,6 +2067,37 @@
           cost: parseCostValue(entry.cost),
           note: typeof entry.note === "string" ? entry.note : ""
         }));
+      const costsActivityRaw = Array.isArray(input.costs?.activity)
+        ? input.costs.activity
+        : (Array.isArray(fallback.costs.activity) ? fallback.costs.activity : []);
+      const activityCostRows = costsActivityRaw
+        .filter(Boolean)
+        .map(item => ({
+          hour: typeof item.hour === "string" && item.hour ? item.hour : nowISO(),
+          model: typeof item.model === "string" && item.model ? item.model : "unknown",
+          calls: Number.isFinite(Number(item.calls)) ? Number(item.calls) : 0,
+          tokensIn: Number.isFinite(Number(item.tokensIn)) ? Number(item.tokensIn) : 0,
+          tokensOut: Number.isFinite(Number(item.tokensOut)) ? Number(item.tokensOut) : 0,
+          cost: parseCostValue(item.cost)
+        }));
+      const costsByModelRaw = Array.isArray(input.costs?.byModel)
+        ? input.costs.byModel
+        : (Array.isArray(fallback.costs.byModel) ? fallback.costs.byModel : []);
+      const byModel = costsByModelRaw
+        .filter(Boolean)
+        .map(item => {
+          const row = {
+            model: typeof item.model === "string" && item.model ? item.model : "unknown",
+            cost: parseCostValue(item.cost),
+            tokensIn: Number.isFinite(Number(item.tokensIn)) ? Number(item.tokensIn) : 0,
+            tokensOut: Number.isFinite(Number(item.tokensOut)) ? Number(item.tokensOut) : 0,
+            cacheRead: Number.isFinite(Number(item.cacheRead)) ? Number(item.cacheRead) : 0,
+            cacheWrite: Number.isFinite(Number(item.cacheWrite)) ? Number(item.cacheWrite) : 0
+          };
+          if (Number.isFinite(Number(item.calls))) row.calls = Number(item.calls);
+          if (Number.isFinite(Number(item.avgCost))) row.avgCost = Number(item.avgCost);
+          return row;
+        });
 
       const valueOr = (v, fallbackValue) => Number.isFinite(Number(v)) ? Number(v) : fallbackValue;
       const agentsIn = input.agents || {};
@@ -2045,6 +2133,8 @@
           today: valueOr(input.costs?.today, fallback.costs.today),
           week: valueOr(input.costs?.week, fallback.costs.week),
           month: valueOr(input.costs?.month, fallback.costs.month),
+          byModel,
+          activity: activityCostRows,
           entries
         },
         coachfinder: input.coachfinder && typeof input.coachfinder === "object" ? input.coachfinder : null,
@@ -2127,6 +2217,13 @@
       return `$${Number(value || 0).toFixed(2)}`;
     }
 
+    function formatTokens(n) {
+      const value = Number(n) || 0;
+      if (value >= 1000000) return (value / 1000000).toFixed(1) + "M";
+      if (value >= 1000) return (value / 1000).toFixed(1) + "K";
+      return value.toLocaleString();
+    }
+
     function parseCostValue(value) {
       if (Number.isFinite(Number(value))) return Number(value);
       if (typeof value !== "string") return 0;
@@ -2143,7 +2240,14 @@
       return JSON.stringify({
         lastUpdated: state.lastUpdated,
         agents: state.agents,
-        costs: state.costs,
+        costs: {
+          today: state.costs?.today,
+          week: state.costs?.week,
+          month: state.costs?.month,
+          byModel: state.costs?.byModel,
+          activity: state.costs?.activity,
+          entries: state.costs?.entries
+        },
         coachfinder: state.coachfinder,
         feed: state.feed
       });
@@ -2560,9 +2664,39 @@
     }
 
     function renderCosts() {
-      const costs = appState.costs || { today: 0, week: 0, month: 0, entries: [] };
+      const costs = appState.costs || { today: 0, week: 0, month: 0, byModel: [], activity: [], entries: [] };
       const entries = Array.isArray(costs.entries) ? costs.entries : [];
+      const activityRows = Array.isArray(costs.activity) ? costs.activity : [];
       const displayCost = (value) => money(value);
+      const shortModelName = (model) => {
+        if (typeof model !== "string" || !model) return "unknown";
+        const chunks = model.split("/");
+        return chunks[chunks.length - 1] || model;
+      };
+      const formatActivityTime = (iso) => {
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return "-";
+        const now = new Date();
+        const isToday = d.getFullYear() === now.getFullYear()
+          && d.getMonth() === now.getMonth()
+          && d.getDate() === now.getDate();
+        const timePart = d.toLocaleString(undefined, { hour: "numeric" }).toLowerCase().replace(/\s+/g, "");
+        if (isToday) return `Today ${timePart}`;
+        const datePart = d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+        return `${datePart}, ${timePart}`;
+      };
+      const fallbackByModel = () => {
+        const modelMap = new Map();
+        entries.forEach((entry) => {
+          const key = entry.model || "unknown";
+          const current = modelMap.get(key) || { model: key, cost: 0, tokensIn: 0, tokensOut: 0 };
+          current.cost += parseCostValue(entry.cost);
+          current.tokensIn += Number(entry.tokensIn) || 0;
+          current.tokensOut += Number(entry.tokensOut) || 0;
+          modelMap.set(key, current);
+        });
+        return Array.from(modelMap.values());
+      };
 
       costSummaryEl.innerHTML = [
         { label: "Today", value: displayCost(costs.today) },
@@ -2570,33 +2704,101 @@
         { label: "This Month", value: displayCost(costs.month) }
       ].map(item => `<article class='cost-card'><div class='label'>${item.label}</div><div class='value'>${item.value}</div></article>`).join("");
 
-      const byModel = entries.reduce((acc, entry) => {
-        acc[entry.model] = (acc[entry.model] || 0) + parseCostValue(entry.cost);
-        return acc;
-      }, {});
-
-      const sortedModels = Object.entries(byModel).sort((a, b) => b[1] - a[1]);
-      const max = sortedModels.length ? Math.max(...sortedModels.map(([, value]) => value), 0) : 0;
+      const byModelRowsRaw = Array.isArray(costs.byModel) && costs.byModel.length ? costs.byModel : fallbackByModel();
+      const sortedModels = byModelRowsRaw
+        .slice()
+        .sort((a, b) => parseCostValue(b.cost) - parseCostValue(a.cost));
+      const max = sortedModels.length ? Math.max(...sortedModels.map(item => parseCostValue(item.cost)), 0) : 0;
 
       modelBarsEl.innerHTML = "";
       if (!sortedModels.length) {
         modelBarsEl.innerHTML = "<div class='model-bar-row'>No cost data yet.</div>";
       } else {
-        sortedModels.forEach(([model, cost]) => {
+        sortedModels.forEach((rowData) => {
+          const model = shortModelName(rowData.model);
+          const cost = parseCostValue(rowData.cost);
           const pct = max > 0 ? Math.max(8, Math.round((cost / max) * 100)) : 8;
+          const meta = [];
+          if (Number.isFinite(Number(rowData.calls))) {
+            meta.push(`<span class="model-meta-pill">${Number(rowData.calls).toLocaleString()} calls</span>`);
+          }
+          if (Number.isFinite(Number(rowData.avgCost))) {
+            meta.push(`<span class="model-meta-pill">Avg ${money(rowData.avgCost)}</span>`);
+          }
+          meta.push(`<span class="model-meta-pill">${formatTokens(rowData.tokensIn)} in · ${formatTokens(rowData.tokensOut)} out</span>`);
+          const cacheRead = Number(rowData.cacheRead) || 0;
+          const cacheWrite = Number(rowData.cacheWrite) || 0;
+          const cacheTotal = cacheRead + cacheWrite;
+          if (cacheTotal > 0) {
+            const cacheLabel = cacheRead > 0
+              ? `Cache: ${Math.round((cacheRead / cacheTotal) * 100)}% hit`
+              : "Cache: warming";
+            meta.push(`<span class="model-meta-pill cache">${cacheLabel}</span>`);
+          }
           const row = document.createElement("div");
           row.className = "model-bar-row";
-          row.innerHTML = `<div>${model} · ${displayCost(cost)}</div><div class='bar-track'><div class='bar-fill' style='--bar-width:${pct}%'></div></div>`;
+          row.innerHTML = `
+            <div class="model-bar-main"><strong>${model}</strong><span>${displayCost(cost)}</span></div>
+            <div class="model-bar-meta">${meta.join("")}</div>
+            <div class='bar-track'><div class='bar-fill' style='--bar-width:${pct}%'></div></div>
+          `;
           modelBarsEl.appendChild(row);
         });
       }
 
       costTableBody.innerHTML = "";
-      if (!entries.length) {
+      if (activityRows.length) {
+        if (costTableHeadRow) {
+          costTableHeadRow.innerHTML = `
+            <th>Time</th>
+            <th>Model</th>
+            <th>Calls</th>
+            <th>Tokens In</th>
+            <th>Tokens Out</th>
+            <th>Cost</th>
+          `;
+        }
+        activityRows
+          .slice()
+          .sort((a, b) => new Date(b.hour) - new Date(a.hour))
+          .forEach((entry) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${formatActivityTime(entry.hour)}</td>
+              <td>${shortModelName(entry.model)}</td>
+              <td>${(Number(entry.calls) || 0).toLocaleString()}</td>
+              <td>${formatTokens(entry.tokensIn)}</td>
+              <td>${formatTokens(entry.tokensOut)}</td>
+              <td>${money(entry.cost)}</td>
+            `;
+            costTableBody.appendChild(tr);
+          });
+      } else if (!entries.length) {
+        if (costTableHeadRow) {
+          costTableHeadRow.innerHTML = `
+            <th>Time</th>
+            <th>Model</th>
+            <th>Calls</th>
+            <th>Tokens In</th>
+            <th>Tokens Out</th>
+            <th>Cost</th>
+          `;
+        }
         const tr = document.createElement("tr");
-        tr.innerHTML = "<td colspan='7'>No entries yet.</td>";
+        tr.innerHTML = "<td colspan='6'>No activity yet.</td>";
         costTableBody.appendChild(tr);
       } else {
+        if (costTableHeadRow) {
+          costTableHeadRow.innerHTML = `
+            <th>Date</th>
+            <th>Agent</th>
+            <th>Model</th>
+            <th>Tokens In</th>
+            <th>Tokens Out</th>
+            <th>Cost</th>
+            <th data-col="note">Note</th>
+          `;
+        }
         entries
           .slice()
           .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -2606,9 +2808,9 @@
             tr.innerHTML = `
               <td>${formatDate(entry.date, true)}</td>
               <td>${agent}</td>
-              <td>${entry.model}</td>
-              <td>${entry.tokensIn.toLocaleString()}</td>
-              <td>${entry.tokensOut.toLocaleString()}</td>
+              <td>${shortModelName(entry.model)}</td>
+              <td>${formatTokens(entry.tokensIn)}</td>
+              <td>${formatTokens(entry.tokensOut)}</td>
               <td>${money(entry.cost)}</td>
               <td data-col="note">${entry.note || "-"}</td>
             `;

@@ -81,7 +81,10 @@ if command -v ollama &>/dev/null; then
   else
     ollama_status="idle"
   fi
-  ollama_models=$(ollama list 2>/dev/null | tail -n +2 | awk '{print $1}' | head -5 | jq -R . | jq -s . 2>/dev/null || echo '[]')
+  ollama_models=$(ollama list 2>/dev/null | tail -n +2 | awk '{print $1}' | head -5 | jq -R . | jq -s . 2>/dev/null || true)
+  if [[ -z "$ollama_models" ]] || ! jq -e . >/dev/null 2>&1 <<<"$ollama_models"; then
+    ollama_models='[]'
+  fi
 fi
 
 # ── CoachFinder Status ───────────────────────────────────────
@@ -113,49 +116,65 @@ MONTH_AGO=$(date -u -v-30d +"%Y-%m-%dT00:00:00Z" 2>/dev/null || date -u -d "30 d
 
 if [ -d "$SESSIONS_DIR" ] && ls "$SESSIONS_DIR"/*.jsonl 1>/dev/null 2>&1; then
   COSTS_JSON=$(cat "$SESSIONS_DIR"/*.jsonl | jq -s --arg today "$TODAY_DATE" --arg weekAgo "$WEEK_AGO" --arg monthAgo "$MONTH_AGO" '
+    def round2: (. * 100 | round / 100);
+    def tokens_in($u): (($u.input // 0) + ($u.cacheRead // 0) + ($u.cacheWrite // 0));
     [.[] | select(.message?.usage?)] |
-    sort_by(.timestamp) |
+    sort_by(.timestamp) as $records |
     {
-      today: ([.[] | select((.timestamp // "")[:10] == $today) | (.message.usage.cost.total // 0)] | add // 0),
-      week: ([.[] | select((.timestamp // "") >= $weekAgo) | (.message.usage.cost.total // 0)] | add // 0),
-      month: ([.[] | select((.timestamp // "") >= $monthAgo) | (.message.usage.cost.total // 0)] | add // 0),
+      today: ([$records[] | select((.timestamp // "")[:10] == $today) | (.message.usage.cost.total // 0)] | add // 0),
+      week: ([$records[] | select((.timestamp // "") >= $weekAgo) | (.message.usage.cost.total // 0)] | add // 0),
+      month: ([$records[] | select((.timestamp // "") >= $monthAgo) | (.message.usage.cost.total // 0)] | add // 0),
       byModel: (
+        $records |
         group_by((.message.provider // "unknown") + "/" + (.message.model // "unknown")) |
         map({
           model: ((.[0].message.provider // "unknown") + "/" + (.[0].message.model // "unknown")),
           cost: ([.[].message.usage.cost.total // 0] | add // 0),
-          tokensIn: ([.[].message.usage.input // 0] | add // 0),
-          tokensOut: ([.[].message.usage.output // 0] | add // 0)
+          tokensIn: ([.[].message.usage | tokens_in(.)] | add // 0),
+          tokensOut: ([.[].message.usage.output // 0] | add // 0),
+          cacheRead: ([.[].message.usage.cacheRead // 0] | add // 0),
+          cacheWrite: ([.[].message.usage.cacheWrite // 0] | add // 0),
+          calls: length,
+          avgCost: (if length > 0 then (([.[].message.usage.cost.total // 0] | add // 0) / length) else 0 end)
         }) |
         sort_by(.cost) | reverse
       ),
-      entries: (
-        reverse | .[0:10] |
+      activity: (
+        $records |
+        map(
+          select(
+            ((.timestamp // "") != "") and
+            (((.timestamp | sub("\\.[0-9]+Z$"; "Z") | fromdateiso8601?) // -1) >= (now - (48 * 3600)))
+          ) |
+          {
+            hour: ((.timestamp[0:13]) + ":00Z"),
+            model: (.message.model // "unknown"),
+            calls: 1,
+            tokensIn: (.message.usage | tokens_in(.)),
+            tokensOut: (.message.usage.output // 0),
+            cost: (.message.usage.cost.total // 0)
+          }
+        ) |
+        group_by(.hour + "|" + .model) |
         map({
-          date: .timestamp,
-          agent: "watson",
-          model: (.message.model // "unknown"),
-          tokensIn: (.message.usage.input // 0),
-          tokensOut: (.message.usage.output // 0),
-          cost: (.message.usage.cost.total // 0),
-          note: ""
-        })
+          hour: .[0].hour,
+          model: .[0].model,
+          calls: ([.[].calls] | add // 0),
+          tokensIn: ([.[].tokensIn] | add // 0),
+          tokensOut: ([.[].tokensOut] | add // 0),
+          cost: ([.[].cost] | add // 0)
+        }) |
+        sort_by(.hour, .model) | reverse
       )
     } |
-    .today = (.today * 100 | round / 100) |
-    .week = (.week * 100 | round / 100) |
-    .month = (.month * 100 | round / 100) |
-    .byModel = (
-      .byModel |
-      map(.cost = (.cost * 100 | round / 100))
-    ) |
-    .entries = (
-      .entries |
-      map(.cost = (.cost * 100 | round / 100))
-    )
+    .today = (.today | round2) |
+    .week = (.week | round2) |
+    .month = (.month | round2) |
+    .byModel = (.byModel | map(.cost = (.cost | round2) | .avgCost = (.avgCost | round2))) |
+    .activity = (.activity | map(.cost = (.cost | round2)))
   ')
 else
-  COSTS_JSON='{"today":0,"week":0,"month":0,"byModel":[],"entries":[]}'
+  COSTS_JSON='{"today":0,"week":0,"month":0,"byModel":[],"activity":[]}'
 fi
 
 existing_feed='[]'
