@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "lastModified": "2026-02-10T09:00:00-05:00",
+  "lastModified": "2026-02-10T14:35:24.000Z",
   "modifiedBy": "watson",
   "tasks": [
     {
@@ -18,8 +18,18 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T17:00:00-05:00" },
-        { "action": "moved", "from": "active", "to": "done", "by": "watson", "at": "2026-02-08T18:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T17:00:00-05:00"
+        },
+        {
+          "action": "moved",
+          "from": "active",
+          "to": "done",
+          "by": "watson",
+          "at": "2026-02-08T18:00:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T17:00:00-05:00",
       "completedAt": "2026-02-08T18:00:00-05:00"
@@ -39,8 +49,18 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T18:30:00-05:00" },
-        { "action": "moved", "from": "active", "to": "done", "by": "codex", "at": "2026-02-08T19:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T18:30:00-05:00"
+        },
+        {
+          "action": "moved",
+          "from": "active",
+          "to": "done",
+          "by": "codex",
+          "at": "2026-02-08T19:00:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T18:30:00-05:00",
       "completedAt": "2026-02-08T19:00:00-05:00"
@@ -60,8 +80,18 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T17:30:00-05:00" },
-        { "action": "moved", "from": "active", "to": "done", "by": "watson", "at": "2026-02-08T18:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T17:30:00-05:00"
+        },
+        {
+          "action": "moved",
+          "from": "active",
+          "to": "done",
+          "by": "watson",
+          "at": "2026-02-08T18:00:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T17:30:00-05:00",
       "completedAt": "2026-02-08T18:00:00-05:00"
@@ -81,8 +111,18 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T17:00:00-05:00" },
-        { "action": "moved", "from": "active", "to": "done", "by": "watson", "at": "2026-02-08T17:30:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T17:00:00-05:00"
+        },
+        {
+          "action": "moved",
+          "from": "active",
+          "to": "done",
+          "by": "watson",
+          "at": "2026-02-08T17:30:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T17:00:00-05:00",
       "completedAt": "2026-02-08T17:30:00-05:00"
@@ -102,8 +142,18 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T19:00:00-05:00" },
-        { "action": "moved", "from": "active", "to": "done", "by": "codex", "at": "2026-02-08T20:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T19:00:00-05:00"
+        },
+        {
+          "action": "moved",
+          "from": "active",
+          "to": "done",
+          "by": "codex",
+          "at": "2026-02-08T20:00:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T19:00:00-05:00",
       "completedAt": "2026-02-08T20:00:00-05:00"
@@ -123,8 +173,18 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T18:00:00-05:00" },
-        { "action": "moved", "from": "active", "to": "done", "by": "codex", "at": "2026-02-08T20:06:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T18:00:00-05:00"
+        },
+        {
+          "action": "moved",
+          "from": "active",
+          "to": "done",
+          "by": "codex",
+          "at": "2026-02-08T20:06:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T18:00:00-05:00",
       "completedAt": "2026-02-08T20:06:00-05:00"
@@ -156,11 +216,35 @@
           "authorLabel": "🔍 Watson",
           "text": "Spec written and approved. Building Phase 1 now — sync script + board.json foundation.",
           "timestamp": "2026-02-10T09:03:00-05:00"
+        },
+        {
+          "id": "wc-1770734124-1951",
+          "author": "watson",
+          "authorLabel": "🔍 Watson",
+          "text": "Phase 2 shipped (c39644b). Card detail panel, comments, history, board.json loading all live. Skipping Phase 3 (no PAT needed) — going straight to Phase 4: Watson integration. You can now leave me comments on cards and I'll pick them up.",
+          "timestamp": "2026-02-10T14:35:24.000Z"
         }
       ],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T18:30:00-05:00" },
-        { "action": "edited", "field": "title", "from": "Command Center v2", "to": "Command Center v3", "by": "watson", "at": "2026-02-10T09:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T18:30:00-05:00"
+        },
+        {
+          "action": "edited",
+          "field": "title",
+          "from": "Command Center v2",
+          "to": "Command Center v3",
+          "by": "watson",
+          "at": "2026-02-10T09:00:00-05:00"
+        },
+        {
+          "action": "edited",
+          "field": "comments",
+          "by": "watson",
+          "at": "2026-02-10T14:35:24.000Z"
+        }
       ],
       "createdAt": "2026-02-08T18:30:00-05:00",
       "completedAt": null
@@ -180,7 +264,11 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T20:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T20:00:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T20:00:00-05:00",
       "completedAt": null
@@ -200,7 +288,11 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T20:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T20:00:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T20:00:00-05:00",
       "completedAt": null
@@ -220,7 +312,11 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T20:00:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T20:00:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T20:00:00-05:00",
       "completedAt": null
@@ -240,7 +336,11 @@
       "attachments": [],
       "comments": [],
       "history": [
-        { "action": "created", "by": "watson", "at": "2026-02-08T20:30:00-05:00" }
+        {
+          "action": "created",
+          "by": "watson",
+          "at": "2026-02-08T20:30:00-05:00"
+        }
       ],
       "createdAt": "2026-02-08T20:30:00-05:00",
       "completedAt": null

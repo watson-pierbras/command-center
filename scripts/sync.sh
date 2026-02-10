@@ -194,4 +194,19 @@ else
   fi
 fi
 
+# ── Board watch: check for new Watson-directed comments ──────
+BOARD_OPS="$REPO_DIR/scripts/board-ops.sh"
+INBOX_FILE="$REPO_DIR/scripts/.watson-inbox.json"
+
+if [ -x "$BOARD_OPS" ]; then
+  if bash "$BOARD_OPS" inbox > /dev/null 2>&1; then
+    INBOX_COUNT=$(jq 'length' "$INBOX_FILE" 2>/dev/null || echo 0)
+    if [ "$INBOX_COUNT" -gt 0 ]; then
+      log "Board watch: $INBOX_COUNT new comment(s) for Watson"
+    fi
+  else
+    log "Board watch: no new comments"
+  fi
+fi
+
 log "Sync complete"
