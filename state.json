@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-10T20:48:58Z",
+  "lastUpdated": "2026-02-10T20:54:01Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "online",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-10T15:46:36-05:00"
+      "lastActivity": "2026-02-10T15:48:58-05:00"
     },
     "ollama": {
       "status": "online",
@@ -22,18 +22,18 @@
     }
   },
   "costs": {
-    "today": 57.76,
-    "week": 89.89,
-    "month": 89.89,
+    "today": 57.99,
+    "week": 90.11,
+    "month": 90.11,
     "byModel": [
       {
         "model": "anthropic/claude-opus-4-6",
-        "cost": 89.89,
-        "tokensIn": 112696992,
-        "tokensOut": 263760,
-        "cacheRead": 108010040,
-        "cacheWrite": 4685644,
-        "calls": 1125,
+        "cost": 90.11,
+        "tokensIn": 112999846,
+        "tokensOut": 266138,
+        "cacheRead": 108311001,
+        "cacheWrite": 4687531,
+        "calls": 1127,
         "avgCost": 0.08
       },
       {
@@ -69,10 +69,10 @@
       {
         "hour": "2026-02-10T20:00Z",
         "model": "claude-opus-4-6",
-        "calls": 129,
-        "tokensIn": 19042415,
-        "tokensOut": 33166,
-        "cost": 14.94
+        "calls": 131,
+        "tokensIn": 19345269,
+        "tokensOut": 35544,
+        "cost": 15.16
       },
       {
         "hour": "2026-02-10T19:00Z",
