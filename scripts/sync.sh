@@ -105,13 +105,61 @@ if [[ -d "$cf_dir" ]]; then
   cf_security=$(printf '%s\n' "${issues[@]}" 2>/dev/null | jq -R . | jq -s . 2>/dev/null || echo '[]')
 fi
 
-# ── Preserve existing costs and feed ─────────────────────────
-existing_costs='{"today":0,"week":0,"month":0,"entries":[]}'
-existing_feed='[]'
+# ── Cost Tracking ─────────────────────────────────────────────
+SESSIONS_DIR="$HOME/.openclaw/agents/main/sessions"
+TODAY_DATE=$(date -u +"%Y-%m-%d")
+WEEK_AGO=$(date -u -v-7d +"%Y-%m-%dT00:00:00Z" 2>/dev/null || date -u -d "7 days ago" +"%Y-%m-%dT00:00:00Z")
+MONTH_AGO=$(date -u -v-30d +"%Y-%m-%dT00:00:00Z" 2>/dev/null || date -u -d "30 days ago" +"%Y-%m-%dT00:00:00Z")
 
+if [ -d "$SESSIONS_DIR" ] && ls "$SESSIONS_DIR"/*.jsonl 1>/dev/null 2>&1; then
+  COSTS_JSON=$(cat "$SESSIONS_DIR"/*.jsonl | jq -s --arg today "$TODAY_DATE" --arg weekAgo "$WEEK_AGO" --arg monthAgo "$MONTH_AGO" '
+    [.[] | select(.message?.usage?)] |
+    sort_by(.timestamp) |
+    {
+      today: ([.[] | select((.timestamp // "")[:10] == $today) | (.message.usage.cost.total // 0)] | add // 0),
+      week: ([.[] | select((.timestamp // "") >= $weekAgo) | (.message.usage.cost.total // 0)] | add // 0),
+      month: ([.[] | select((.timestamp // "") >= $monthAgo) | (.message.usage.cost.total // 0)] | add // 0),
+      byModel: (
+        group_by((.message.provider // "unknown") + "/" + (.message.model // "unknown")) |
+        map({
+          model: ((.[0].message.provider // "unknown") + "/" + (.[0].message.model // "unknown")),
+          cost: ([.[].message.usage.cost.total // 0] | add // 0),
+          tokensIn: ([.[].message.usage.input // 0] | add // 0),
+          tokensOut: ([.[].message.usage.output // 0] | add // 0)
+        }) |
+        sort_by(.cost) | reverse
+      ),
+      entries: (
+        reverse | .[0:10] |
+        map({
+          date: .timestamp,
+          agent: "watson",
+          model: (.message.model // "unknown"),
+          tokensIn: (.message.usage.input // 0),
+          tokensOut: (.message.usage.output // 0),
+          cost: (.message.usage.cost.total // 0),
+          note: ""
+        })
+      )
+    } |
+    .today = (.today * 100 | round / 100) |
+    .week = (.week * 100 | round / 100) |
+    .month = (.month * 100 | round / 100) |
+    .byModel = (
+      .byModel |
+      map(.cost = (.cost * 100 | round / 100))
+    ) |
+    .entries = (
+      .entries |
+      map(.cost = (.cost * 100 | round / 100))
+    )
+  ')
+else
+  COSTS_JSON='{"today":0,"week":0,"month":0,"byModel":[],"entries":[]}'
+fi
+
+existing_feed='[]'
 if [[ -f "$STATE_FILE" ]] && jq empty "$STATE_FILE" 2>/dev/null; then
-  ec=$(jq -c '.costs // empty' "$STATE_FILE" 2>/dev/null || true)
-  [[ -n "$ec" ]] && existing_costs="$ec"
   ef=$(jq -c '.feed // empty' "$STATE_FILE" 2>/dev/null || true)
   [[ -n "$ef" ]] && existing_feed="$ef"
 fi
@@ -127,7 +175,7 @@ jq -n \
   --arg cla "$codex_last_activity" \
   --arg os "$ollama_status" \
   --argjson om "$ollama_models" \
-  --argjson costs "$existing_costs" \
+  --argjson costs "$COSTS_JSON" \
   --argjson cfpf "$cf_py_files" \
   --argjson cfpl "$cf_py_lines" \
   --argjson cfsec "$cf_security" \
