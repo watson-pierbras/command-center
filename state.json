@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-02-10T14:09:18Z",
+  "lastUpdated": "2026-02-10T14:10:23Z",
   "agents": {
     "watson": {
       "status": "online",
-      "model": "moonshot/kimi-k2.5",
+      "model": "anthropic/claude-opus-4-6",
       "lastActivity": "2026-02-10T13:05:05Z"
     },
     "codex": {
       "status": "online",
-      "model": "model = \"gpt-5.3-codex\"",
-      "lastActivity": "2026-02-10T08:21:00-05:00"
+      "model": "gpt-5.3-codex",
+      "lastActivity": "2026-02-10T09:09:18-05:00"
     },
     "ollama": {
       "status": "online",
