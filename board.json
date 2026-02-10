@@ -1,7 +1,7 @@
 {
   "version": "3.0",
-  "lastModified": "2026-02-10T14:35:24.000Z",
-  "modifiedBy": "watson",
+  "lastModified": "2026-02-10T15:06:14.787Z",
+  "modifiedBy": "paul",
   "tasks": [
     {
       "id": "a1b2c3d4-0001-4000-8000-000000000001",
@@ -9,12 +9,14 @@
       "column": "done",
       "priority": "high",
       "project": "Infrastructure",
+      "notes": "Final report delivered. Identified .env with HubSpot keys in git and node_modules committed in hubspot-ui-extension.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T17:00:00-05:00",
+      "completedAt": "2026-02-08T18:00:00-05:00",
       "assignedAgent": "watson",
       "model": null,
       "estimatedTime": "1h",
-      "estimatedCost": 1.10,
-      "dueDate": "",
-      "notes": "Final report delivered. Identified .env with HubSpot keys in git and node_modules committed in hubspot-ui-extension.",
+      "estimatedCost": 1.1,
       "attachments": [],
       "comments": [],
       "history": [
@@ -25,14 +27,12 @@
         },
         {
           "action": "moved",
-          "from": "active",
-          "to": "done",
           "by": "watson",
-          "at": "2026-02-08T18:00:00-05:00"
+          "at": "2026-02-08T18:00:00-05:00",
+          "from": "active",
+          "to": "done"
         }
-      ],
-      "createdAt": "2026-02-08T17:00:00-05:00",
-      "completedAt": "2026-02-08T18:00:00-05:00"
+      ]
     },
     {
       "id": "a1b2c3d4-0002-4000-8000-000000000002",
@@ -40,12 +40,14 @@
       "column": "done",
       "priority": "high",
       "project": "Infrastructure",
+      "notes": "Initial shell and board completed. Single-file PWA architecture.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T18:30:00-05:00",
+      "completedAt": "2026-02-08T19:00:00-05:00",
       "assignedAgent": "codex",
       "model": "gpt-5.3-codex",
       "estimatedTime": "2h",
-      "estimatedCost": 2.30,
-      "dueDate": "",
-      "notes": "Initial shell and board completed. Single-file PWA architecture.",
+      "estimatedCost": 2.3,
       "attachments": [],
       "comments": [],
       "history": [
@@ -56,14 +58,12 @@
         },
         {
           "action": "moved",
-          "from": "active",
-          "to": "done",
           "by": "codex",
-          "at": "2026-02-08T19:00:00-05:00"
+          "at": "2026-02-08T19:00:00-05:00",
+          "from": "active",
+          "to": "done"
         }
-      ],
-      "createdAt": "2026-02-08T18:30:00-05:00",
-      "completedAt": "2026-02-08T19:00:00-05:00"
+      ]
     },
     {
       "id": "a1b2c3d4-0003-4000-8000-000000000003",
@@ -71,12 +71,14 @@
       "column": "done",
       "priority": "high",
       "project": "Watson",
+      "notes": "qwen2.5-coder:3b, llama3.2:3b, llama3.2:1b available locally.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T17:30:00-05:00",
+      "completedAt": "2026-02-08T18:00:00-05:00",
       "assignedAgent": "watson",
       "model": null,
       "estimatedTime": "30m",
-      "estimatedCost": 0.40,
-      "dueDate": "",
-      "notes": "qwen2.5-coder:3b, llama3.2:3b, llama3.2:1b available locally.",
+      "estimatedCost": 0.4,
       "attachments": [],
       "comments": [],
       "history": [
@@ -87,14 +89,12 @@
         },
         {
           "action": "moved",
-          "from": "active",
-          "to": "done",
           "by": "watson",
-          "at": "2026-02-08T18:00:00-05:00"
+          "at": "2026-02-08T18:00:00-05:00",
+          "from": "active",
+          "to": "done"
         }
-      ],
-      "createdAt": "2026-02-08T17:30:00-05:00",
-      "completedAt": "2026-02-08T18:00:00-05:00"
+      ]
     },
     {
       "id": "a1b2c3d4-0004-4000-8000-000000000004",
@@ -102,12 +102,14 @@
       "column": "done",
       "priority": "medium",
       "project": "Watson",
+      "notes": "Inbound relay validated. Paul connected via pairing code D736QPCT.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T17:00:00-05:00",
+      "completedAt": "2026-02-08T17:30:00-05:00",
       "assignedAgent": "watson",
       "model": null,
       "estimatedTime": "1h",
-      "estimatedCost": 0.30,
-      "dueDate": "",
-      "notes": "Inbound relay validated. Paul connected via pairing code D736QPCT.",
+      "estimatedCost": 0.3,
       "attachments": [],
       "comments": [],
       "history": [
@@ -118,14 +120,12 @@
         },
         {
           "action": "moved",
-          "from": "active",
-          "to": "done",
           "by": "watson",
-          "at": "2026-02-08T17:30:00-05:00"
+          "at": "2026-02-08T17:30:00-05:00",
+          "from": "active",
+          "to": "done"
         }
-      ],
-      "createdAt": "2026-02-08T17:00:00-05:00",
-      "completedAt": "2026-02-08T17:30:00-05:00"
+      ]
     },
     {
       "id": "a1b2c3d4-0005-4000-8000-000000000005",
@@ -133,12 +133,14 @@
       "column": "done",
       "priority": "high",
       "project": "CoachFinder",
+      "notes": "Typography and spacing tokens finalized.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T19:00:00-05:00",
+      "completedAt": "2026-02-08T20:00:00-05:00",
       "assignedAgent": "codex",
       "model": "gpt-5.3-codex",
       "estimatedTime": "4h",
-      "estimatedCost": 2.10,
-      "dueDate": "",
-      "notes": "Typography and spacing tokens finalized.",
+      "estimatedCost": 2.1,
       "attachments": [],
       "comments": [],
       "history": [
@@ -149,14 +151,12 @@
         },
         {
           "action": "moved",
-          "from": "active",
-          "to": "done",
           "by": "codex",
-          "at": "2026-02-08T20:00:00-05:00"
+          "at": "2026-02-08T20:00:00-05:00",
+          "from": "active",
+          "to": "done"
         }
-      ],
-      "createdAt": "2026-02-08T19:00:00-05:00",
-      "completedAt": "2026-02-08T20:00:00-05:00"
+      ]
     },
     {
       "id": "a1b2c3d4-0006-4000-8000-000000000006",
@@ -164,12 +164,14 @@
       "column": "done",
       "priority": "high",
       "project": "CoachFinder",
+      "notes": "Contact sync and lead status mapping done.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T18:00:00-05:00",
+      "completedAt": "2026-02-08T20:06:00-05:00",
       "assignedAgent": "codex",
       "model": "gpt-5.3-codex",
       "estimatedTime": "6h",
-      "estimatedCost": 1.90,
-      "dueDate": "",
-      "notes": "Contact sync and lead status mapping done.",
+      "estimatedCost": 1.9,
       "attachments": [],
       "comments": [],
       "history": [
@@ -180,14 +182,12 @@
         },
         {
           "action": "moved",
-          "from": "active",
-          "to": "done",
           "by": "codex",
-          "at": "2026-02-08T20:06:00-05:00"
+          "at": "2026-02-08T20:06:00-05:00",
+          "from": "active",
+          "to": "done"
         }
-      ],
-      "createdAt": "2026-02-08T18:00:00-05:00",
-      "completedAt": "2026-02-08T20:06:00-05:00"
+      ]
     },
     {
       "id": "a1b2c3d4-0007-4000-8000-000000000007",
@@ -195,12 +195,14 @@
       "column": "active",
       "priority": "high",
       "project": "Infrastructure",
+      "notes": "Major expansion: project memory system with card details, comments, file attachments, and live sync.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T18:30:00-05:00",
+      "completedAt": "",
       "assignedAgent": "codex",
       "model": "gpt-5.3-codex",
       "estimatedTime": "6h",
-      "estimatedCost": 2.70,
-      "dueDate": "",
-      "notes": "Major expansion: project memory system with card details, comments, file attachments, and live sync.",
+      "estimatedCost": 2.7,
       "attachments": [],
       "comments": [
         {
@@ -218,11 +220,11 @@
           "timestamp": "2026-02-10T09:03:00-05:00"
         },
         {
-          "id": "wc-1770734124-1951",
-          "author": "watson",
-          "authorLabel": "🔍 Watson",
-          "text": "Phase 2 shipped (c39644b). Card detail panel, comments, history, board.json loading all live. Skipping Phase 3 (no PAT needed) — going straight to Phase 4: Watson integration. You can now leave me comments on cards and I'll pick them up.",
-          "timestamp": "2026-02-10T14:35:24.000Z"
+          "id": "51c51be9-482b-4cbb-8127-8bdbe8b6e769",
+          "author": "paul",
+          "authorLabel": "Paul",
+          "text": "Test",
+          "timestamp": "2026-02-10T15:06:14.786Z"
         }
       ],
       "history": [
@@ -233,21 +235,19 @@
         },
         {
           "action": "edited",
-          "field": "title",
+          "by": "watson",
+          "at": "2026-02-10T09:00:00-05:00",
           "from": "Command Center v2",
           "to": "Command Center v3",
-          "by": "watson",
-          "at": "2026-02-10T09:00:00-05:00"
+          "field": "title"
         },
         {
           "action": "edited",
-          "field": "comments",
-          "by": "watson",
-          "at": "2026-02-10T14:35:24.000Z"
+          "by": "paul",
+          "at": "2026-02-10T15:06:14.786Z",
+          "field": "comments"
         }
-      ],
-      "createdAt": "2026-02-08T18:30:00-05:00",
-      "completedAt": null
+      ]
     },
     {
       "id": "a1b2c3d4-0008-4000-8000-000000000008",
@@ -255,12 +255,14 @@
       "column": "planned",
       "priority": "medium",
       "project": "Lead Intel",
+      "notes": "Define automation and source scoring.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T20:00:00-05:00",
+      "completedAt": "",
       "assignedAgent": "watson",
       "model": null,
       "estimatedTime": "2d",
-      "estimatedCost": 0.80,
-      "dueDate": "",
-      "notes": "Define automation and source scoring.",
+      "estimatedCost": 0.8,
       "attachments": [],
       "comments": [],
       "history": [
@@ -269,9 +271,7 @@
           "by": "watson",
           "at": "2026-02-08T20:00:00-05:00"
         }
-      ],
-      "createdAt": "2026-02-08T20:00:00-05:00",
-      "completedAt": null
+      ]
     },
     {
       "id": "a1b2c3d4-0009-4000-8000-000000000009",
@@ -279,12 +279,14 @@
       "column": "planned",
       "priority": "low",
       "project": "Lead Intel",
+      "notes": "Re-auth and endpoint compatibility fixes.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T20:00:00-05:00",
+      "completedAt": "",
       "assignedAgent": "watson",
       "model": null,
       "estimatedTime": "4h",
-      "estimatedCost": 0.60,
-      "dueDate": "",
-      "notes": "Re-auth and endpoint compatibility fixes.",
+      "estimatedCost": 0.6,
       "attachments": [],
       "comments": [],
       "history": [
@@ -293,9 +295,7 @@
           "by": "watson",
           "at": "2026-02-08T20:00:00-05:00"
         }
-      ],
-      "createdAt": "2026-02-08T20:00:00-05:00",
-      "completedAt": null
+      ]
     },
     {
       "id": "a1b2c3d4-0010-4000-8000-000000000010",
@@ -303,12 +303,14 @@
       "column": "planned",
       "priority": "high",
       "project": "CoachFinder",
+      "notes": "Wire the complete ingestion-to-HubSpot path. Scraper → discovery → extractor → verifier → HubSpot sync.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T20:00:00-05:00",
+      "completedAt": "",
       "assignedAgent": "codex",
       "model": "gpt-5.3-codex",
       "estimatedTime": "1w",
-      "estimatedCost": 3.40,
-      "dueDate": "",
-      "notes": "Wire the complete ingestion-to-HubSpot path. Scraper → discovery → extractor → verifier → HubSpot sync.",
+      "estimatedCost": 3.4,
       "attachments": [],
       "comments": [],
       "history": [
@@ -317,9 +319,7 @@
           "by": "watson",
           "at": "2026-02-08T20:00:00-05:00"
         }
-      ],
-      "createdAt": "2026-02-08T20:00:00-05:00",
-      "completedAt": null
+      ]
     },
     {
       "id": "a1b2c3d4-0011-4000-8000-000000000011",
@@ -327,12 +327,14 @@
       "column": "planned",
       "priority": "low",
       "project": "Infrastructure",
+      "notes": "Document setup, data flow, and runbook.",
+      "dueDate": "",
+      "createdAt": "2026-02-08T20:30:00-05:00",
+      "completedAt": "",
       "assignedAgent": "watson",
       "model": null,
       "estimatedTime": "2h",
-      "estimatedCost": 0.40,
-      "dueDate": "",
-      "notes": "Document setup, data flow, and runbook.",
+      "estimatedCost": 0.4,
       "attachments": [],
       "comments": [],
       "history": [
@@ -341,9 +343,7 @@
           "by": "watson",
           "at": "2026-02-08T20:30:00-05:00"
         }
-      ],
-      "createdAt": "2026-02-08T20:30:00-05:00",
-      "completedAt": null
+      ]
     }
   ]
 }
