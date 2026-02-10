@@ -1,7 +1,7 @@
 {
   "version": "3.0",
-  "lastModified": "2026-02-10T15:06:14.787Z",
-  "modifiedBy": "paul",
+  "lastModified": "2026-02-10T16:00:47.000Z",
+  "modifiedBy": "watson",
   "tasks": [
     {
       "id": "a1b2c3d4-0001-4000-8000-000000000001",
@@ -225,6 +225,13 @@
           "authorLabel": "Paul",
           "text": "Test",
           "timestamp": "2026-02-10T15:06:14.786Z"
+        },
+        {
+          "id": "wc-1770739247-8174",
+          "author": "watson",
+          "authorLabel": "🔍 Watson",
+          "text": "Saw your test comment — board watch is working! 🔍",
+          "timestamp": "2026-02-10T16:00:47.000Z"
         }
       ],
       "history": [
@@ -246,6 +253,12 @@
           "by": "paul",
           "at": "2026-02-10T15:06:14.786Z",
           "field": "comments"
+        },
+        {
+          "action": "edited",
+          "field": "comments",
+          "by": "watson",
+          "at": "2026-02-10T16:00:47.000Z"
         }
       ]
     },
