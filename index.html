@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Command Center v3.0</title>
+  <title>Command Center</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,7 +72,7 @@
       position: sticky;
       top: 0;
       z-index: 15;
-      background: linear-gradient(180deg, rgba(15, 17, 23, 0.95), rgba(15, 17, 23, 0.7));
+      background: linear-gradient(180deg, rgba(15, 17, 23, 0.92), rgba(15, 17, 23, 0.82));
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       padding: 14px 16px 12px;
@@ -81,7 +81,7 @@
     }
 
     body[data-theme='light'] header {
-      background: linear-gradient(180deg, rgba(245, 247, 250, 0.95), rgba(245, 247, 250, 0.8));
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.94), rgba(248, 250, 252, 0.88));
     }
 
     .top-row {
@@ -257,8 +257,9 @@
     }
 
     .tab-btn.active {
-      background: var(--soft-accent-bg);
-      color: var(--text);
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
     }
 
     main {
@@ -302,8 +303,9 @@
     }
 
     .board-subtab.active {
-      background: var(--soft-accent-bg);
-      color: var(--text);
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
     }
 
     .columns {
@@ -347,6 +349,19 @@
       gap: 8px;
     }
 
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+
+    .status-indicator.done { background: #22c55e; }
+    .status-indicator.active { background: #3b82f6; }
+    .status-indicator.planned { background: #f59e0b; }
+
     .badge {
       background: var(--chip-bg);
       border: 1px solid var(--chip-border);
@@ -375,7 +390,7 @@
       margin: 0 0 8px;
       font-size: 15px;
       color: var(--text);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     [data-theme='light'] .card h4 { color: #0f172a; font-weight: 700; }
@@ -405,6 +420,14 @@
       font-weight: 600;
     }
 
+    .pill.priority-high { background: rgba(34, 197, 94, 0.15); color: #22c55e; border-color: rgba(34, 197, 94, 0.3); }
+    .pill.priority-medium { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+    .pill.priority-low { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border-color: rgba(148, 163, 184, 0.3); }
+
+    [data-theme="light"] .pill.priority-high { background: rgba(34, 197, 94, 0.1); color: #16a34a; border-color: rgba(34, 197, 94, 0.25); }
+    [data-theme="light"] .pill.priority-medium { background: rgba(245, 158, 11, 0.1); color: #d97706; border-color: rgba(245, 158, 11, 0.25); }
+    [data-theme="light"] .pill.priority-low { background: rgba(148, 163, 184, 0.1); color: #64748b; border-color: rgba(148, 163, 184, 0.25); }
+
     [data-theme='light'] .meta .chip { background: #e2e8f0; color: #334155; border-color: #94a3b8; }
 
     .agent-badge {
@@ -420,11 +443,31 @@
       font-weight: 700;
     }
 
+    .agent-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+
+    .agent-dot.watson { background: #6366f1; }
+    .agent-dot.codex { background: #22c55e; }
+    .agent-dot.ollama { background: #f59e0b; }
+
+    .agent-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+    }
+
     .add-btn {
       margin-top: auto;
-      border: 1px dashed var(--border);
+      border: 1px dashed rgba(148, 163, 184, 0.35);
       background: transparent;
-      color: var(--text-secondary);
+      color: rgba(148, 163, 184, 0.88);
       padding: 10px 12px;
       border-radius: 10px;
       cursor: pointer;
@@ -435,7 +478,7 @@
       transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
     }
 
-    .add-btn:hover { border-color: var(--accent); color: var(--text); background: var(--soft-accent-bg); }
+    .add-btn:hover { border-color: rgba(79, 70, 229, 0.45); color: var(--text); background: rgba(79, 70, 229, 0.08); }
 
     .done-collapsed {
       display: flex;
@@ -805,19 +848,21 @@
       text-align: center;
       padding: 8px 2px;
       border-radius: 10px;
-      font-size: 12px;
+      font-size: 13px;
+      border: 1px solid transparent;
       color: var(--text-secondary);
       cursor: pointer;
       transition: color 0.2s ease, background 0.2s ease;
-      display: grid;
-      gap: 2px;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 600;
     }
 
     .tab-mobile.active {
-      background: var(--soft-accent-bg);
-      color: var(--text);
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
     }
 
     .menu {
@@ -1296,22 +1341,21 @@
     <header>
       <div class="top-row">
         <div class="title-wrap">
-          <div class="title">🚀 Command Center v3.0</div>
+          <div class="title">Command Center</div>
           <div class="header-updated">
             <span id="syncUpdated">Last updated: never</span>
             <span class="sync-flash" id="githubWriteStatus" aria-live="polite"></span>
           </div>
         </div>
         <div class="header-actions">
-          <button class="icon-btn" id="themeToggle" title="Toggle theme">🌓</button>
-          <button class="icon-btn" id="refreshBtn" title="Refresh state">⟳</button>
-          <button class="icon-btn" id="activityToggle" title="Activity log">🗂️</button>
+          <button class="icon-btn" id="themeToggle" title="Toggle theme">◐</button>
+          <button class="icon-btn" id="refreshBtn" title="Refresh state">↻</button>
           <div class="menu">
             <button class="icon-btn" id="menuToggle" title="Menu">⋮</button>
             <div class="menu-panel" id="menuPanel">
               <button id="exportBtn">Export JSON</button>
               <button id="importBtn">Import JSON</button>
-              <button id="settingsBtn">⚙️ Settings</button>
+              <button id="settingsBtn">Settings</button>
             </div>
           </div>
         </div>
@@ -1326,17 +1370,17 @@
         </div>
         <div class="progress"><span id="progressBar" style="width:0%"></span></div>
         <div class="stats-row stats-support">
-          <span>⏱ Remaining <strong id="remainingEstimate">0</strong></span>
+          <span>Remaining <strong id="remainingEstimate">0</strong></span>
           <span>State source: <strong id="stateSource">Demo fallback</strong></span>
           <span>Updated <strong id="lastUpdated">-</strong></span>
         </div>
       </div>
       <nav class="desktop-tabs" id="desktopTabs" aria-label="Main tabs">
-        <button class="tab-btn active" data-tab="board">📋 Board</button>
-        <button class="tab-btn" data-tab="agents">🤝 Agents</button>
-        <button class="tab-btn" data-tab="costs">💸 Costs</button>
-        <button class="tab-btn" data-tab="pipeline">🔬 Pipeline</button>
-        <button class="tab-btn" data-tab="feed">📰 Feed</button>
+        <button class="tab-btn active" data-tab="board">Board</button>
+        <button class="tab-btn" data-tab="agents">Agents</button>
+        <button class="tab-btn" data-tab="costs">Costs</button>
+        <button class="tab-btn" data-tab="pipeline">Pipeline</button>
+        <button class="tab-btn" data-tab="feed">Feed</button>
       </nav>
     </header>
 
@@ -1344,9 +1388,9 @@
       <div class="tab-panels">
         <section class="panel active" id="panel-board">
           <div class="board-subtabs" id="boardSubtabs">
-            <button class="board-subtab" data-column="done">✅ Done</button>
-            <button class="board-subtab active" data-column="active">🔄 Active</button>
-            <button class="board-subtab" data-column="planned">📋 Planned</button>
+            <button class="board-subtab" data-column="done"><span class="status-indicator done"></span>Done</button>
+            <button class="board-subtab active" data-column="active"><span class="status-indicator active"></span>Active</button>
+            <button class="board-subtab" data-column="planned"><span class="status-indicator planned"></span>Planned</button>
           </div>
           <div class="columns" id="columns"></div>
         </section>
@@ -1446,11 +1490,11 @@
     </main>
 
     <nav class="tabbar-mobile" id="mobileTabs" aria-label="Main tabs mobile">
-      <button class="tab-mobile active" data-tab="board"><span>📋</span><span>Board</span></button>
-      <button class="tab-mobile" data-tab="agents"><span>🤝</span><span>Agents</span></button>
-      <button class="tab-mobile" data-tab="costs"><span>💸</span><span>Costs</span></button>
-      <button class="tab-mobile" data-tab="pipeline"><span>🔬</span><span>Pipeline</span></button>
-      <button class="tab-mobile" data-tab="feed"><span>📰</span><span>Feed</span></button>
+      <button class="tab-mobile active" data-tab="board">Board</button>
+      <button class="tab-mobile" data-tab="agents">Agents</button>
+      <button class="tab-mobile" data-tab="costs">Costs</button>
+      <button class="tab-mobile" data-tab="pipeline">Pipeline</button>
+      <button class="tab-mobile" data-tab="feed">Feed</button>
     </nav>
 
     <div class="activity-panel" id="activityPanel">
@@ -1630,9 +1674,9 @@
     const GITHUB_REPO_NAME = "command-center";
 
     const AGENT_META = {
-      watson: { name: "Watson", icon: "🔍", role: "Orchestrator", defaultModel: "claude-opus-4-6" },
-      codex: { name: "Codex", icon: "🤖", role: "Coding Agent", defaultModel: "gpt-5.3-codex" },
-      ollama: { name: "Ollama", icon: "🦙", role: "Local LLMs", defaultModel: "qwen2.5-coder:3b" }
+      watson: { name: "Watson", dotClass: "watson", role: "Orchestrator", defaultModel: "claude-opus-4-6" },
+      codex: { name: "Codex", dotClass: "codex", role: "Coding Agent", defaultModel: "gpt-5.3-codex" },
+      ollama: { name: "Ollama", dotClass: "ollama", role: "Local LLMs", defaultModel: "qwen2.5-coder:3b" }
     };
 
     const columnsEl = document.getElementById("columns");
@@ -1707,9 +1751,9 @@
     const pipelineSecurityEl = document.getElementById("pipelineSecurity");
 
     const columns = [
-      { key: "done", title: "Done", icon: "✅" },
-      { key: "active", title: "Active", icon: "🔄" },
-      { key: "planned", title: "Planned", icon: "📋" }
+      { key: "done", title: "Done", indicatorClass: "done" },
+      { key: "active", title: "Active", indicatorClass: "active" },
+      { key: "planned", title: "Planned", indicatorClass: "planned" }
     ];
 
     let tasks = [];
@@ -2145,7 +2189,7 @@
         throw new Error(`GitHub PUT failed (${putResponse.status}): ${putError.slice(0, 200)}`);
       }
 
-      showGithubWriteStatus("☁️ Saved", "ok");
+      showGithubWriteStatus("Saved", "ok");
       return putResponse.json();
     }
 
@@ -2164,7 +2208,7 @@
     function queueGithubBoardWrite() {
       githubWriteBoardJson().catch(error => {
         console.error("GitHub board write failed", error);
-        showGithubWriteStatus("⚠️ Local only", "warn");
+        showGithubWriteStatus("Local only", "warn");
       });
     }
 
@@ -2202,22 +2246,22 @@
       return parts.join(" ") || "0";
     }
 
-    function priorityColor(priority) {
-      if (priority === "high") return "#ef4444";
-      if (priority === "medium") return "#f59e0b";
-      return "#22c55e";
+    function columnBorderColor(column) {
+      if (column === "done") return "#22c55e";
+      if (column === "active") return "#3b82f6";
+      return "#f59e0b";
     }
 
     function agentBadge(agentKey) {
       if (!agentKey || !AGENT_META[agentKey]) return "<span class='agent-badge'>Unassigned</span>";
       const meta = AGENT_META[agentKey];
-      return `<span class='agent-badge'>${meta.icon} ${meta.name}</span>`;
+      return `<span class='agent-badge'><span class='agent-dot ${meta.dotClass}'></span>${meta.name}</span>`;
     }
 
-    function authorIcon(author) {
-      if (author === "watson") return "🔍";
-      if (author === "codex") return "🤖";
-      return "👤";
+    function agentNameBadge(agentKey, className = "agent-name") {
+      const meta = AGENT_META[agentKey];
+      if (!meta) return `<span class="${className}">Unknown</span>`;
+      return `<span class="${className}"><span class="agent-dot ${meta.dotClass}"></span>${meta.name}</span>`;
     }
 
     function authorLabelFor(author) {
@@ -2284,7 +2328,7 @@
 
         const header = document.createElement("div");
         header.className = "column-header";
-        header.innerHTML = `<div class='column-title'>${col.icon} ${col.title}</div><span class='badge'>${colTasks.length}</span>`;
+        header.innerHTML = `<div class='column-title'><span class='status-indicator ${col.indicatorClass}'></span>${col.title}</div><span class='badge'>${colTasks.length}</span>`;
 
         if (col.key === "done" && isMobile() && doneCollapsed) {
           const collapsed = document.createElement("div");
@@ -2312,7 +2356,7 @@
             card.tabIndex = 0;
             card.setAttribute("role", "button");
             card.setAttribute("aria-label", `Open task details for ${task.title}`);
-            card.style.borderLeftColor = priorityColor(task.priority);
+            card.style.borderLeftColor = columnBorderColor(task.column);
             card.style.animationDelay = `${Math.min(idx * 40, 160)}ms`;
 
             const due = task.dueDate ? `Due ${formatDate(task.dueDate)}` : "";
@@ -2327,7 +2371,7 @@
             projectEl.textContent = task.project;
 
             const priorityEl = document.createElement("span");
-            priorityEl.className = "pill";
+            priorityEl.className = `pill priority-${task.priority}`;
             priorityEl.textContent = task.priority;
 
             metaEl.appendChild(projectEl);
@@ -2351,7 +2395,7 @@
             if (estimate) {
               const timeEl = document.createElement("span");
               timeEl.className = "pill chip card-detail-only";
-              timeEl.textContent = `⏱ ${estimate}`;
+              timeEl.textContent = `Time ${estimate}`;
               metaEl.appendChild(timeEl);
             }
 
@@ -2425,7 +2469,7 @@
         card.className = `agent-card ${status === "online" ? "online" : ""}`;
         card.innerHTML = `
           <div class="agent-head">
-            <div><strong>${meta.icon} ${meta.name}</strong><div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">${meta.role}</div></div>
+            <div><strong>${agentNameBadge(key)}</strong><div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">${meta.role}</div></div>
             <div class="status"><span class="status-dot ${status}"></span>${status}</div>
           </div>
           <div class="agent-kv">
@@ -2500,7 +2544,7 @@
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .forEach(entry => {
             const tr = document.createElement("tr");
-            const agent = AGENT_META[entry.agent] ? `${AGENT_META[entry.agent].icon} ${AGENT_META[entry.agent].name}` : entry.agent;
+            const agent = AGENT_META[entry.agent] ? agentNameBadge(entry.agent) : entry.agent;
             tr.innerHTML = `
               <td>${formatDate(entry.date, true)}</td>
               <td>${agent}</td>
@@ -2589,12 +2633,12 @@
       }
 
       feed.forEach(entry => {
-        const meta = AGENT_META[entry.agent] || AGENT_META.watson;
+        const agent = AGENT_META[entry.agent] ? agentNameBadge(entry.agent) : agentNameBadge("watson");
         const item = document.createElement("article");
         item.className = `timeline-item feed-${entry.type}`;
         item.innerHTML = `
           <div class="timeline-head">
-            <span>${meta.icon} ${meta.name}</span>
+            <span>${agent}</span>
             <span>${formatDate(entry.ts, true)}</span>
           </div>
           <p class="timeline-text">${entry.text}</p>
@@ -2662,19 +2706,20 @@
       cardDetailTitle.textContent = task.title;
 
       cardDetailMeta.innerHTML = "";
-      const metaValues = [];
       const assigned = task.assignedAgent && AGENT_META[task.assignedAgent]
-        ? `${AGENT_META[task.assignedAgent].icon} ${AGENT_META[task.assignedAgent].name}`
+        ? AGENT_META[task.assignedAgent].name
         : "Unassigned";
-      metaValues.push(assigned);
-      metaValues.push(`Priority: ${task.priority}`);
-      if (task.estimatedTime) metaValues.push(`⏱ ${task.estimatedTime}`);
-      if (task.estimatedCost !== null) metaValues.push(`Est ${money(task.estimatedCost)}`);
-      metaValues.push(`Status: ${task.column}`);
-      metaValues.forEach(value => {
+      const metaValues = [
+        { text: assigned, className: "pill" },
+        { text: task.priority, className: `pill priority-${task.priority}` },
+        ...(task.estimatedTime ? [{ text: `Time: ${task.estimatedTime}`, className: "pill" }] : []),
+        ...(task.estimatedCost !== null ? [{ text: `Est ${money(task.estimatedCost)}`, className: "pill" }] : []),
+        { text: `Status: ${task.column}`, className: "pill" }
+      ];
+      metaValues.forEach(item => {
         const chip = document.createElement("span");
-        chip.className = "pill";
-        chip.textContent = value;
+        chip.className = item.className;
+        chip.textContent = item.text;
         cardDetailMeta.appendChild(chip);
       });
 
@@ -2690,7 +2735,7 @@
           const li = document.createElement("li");
           const link = document.createElement("a");
           link.href = `cards/${task.id}/${encodeURIComponent(attachment.filename)}`;
-          link.textContent = `📎 ${attachment.filename}`;
+          link.textContent = `Attachment: ${attachment.filename}`;
           link.target = "_blank";
           link.rel = "noopener noreferrer";
           li.appendChild(link);
@@ -2713,8 +2758,10 @@
           const head = document.createElement("div");
           head.className = "comment-head";
           const author = document.createElement("span");
-          const cleanedLabel = (comment.authorLabel || authorLabelFor(comment.author)).replace(/^[👤🔍🤖]\s*/, "");
-          author.textContent = `${authorIcon(comment.author)} ${cleanedLabel || authorLabelFor(comment.author)}`;
+          const cleanedLabel = (comment.authorLabel || authorLabelFor(comment.author)).replace(/^(?:[\u{1F300}-\u{1FAFF}\u2600-\u27BF]\s*)+/u, "");
+          author.innerHTML = AGENT_META[comment.author]
+            ? agentNameBadge(comment.author)
+            : cleanedLabel || authorLabelFor(comment.author);
           const time = document.createElement("span");
           time.textContent = relativeTime(comment.timestamp);
           head.appendChild(author);
@@ -2973,13 +3020,13 @@
       localStorage.setItem(GITHUB_PAT_KEY, nextPat);
       renderGithubSettings();
       closeSettings();
-      showGithubWriteStatus("☁️ GitHub token saved", "ok");
+      showGithubWriteStatus("GitHub token saved", "ok");
     }
 
     function clearGithubSettings() {
       localStorage.removeItem(GITHUB_PAT_KEY);
       renderGithubSettings();
-      showGithubWriteStatus("⚠️ Local only", "warn");
+      showGithubWriteStatus("Local only", "warn");
     }
 
     function initSettings() {
@@ -3175,13 +3222,16 @@
     }
 
     function initActivityPanel() {
-      document.getElementById("activityToggle").addEventListener("click", () => {
-        if (isMobile()) {
-          activityPanel.classList.toggle("mobile-open");
-          return;
-        }
-        activityPanel.classList.add("open");
-      });
+      const activityToggle = document.getElementById("activityToggle");
+      if (activityToggle) {
+        activityToggle.addEventListener("click", () => {
+          if (isMobile()) {
+            activityPanel.classList.toggle("mobile-open");
+            return;
+          }
+          activityPanel.classList.add("open");
+        });
+      }
       document.getElementById("activityClose").addEventListener("click", () => {
         activityPanel.classList.remove("open");
         activityPanel.classList.remove("mobile-open");
