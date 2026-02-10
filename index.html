@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Command Center v2.3</title>
+  <title>Command Center v3.0</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -866,6 +866,195 @@
 
     .modal h3 { margin: 0 0 10px; }
 
+    .card-detail-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.58);
+      display: flex;
+      justify-content: flex-end;
+      z-index: 52;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .card-detail-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .card-detail {
+      width: min(600px, 100vw);
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card-detail-backdrop.open .card-detail {
+      transform: translateX(0);
+    }
+
+    .card-detail-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .card-detail-head-main {
+      min-width: 0;
+      flex: 1;
+      display: grid;
+      gap: 8px;
+    }
+
+    .card-detail-head-main h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .card-detail-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 14px 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .card-detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 12px;
+    }
+
+    .card-detail-section {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 12px;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .card-detail-section h4 {
+      margin: 0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+    }
+
+    .detail-notes {
+      margin: 0;
+      white-space: pre-wrap;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .attachments-list {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .attachments-list a {
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: var(--surface);
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .comment-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .comment-bubble {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: var(--surface);
+      display: grid;
+      gap: 6px;
+    }
+
+    .comment-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .comment-text {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .history-item {
+      border-left: 2px solid var(--chip-border);
+      padding-left: 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: grid;
+      gap: 3px;
+    }
+
+    .history-item strong {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .detail-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .comment-input {
+      border-top: 1px solid var(--border);
+      padding: 10px 14px max(14px, env(safe-area-inset-bottom));
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+    }
+
+    .comment-input input {
+      flex: 1;
+      min-width: 0;
+    }
+
     .form-grid {
       display: grid;
       gap: 12px;
@@ -995,6 +1184,17 @@
       }
     }
 
+    @media (max-width: 719px) {
+      .card-detail {
+        width: 100vw;
+        border-left: none;
+      }
+
+      .card-detail-header {
+        padding-top: max(14px, env(safe-area-inset-top));
+      }
+    }
+
     @media (min-width: 1024px) {
       .columns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
       .grid-two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1024,7 +1224,7 @@
   <div class="app">
     <header>
       <div class="top-row">
-        <div class="title">🚀 Command Center v2.3</div>
+        <div class="title">🚀 Command Center v3.0</div>
         <div class="header-actions">
           <button class="icon-btn" id="themeToggle" title="Toggle theme">🌓</button>
           <button class="icon-btn" id="refreshBtn" title="Refresh state">⟳</button>
@@ -1182,6 +1382,49 @@
       <div class="activity-list" id="activityList"></div>
     </div>
 
+    <div class="card-detail-backdrop" id="cardDetailBackdrop">
+      <aside class="card-detail" id="cardDetail" role="dialog" aria-modal="true" aria-labelledby="cardDetailTitle">
+        <div class="card-detail-header">
+          <button class="icon-btn" id="cardDetailBack" type="button" title="Back">←</button>
+          <div class="card-detail-head-main">
+            <span class="pill" id="cardDetailProject">Project</span>
+            <h2 id="cardDetailTitle">Task Detail</h2>
+          </div>
+        </div>
+        <div class="card-detail-scroll">
+          <div class="card-detail-meta" id="cardDetailMeta"></div>
+          <section class="card-detail-section">
+            <h4>Notes</h4>
+            <p class="detail-notes" id="cardDetailNotes">No notes.</p>
+          </section>
+          <section class="card-detail-section">
+            <h4>Attachments</h4>
+            <ul class="attachments-list" id="cardDetailAttachments"></ul>
+          </section>
+          <section class="card-detail-section">
+            <h4>Comments</h4>
+            <div class="comment-list" id="cardDetailComments"></div>
+          </section>
+          <section class="card-detail-section">
+            <details id="cardDetailHistoryToggle">
+              <summary>History</summary>
+              <div class="history-list" id="cardDetailHistory"></div>
+            </details>
+          </section>
+          <section class="card-detail-section">
+            <div class="detail-actions">
+              <button class="btn secondary" id="cardDetailEditBtn" type="button">Edit</button>
+              <button class="btn danger" id="cardDetailDeleteBtn" type="button">Delete</button>
+            </div>
+          </section>
+        </div>
+        <div class="comment-input">
+          <input id="cardCommentInput" type="text" placeholder="Add a comment" />
+          <button class="btn primary" id="cardCommentSendBtn" type="button">Send</button>
+        </div>
+      </aside>
+    </div>
+
     <div class="modal-backdrop" id="modalBackdrop">
       <div class="modal" id="modal">
         <div class="top-row">
@@ -1275,7 +1518,7 @@
     const LOG_KEY = "ccv2_activity";
     const THEME_KEY = "ccv2_theme";
     const VERSION_KEY = "ccv2_version";
-    const DATA_VERSION = "2.3";
+    const DATA_VERSION = "3.0";
 
     const AGENT_META = {
       watson: { name: "Watson", icon: "🔍", role: "Orchestrator", defaultModel: "claude-opus-4-6" },
@@ -1314,6 +1557,20 @@
     const saveBtn = document.getElementById("saveBtn");
     const deleteBtn = document.getElementById("deleteBtn");
     const cancelBtn = document.getElementById("cancelBtn");
+    const cardDetailBackdrop = document.getElementById("cardDetailBackdrop");
+    const cardDetailBack = document.getElementById("cardDetailBack");
+    const cardDetailProject = document.getElementById("cardDetailProject");
+    const cardDetailTitle = document.getElementById("cardDetailTitle");
+    const cardDetailMeta = document.getElementById("cardDetailMeta");
+    const cardDetailNotes = document.getElementById("cardDetailNotes");
+    const cardDetailAttachments = document.getElementById("cardDetailAttachments");
+    const cardDetailComments = document.getElementById("cardDetailComments");
+    const cardDetailHistoryToggle = document.getElementById("cardDetailHistoryToggle");
+    const cardDetailHistory = document.getElementById("cardDetailHistory");
+    const cardDetailEditBtn = document.getElementById("cardDetailEditBtn");
+    const cardDetailDeleteBtn = document.getElementById("cardDetailDeleteBtn");
+    const cardCommentInput = document.getElementById("cardCommentInput");
+    const cardCommentSendBtn = document.getElementById("cardCommentSendBtn");
 
     const costSummaryEl = document.getElementById("costSummary");
     const modelBarsEl = document.getElementById("modelBars");
@@ -1344,8 +1601,10 @@
     let activeBoardColumn = "active";
     let doneCollapsed = false;
     let editingId = null;
+    let viewingId = null;
     let stateSource = "Demo fallback";
     let stateFingerprint = "";
+    let boardFingerprint = "";
     let lastSyncAt = null;
 
     function nowISO() {
@@ -1386,7 +1645,7 @@
         },
         feed: [
           { ts: isoAt(8.5), agent: "watson", type: "info", text: "Morning sync kicked off", detail: "Checked priorities across Board, Agents, and Costs." },
-          { ts: isoAt(9), agent: "codex", type: "success", text: "Command Center v2.3 tabs implemented", detail: "Board, Agents, Costs, and Feed are all wired." },
+          { ts: isoAt(9), agent: "codex", type: "success", text: "Command Center v3.0 tabs implemented", detail: "Board, Agents, Costs, and Feed are all wired." },
           { ts: isoAt(10), agent: "watson", type: "warning", text: "state.json unavailable", detail: "Using demo fallback payload until Watson syncs state.json." },
           { ts: isoAt(11), agent: "ollama", type: "message", text: "Local models warmed up", detail: "qwen2.5-coder:3b responded in 1.8s." },
           { ts: isoAt(12.5), agent: "watson", type: "success", text: "Export/import and theme parity validated", detail: "Light and dark mode contrast checks passed." },
@@ -1404,7 +1663,7 @@
         { id: crypto.randomUUID(), title: "Telegram gateway configured", column: "done", priority: "medium", project: "Watson", notes: "Inbound relay validated.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "watson", model: null, estimatedTime: "1h", estimatedCost: 0.3 },
         { id: crypto.randomUUID(), title: "CoachFinder design system v2", column: "done", priority: "high", project: "CoachFinder", notes: "Typography and spacing tokens finalized.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "4h", estimatedCost: 2.1 },
         { id: crypto.randomUUID(), title: "HubSpot integration complete", column: "done", priority: "high", project: "CoachFinder", notes: "Contact sync and lead status mapping done.", dueDate: "", createdAt, completedAt: createdAt, assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "6h", estimatedCost: 1.9 },
-        { id: crypto.randomUUID(), title: "Command Center v2", column: "active", priority: "high", project: "Infrastructure", notes: "Major expansion with agents/cost/feed.", dueDate: "", createdAt, completedAt: "", assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "3h", estimatedCost: 2.7 },
+        { id: crypto.randomUUID(), title: "Command Center v3.0", column: "active", priority: "high", project: "Infrastructure", notes: "Major expansion with agents/cost/feed.", dueDate: "", createdAt, completedAt: "", assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "3h", estimatedCost: 2.7 },
         { id: crypto.randomUUID(), title: "Twitter/YouTube research workflow", column: "planned", priority: "medium", project: "Lead Intel", notes: "Define automation and source scoring.", dueDate: "", createdAt, completedAt: "", assignedAgent: "watson", model: null, estimatedTime: "2d", estimatedCost: 0.8 },
         { id: crypto.randomUUID(), title: "Fix bird CLI for Twitter access", column: "planned", priority: "low", project: "Lead Intel", notes: "Re-auth and endpoint compatibility fixes.", dueDate: "", createdAt, completedAt: "", assignedAgent: "watson", model: null, estimatedTime: "4h", estimatedCost: 0.6 },
         { id: crypto.randomUUID(), title: "CoachFinder full pipeline integration", column: "planned", priority: "high", project: "CoachFinder", notes: "Wire the complete ingestion-to-HubSpot path.", dueDate: "", createdAt, completedAt: "", assignedAgent: "codex", model: "gpt-5.3-codex", estimatedTime: "1w", estimatedCost: 3.4 },
@@ -1431,7 +1690,63 @@
       const model = typeof input.model === "string" && input.model.trim() ? input.model.trim() : null;
       const estimatedTime = typeof input.estimatedTime === "string" ? input.estimatedTime.trim() : "";
       const estimatedCost = Number.isFinite(Number(input.estimatedCost)) ? Number(input.estimatedCost) : null;
-      return { id, title, column, priority, project, notes, dueDate, createdAt, completedAt, assignedAgent, model, estimatedTime, estimatedCost };
+      const attachments = Array.isArray(input.attachments)
+        ? input.attachments
+          .map(normalizeAttachment)
+          .filter(Boolean)
+        : [];
+      const comments = Array.isArray(input.comments)
+        ? input.comments
+          .map(normalizeComment)
+          .filter(Boolean)
+        : [];
+      const history = Array.isArray(input.history)
+        ? input.history
+          .map(normalizeHistoryEvent)
+          .filter(Boolean)
+        : [];
+      return { id, title, column, priority, project, notes, dueDate, createdAt, completedAt, assignedAgent, model, estimatedTime, estimatedCost, attachments, comments, history };
+    }
+
+    function normalizeComment(input) {
+      if (!input || typeof input !== "object") return null;
+      const text = typeof input.text === "string" ? input.text.trim() : "";
+      if (!text) return null;
+      const author = typeof input.author === "string" && input.author.trim() ? input.author.trim().toLowerCase() : "paul";
+      const authorLabel = typeof input.authorLabel === "string" && input.authorLabel.trim()
+        ? input.authorLabel.trim()
+        : authorLabelFor(author);
+      return {
+        id: typeof input.id === "string" && input.id.trim() ? input.id : crypto.randomUUID(),
+        author,
+        authorLabel,
+        text,
+        timestamp: typeof input.timestamp === "string" && input.timestamp ? input.timestamp : nowISO()
+      };
+    }
+
+    function normalizeAttachment(input) {
+      if (!input || typeof input !== "object") return null;
+      const filename = typeof input.filename === "string" ? input.filename.trim() : "";
+      if (!filename) return null;
+      return {
+        filename,
+        addedBy: typeof input.addedBy === "string" && input.addedBy.trim() ? input.addedBy.trim() : "unknown",
+        addedAt: typeof input.addedAt === "string" && input.addedAt ? input.addedAt : nowISO()
+      };
+    }
+
+    function normalizeHistoryEvent(input) {
+      if (!input || typeof input !== "object") return null;
+      const action = ["created", "moved", "edited"].includes(input.action) ? input.action : "edited";
+      return {
+        action,
+        by: typeof input.by === "string" && input.by.trim() ? input.by.trim() : "unknown",
+        at: typeof input.at === "string" && input.at ? input.at : nowISO(),
+        from: typeof input.from === "string" ? input.from : undefined,
+        to: typeof input.to === "string" ? input.to : undefined,
+        field: typeof input.field === "string" ? input.field : undefined
+      };
     }
 
     function normalizeActivity(input) {
@@ -1533,9 +1848,9 @@
       if (Array.isArray(parsedTasks)) {
         tasks = parsedTasks.map(normalizeTask).filter(Boolean);
       } else if (!stored) {
-        tasks = seedTasks();
+        tasks = seedTasks().map(normalizeTask).filter(Boolean);
       } else {
-        tasks = seedTasks();
+        tasks = seedTasks().map(normalizeTask).filter(Boolean);
         shouldReset = true;
       }
 
@@ -1550,7 +1865,18 @@
           ts: nowISO()
         });
       }
+      boardFingerprint = fingerprintTasks(tasks);
       persist();
+    }
+
+    function loadTasksFromStorageOrSeed() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      const parsedTasks = safeParse(stored, null);
+      if (Array.isArray(parsedTasks)) {
+        const normalized = parsedTasks.map(normalizeTask).filter(Boolean);
+        if (normalized.length) return normalized;
+      }
+      return seedTasks().map(normalizeTask).filter(Boolean);
     }
 
     function persist() {
@@ -1586,6 +1912,10 @@
       const cleaned = value.replace(/[^0-9.-]/g, "");
       const parsed = Number(cleaned);
       return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function fingerprintTasks(taskList) {
+      return JSON.stringify(taskList || []);
     }
 
     function fingerprintState(state) {
@@ -1660,6 +1990,40 @@
       return `<span class='agent-badge'>${meta.icon} ${meta.name}</span>`;
     }
 
+    function authorIcon(author) {
+      if (author === "watson") return "🔍";
+      if (author === "codex") return "🤖";
+      return "👤";
+    }
+
+    function authorLabelFor(author) {
+      if (author === "watson") return "Watson";
+      if (author === "codex") return "Codex";
+      return "Paul";
+    }
+
+    function relativeTime(iso) {
+      if (!iso) return "just now";
+      const ts = new Date(iso).getTime();
+      if (!Number.isFinite(ts)) return "just now";
+      const diff = Date.now() - ts;
+      const minute = 60 * 1000;
+      const hour = 60 * minute;
+      const day = 24 * hour;
+      if (diff < minute) return "just now";
+      if (diff < hour) return `${Math.max(1, Math.floor(diff / minute))}m ago`;
+      if (diff < day) return `${Math.floor(diff / hour)}h ago`;
+      if (diff < day * 7) return `${Math.floor(diff / day)}d ago`;
+      return formatDate(iso, true);
+    }
+
+    function historyText(event) {
+      if (event.action === "created") return "Created";
+      if (event.action === "moved") return `Moved ${event.from || "unknown"} → ${event.to || "unknown"}`;
+      if (event.action === "edited") return `Edited ${event.field || "task"}`;
+      return "Updated";
+    }
+
     function isMobile() {
       return window.matchMedia("(max-width: 719px)").matches;
     }
@@ -1723,7 +2087,7 @@
             card.className = "card";
             card.tabIndex = 0;
             card.setAttribute("role", "button");
-            card.setAttribute("aria-label", `Edit task ${task.title}`);
+            card.setAttribute("aria-label", `Open task details for ${task.title}`);
             card.style.borderLeftColor = priorityColor(task.priority);
             card.style.animationDelay = `${Math.min(idx * 40, 160)}ms`;
 
@@ -1782,11 +2146,11 @@
             card.appendChild(agentWrap);
             card.appendChild(metaEl);
 
-            card.addEventListener("click", () => openModal(task.id));
+            card.addEventListener("click", () => openCardDetail(task.id));
             card.addEventListener("keydown", e => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                openModal(task.id);
+                openCardDetail(task.id);
               }
             });
 
@@ -2054,6 +2418,136 @@
       if (activeTab === "feed") renderFeed();
     }
 
+    function openCardDetail(id) {
+      const task = tasks.find(t => t.id === id);
+      if (!task) return;
+      viewingId = id;
+      renderCardDetail(task);
+      cardDetailBackdrop.classList.add("open");
+      requestAnimationFrame(() => cardDetailBack.focus());
+    }
+
+    function closeCardDetail() {
+      cardDetailBackdrop.classList.remove("open");
+      viewingId = null;
+      cardCommentInput.value = "";
+    }
+
+    function renderCardDetail(task) {
+      cardDetailProject.textContent = task.project || "Other";
+      cardDetailTitle.textContent = task.title;
+
+      cardDetailMeta.innerHTML = "";
+      const metaValues = [];
+      const assigned = task.assignedAgent && AGENT_META[task.assignedAgent]
+        ? `${AGENT_META[task.assignedAgent].icon} ${AGENT_META[task.assignedAgent].name}`
+        : "Unassigned";
+      metaValues.push(assigned);
+      metaValues.push(`Priority: ${task.priority}`);
+      if (task.estimatedTime) metaValues.push(`⏱ ${task.estimatedTime}`);
+      if (task.estimatedCost !== null) metaValues.push(`Est ${money(task.estimatedCost)}`);
+      metaValues.push(`Status: ${task.column}`);
+      metaValues.forEach(value => {
+        const chip = document.createElement("span");
+        chip.className = "pill";
+        chip.textContent = value;
+        cardDetailMeta.appendChild(chip);
+      });
+
+      cardDetailNotes.textContent = task.notes?.trim() ? task.notes : "No notes.";
+
+      cardDetailAttachments.innerHTML = "";
+      if (!task.attachments.length) {
+        const empty = document.createElement("li");
+        empty.textContent = "No attachments.";
+        cardDetailAttachments.appendChild(empty);
+      } else {
+        task.attachments.forEach(attachment => {
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `cards/${task.id}/${encodeURIComponent(attachment.filename)}`;
+          link.textContent = `📎 ${attachment.filename}`;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          li.appendChild(link);
+          cardDetailAttachments.appendChild(li);
+        });
+      }
+
+      cardDetailComments.innerHTML = "";
+      const sortedComments = task.comments.slice().sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+      if (!sortedComments.length) {
+        const empty = document.createElement("div");
+        empty.className = "comment-bubble";
+        empty.textContent = "No comments yet.";
+        cardDetailComments.appendChild(empty);
+      } else {
+        sortedComments.forEach(comment => {
+          const bubble = document.createElement("article");
+          bubble.className = "comment-bubble";
+
+          const head = document.createElement("div");
+          head.className = "comment-head";
+          const author = document.createElement("span");
+          const cleanedLabel = (comment.authorLabel || authorLabelFor(comment.author)).replace(/^[👤🔍🤖]\s*/, "");
+          author.textContent = `${authorIcon(comment.author)} ${cleanedLabel || authorLabelFor(comment.author)}`;
+          const time = document.createElement("span");
+          time.textContent = relativeTime(comment.timestamp);
+          head.appendChild(author);
+          head.appendChild(time);
+
+          const text = document.createElement("p");
+          text.className = "comment-text";
+          text.textContent = comment.text;
+
+          bubble.appendChild(head);
+          bubble.appendChild(text);
+          cardDetailComments.appendChild(bubble);
+        });
+      }
+
+      cardDetailHistory.innerHTML = "";
+      const sortedHistory = task.history.slice().sort((a, b) => new Date(b.at) - new Date(a.at));
+      if (!sortedHistory.length) {
+        const empty = document.createElement("div");
+        empty.className = "history-item";
+        empty.textContent = "No history yet.";
+        cardDetailHistory.appendChild(empty);
+      } else {
+        sortedHistory.forEach(event => {
+          const item = document.createElement("article");
+          item.className = "history-item";
+          const title = document.createElement("strong");
+          title.textContent = historyText(event);
+          const meta = document.createElement("span");
+          meta.textContent = `${event.by || "unknown"} • ${formatDate(event.at, true)}`;
+          item.appendChild(title);
+          item.appendChild(meta);
+          cardDetailHistory.appendChild(item);
+        });
+      }
+      cardDetailHistoryToggle.open = Boolean(sortedHistory.length);
+    }
+
+    function appendTaskHistory(task, event) {
+      if (!task) return;
+      if (!Array.isArray(task.history)) task.history = [];
+      const normalized = normalizeHistoryEvent(event);
+      if (normalized) task.history.push(normalized);
+    }
+
+    function deleteTaskById(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return false;
+      tasks = tasks.filter(t => t.id !== taskId);
+      logActivity(`Deleted: ${task.title}`);
+      persist();
+      renderBoard();
+      if (activeTab === "agents") renderAgents();
+      if (viewingId === taskId) closeCardDetail();
+      return true;
+    }
+
     function openModal(id, presetColumn) {
       editingId = id;
       if (id) {
@@ -2131,6 +2625,17 @@
         const task = tasks.find(t => t.id === editingId);
         if (!task) return;
         const prevColumn = task.column;
+        const previousValues = {
+          title: task.title,
+          priority: task.priority,
+          project: task.project,
+          notes: task.notes,
+          dueDate: task.dueDate,
+          assignedAgent: task.assignedAgent,
+          model: task.model,
+          estimatedTime: task.estimatedTime,
+          estimatedCost: task.estimatedCost
+        };
         task.title = title;
         task.priority = priority;
         task.project = project;
@@ -2143,6 +2648,14 @@
         task.estimatedCost = estimatedCost;
         if (column === "done" && !task.completedAt) task.completedAt = nowISO();
         if (column !== "done") task.completedAt = "";
+        if (prevColumn !== column) {
+          appendTaskHistory(task, { action: "moved", from: prevColumn, to: column, by: "paul", at: nowISO() });
+        }
+        Object.entries(previousValues).forEach(([field, from]) => {
+          const to = task[field];
+          if (from === to) return;
+          appendTaskHistory(task, { action: "edited", field, from: String(from ?? ""), to: String(to ?? ""), by: "paul", at: nowISO() });
+        });
         logActivity(`Edited: ${task.title}`);
         if (prevColumn !== column) logActivity(`Moved: ${task.title} → ${column}`);
       } else {
@@ -2159,7 +2672,10 @@
           assignedAgent,
           model,
           estimatedTime,
-          estimatedCost
+          estimatedCost,
+          attachments: [],
+          comments: [],
+          history: [{ action: "created", by: "paul", at: nowISO() }]
         };
         tasks.unshift(newTask);
         logActivity(`Added: ${newTask.title}`);
@@ -2173,14 +2689,33 @@
 
     function deleteTask() {
       if (!editingId) return;
-      const task = tasks.find(t => t.id === editingId);
-      if (!task) return;
-      tasks = tasks.filter(t => t.id !== editingId);
-      logActivity(`Deleted: ${task.title}`);
-      persist();
-      renderBoard();
-      if (activeTab === "agents") renderAgents();
+      deleteTaskById(editingId);
       closeModal();
+    }
+
+    function addCommentToViewingTask() {
+      if (!viewingId) return;
+      const text = cardCommentInput.value.trim();
+      if (!text) {
+        cardCommentInput.focus();
+        return;
+      }
+      const task = tasks.find(t => t.id === viewingId);
+      if (!task) return;
+      if (!Array.isArray(task.comments)) task.comments = [];
+      const comment = normalizeComment({
+        id: crypto.randomUUID(),
+        author: "paul",
+        authorLabel: "Paul",
+        text,
+        timestamp: nowISO()
+      });
+      task.comments.push(comment);
+      appendTaskHistory(task, { action: "edited", field: "comments", by: "paul", at: nowISO() });
+      logActivity(`Commented: ${task.title}`);
+      persist();
+      cardCommentInput.value = "";
+      renderCardDetail(task);
     }
 
     function initTabs() {
@@ -2264,7 +2799,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "command-center-v2.3.json";
+        a.download = "command-center-v3.0.json";
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -2323,9 +2858,38 @@
 
       document.addEventListener("keydown", e => {
         if (e.key === "Escape") {
+          if (cardDetailBackdrop.classList.contains("open")) closeCardDetail();
           if (modalBackdrop.classList.contains("open")) closeModal();
           if (activityPanel.classList.contains("open")) activityPanel.classList.remove("open");
           menuPanel.classList.remove("open");
+        }
+      });
+    }
+
+    function initCardDetail() {
+      cardDetailBack.addEventListener("click", closeCardDetail);
+      cardDetailBackdrop.addEventListener("click", e => {
+        if (e.target === cardDetailBackdrop) closeCardDetail();
+      });
+      cardDetailEditBtn.addEventListener("click", () => {
+        if (!viewingId) return;
+        const id = viewingId;
+        closeCardDetail();
+        openModal(id);
+      });
+      cardDetailDeleteBtn.addEventListener("click", () => {
+        if (!viewingId) return;
+        const task = tasks.find(t => t.id === viewingId);
+        if (!task) return;
+        const confirmed = confirm(`Delete "${task.title}"?`);
+        if (!confirmed) return;
+        deleteTaskById(viewingId);
+      });
+      cardCommentSendBtn.addEventListener("click", addCommentToViewingTask);
+      cardCommentInput.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          addCommentToViewingTask();
         }
       });
     }
@@ -2363,16 +2927,56 @@
       return { ok, changed };
     }
 
-    async function refreshState(showLog = true, forceRender = false) {
-      const { ok, changed } = await fetchState();
-      if (showLog) {
-        logActivity(ok ? "state.json refreshed" : "state.json unavailable, using demo data");
+    async function fetchBoard() {
+      let ok = true;
+      try {
+        const response = await fetch("./board.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("unavailable");
+        const payload = await response.json();
+        if (!payload || !Array.isArray(payload.tasks)) throw new Error("invalid");
+        const nextTasks = payload.tasks.map(normalizeTask).filter(Boolean);
+        if (!nextTasks.length) throw new Error("invalid");
+        const nextFingerprint = fingerprintTasks(nextTasks);
+        const changed = nextFingerprint !== boardFingerprint;
+        tasks = nextTasks;
+        boardFingerprint = nextFingerprint;
+        persist();
+        if (viewingId && !tasks.some(t => t.id === viewingId)) closeCardDetail();
+        return { ok, changed };
+      } catch {
+        ok = false;
+        const fallbackTasks = loadTasksFromStorageOrSeed();
+        const nextFingerprint = fingerprintTasks(fallbackTasks);
+        const changed = nextFingerprint !== boardFingerprint;
+        tasks = fallbackTasks;
+        boardFingerprint = nextFingerprint;
+        persist();
+        if (viewingId && !tasks.some(t => t.id === viewingId)) closeCardDetail();
+        return { ok, changed };
       }
+    }
+
+    async function refreshState(showLog = true, forceRender = false) {
+      const [{ ok: stateOk, changed: stateChanged }, { ok: boardOk, changed: boardChanged }] = await Promise.all([
+        fetchState(),
+        fetchBoard()
+      ]);
+      if (showLog) {
+        const stateText = stateOk ? "state.json refreshed" : "state.json unavailable, using demo data";
+        const boardText = boardOk ? "board.json refreshed" : "board.json unavailable, using local cache";
+        logActivity(`${stateText}; ${boardText}`);
+      }
+      const changed = stateChanged || boardChanged;
       if (!forceRender && !changed) return;
+      renderBoard();
       if (activeTab === "agents") renderAgents();
       if (activeTab === "costs") renderCosts();
       if (activeTab === "pipeline") renderPipeline();
       if (activeTab === "feed") renderFeed();
+      if (viewingId) {
+        const task = tasks.find(t => t.id === viewingId);
+        if (task) renderCardDetail(task);
+      }
     }
 
     function initRefreshControls() {
@@ -2431,6 +3035,7 @@
       initSwipe();
       initMenu();
       initModal();
+      initCardDetail();
       initActivityPanel();
       initRefreshControls();
       initResize();
