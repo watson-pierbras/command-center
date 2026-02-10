@@ -2,3 +2,4 @@ scripts/sync.log
 scripts/sync-stdout.log
 scripts/sync-stderr.log
 *.tmp
+.codex-tasks/

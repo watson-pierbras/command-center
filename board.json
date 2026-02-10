@@ -215,7 +215,7 @@
         {
           "id": "cm-0002",
           "author": "watson",
-          "authorLabel": "🔍 Watson",
+          "authorLabel": "Watson",
           "text": "Spec written and approved. Building Phase 1 now — sync script + board.json foundation.",
           "timestamp": "2026-02-10T09:03:00-05:00"
         },
@@ -229,8 +229,8 @@
         {
           "id": "wc-1770739247-8174",
           "author": "watson",
-          "authorLabel": "🔍 Watson",
-          "text": "Saw your test comment — board watch is working! 🔍",
+          "authorLabel": "Watson",
+          "text": "Saw your test comment — board watch is working!",
           "timestamp": "2026-02-10T16:00:47.000Z"
         }
       ],
