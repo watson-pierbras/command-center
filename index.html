@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Command Center v2.1</title>
+  <title>Command Center v2.3</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -103,6 +103,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .header-updated {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 600;
     }
 
     .icon-btn {
@@ -981,6 +988,13 @@
       .form-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
+    @media (max-width: 599px) {
+      table th[data-col="note"],
+      table td[data-col="note"] {
+        display: none;
+      }
+    }
+
     @media (min-width: 1024px) {
       .columns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
       .grid-two { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1010,7 +1024,7 @@
   <div class="app">
     <header>
       <div class="top-row">
-        <div class="title">🚀 Command Center v2.1</div>
+        <div class="title">🚀 Command Center v2.3</div>
         <div class="header-actions">
           <button class="icon-btn" id="themeToggle" title="Toggle theme">🌓</button>
           <button class="icon-btn" id="refreshBtn" title="Refresh state">⟳</button>
@@ -1024,6 +1038,7 @@
           </div>
         </div>
       </div>
+      <div class="header-updated" id="syncUpdated">Last updated: never</div>
       <div class="stats">
         <div class="stats-row">
           <span>Total <strong id="totalCount">0</strong></span>
@@ -1079,7 +1094,7 @@
                     <th>Tokens In</th>
                     <th>Tokens Out</th>
                     <th>Cost</th>
-                    <th>Note</th>
+                    <th data-col="note">Note</th>
                   </tr>
                 </thead>
                 <tbody id="costTableBody"></tbody>
@@ -1260,7 +1275,7 @@
     const LOG_KEY = "ccv2_activity";
     const THEME_KEY = "ccv2_theme";
     const VERSION_KEY = "ccv2_version";
-    const DATA_VERSION = "2.1";
+    const DATA_VERSION = "2.3";
 
     const AGENT_META = {
       watson: { name: "Watson", icon: "🔍", role: "Orchestrator", defaultModel: "claude-opus-4-6" },
@@ -1278,6 +1293,7 @@
     const progressBarEl = document.getElementById("progressBar");
     const stateSourceEl = document.getElementById("stateSource");
     const lastUpdatedEl = document.getElementById("lastUpdated");
+    const syncUpdatedEl = document.getElementById("syncUpdated");
     const activityPanel = document.getElementById("activityPanel");
     const activityList = document.getElementById("activityList");
     const menuPanel = document.getElementById("menuPanel");
@@ -1329,6 +1345,8 @@
     let doneCollapsed = false;
     let editingId = null;
     let stateSource = "Demo fallback";
+    let stateFingerprint = "";
+    let lastSyncAt = null;
 
     function nowISO() {
       return new Date().toISOString();
@@ -1368,7 +1386,7 @@
         },
         feed: [
           { ts: isoAt(8.5), agent: "watson", type: "info", text: "Morning sync kicked off", detail: "Checked priorities across Board, Agents, and Costs." },
-          { ts: isoAt(9), agent: "codex", type: "success", text: "Command Center v2.1 tabs implemented", detail: "Board, Agents, Costs, and Feed are all wired." },
+          { ts: isoAt(9), agent: "codex", type: "success", text: "Command Center v2.3 tabs implemented", detail: "Board, Agents, Costs, and Feed are all wired." },
           { ts: isoAt(10), agent: "watson", type: "warning", text: "state.json unavailable", detail: "Using demo fallback payload until Watson syncs state.json." },
           { ts: isoAt(11), agent: "ollama", type: "message", text: "Local models warmed up", detail: "qwen2.5-coder:3b responded in 1.8s." },
           { ts: isoAt(12.5), agent: "watson", type: "success", text: "Export/import and theme parity validated", detail: "Light and dark mode contrast checks passed." },
@@ -1453,7 +1471,7 @@
           model: typeof entry.model === "string" && entry.model ? entry.model : "unknown",
           tokensIn: Number.isFinite(Number(entry.tokensIn)) ? Number(entry.tokensIn) : 0,
           tokensOut: Number.isFinite(Number(entry.tokensOut)) ? Number(entry.tokensOut) : 0,
-          cost: Number.isFinite(Number(entry.cost)) ? Number(entry.cost) : 0,
+          cost: parseCostValue(entry.cost),
           note: typeof entry.note === "string" ? entry.note : ""
         }));
 
@@ -1560,6 +1578,40 @@
 
     function money(value) {
       return `$${Number(value || 0).toFixed(2)}`;
+    }
+
+    function parseCostValue(value) {
+      if (Number.isFinite(Number(value))) return Number(value);
+      if (typeof value !== "string") return 0;
+      const cleaned = value.replace(/[^0-9.-]/g, "");
+      const parsed = Number(cleaned);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function fingerprintState(state) {
+      return JSON.stringify({
+        lastUpdated: state.lastUpdated,
+        agents: state.agents,
+        costs: state.costs,
+        coachfinder: state.coachfinder,
+        feed: state.feed
+      });
+    }
+
+    function syncAgeLabel(ts) {
+      if (!ts) return "never";
+      const elapsed = Math.max(0, Date.now() - ts.getTime());
+      const seconds = Math.floor(elapsed / 1000);
+      if (seconds < 5) return "just now";
+      if (seconds < 60) return `${seconds}s ago`;
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      return `${hours}h ago`;
+    }
+
+    function renderSyncIndicator() {
+      syncUpdatedEl.textContent = `Last updated: ${syncAgeLabel(lastSyncAt)}`;
     }
 
     function formatEstimatedTime(value) {
@@ -1830,22 +1882,22 @@
       ].map(item => `<article class='cost-card'><div class='label'>${item.label}</div><div class='value'>${item.value}</div></article>`).join("");
 
       const byModel = entries.reduce((acc, entry) => {
-        acc[entry.model] = (acc[entry.model] || 0) + Number(entry.cost || 0);
+        acc[entry.model] = (acc[entry.model] || 0) + parseCostValue(entry.cost);
         return acc;
       }, {});
 
       const sortedModels = Object.entries(byModel).sort((a, b) => b[1] - a[1]);
-      const max = sortedModels.length ? sortedModels[0][1] : 1;
+      const max = sortedModels.length ? Math.max(...sortedModels.map(([, value]) => value), 0) : 0;
 
       modelBarsEl.innerHTML = "";
       if (!sortedModels.length) {
         modelBarsEl.innerHTML = "<div class='model-bar-row'>No cost data yet.</div>";
       } else {
         sortedModels.forEach(([model, cost]) => {
-          const pct = Math.max(8, Math.round((cost / max) * 100));
+          const pct = max > 0 ? Math.max(8, Math.round((cost / max) * 100)) : 8;
           const row = document.createElement("div");
           row.className = "model-bar-row";
-          row.innerHTML = `<div>${model} · ${money(cost)}</div><div class='bar-track'><div class='bar-fill' style='--bar-width:${pct}%'></div></div>`;
+          row.innerHTML = `<div>${model} · ${displayCost(cost)}</div><div class='bar-track'><div class='bar-fill' style='--bar-width:${pct}%'></div></div>`;
           modelBarsEl.appendChild(row);
         });
       }
@@ -1869,7 +1921,7 @@
               <td>${entry.tokensIn.toLocaleString()}</td>
               <td>${entry.tokensOut.toLocaleString()}</td>
               <td>${money(entry.cost)}</td>
-              <td>${entry.note || "-"}</td>
+              <td data-col="note">${entry.note || "-"}</td>
             `;
             costTableBody.appendChild(tr);
           });
@@ -2213,7 +2265,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "command-center-v2.1.json";
+        a.download = "command-center-v2.3.json";
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -2289,29 +2341,35 @@
     }
 
     async function fetchState() {
+      let ok = true;
       try {
         const response = await fetch("./state.json", { cache: "no-store" });
         if (!response.ok) throw new Error("unavailable");
         const payload = await response.json();
         appState = normalizeState(payload);
         stateSource = "Live";
-        stateSourceEl.textContent = stateSource;
-        lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
-        return true;
       } catch {
         appState = normalizeState(demoState());
         stateSource = "Demo fallback";
-        stateSourceEl.textContent = stateSource;
-        lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
-        return false;
+        ok = false;
       }
+
+      stateSourceEl.textContent = stateSource;
+      lastUpdatedEl.textContent = formatDate(appState.lastUpdated, true);
+      const nextFingerprint = fingerprintState(appState);
+      const changed = nextFingerprint !== stateFingerprint;
+      stateFingerprint = nextFingerprint;
+      lastSyncAt = new Date();
+      renderSyncIndicator();
+      return { ok, changed };
     }
 
-    async function refreshState(showLog = true) {
-      const ok = await fetchState();
+    async function refreshState(showLog = true, forceRender = false) {
+      const { ok, changed } = await fetchState();
       if (showLog) {
         logActivity(ok ? "state.json refreshed" : "state.json unavailable, using demo data");
       }
+      if (!forceRender && !changed) return;
       if (activeTab === "agents") renderAgents();
       if (activeTab === "costs") renderCosts();
       if (activeTab === "pipeline") renderPipeline();
@@ -2319,8 +2377,8 @@
     }
 
     function initRefreshControls() {
-      document.getElementById("refreshBtn").addEventListener("click", () => refreshState(true));
-      document.getElementById("feedRefreshBtn").addEventListener("click", () => refreshState(true));
+      document.getElementById("refreshBtn").addEventListener("click", () => refreshState(true, true));
+      document.getElementById("feedRefreshBtn").addEventListener("click", () => refreshState(true, true));
 
       let startY = 0;
       let pulled = false;
@@ -2335,13 +2393,21 @@
         const delta = e.touches[0].clientY - startY;
         if (delta > 72) {
           pulled = false;
-          refreshState(true);
+          refreshState(true, true);
         }
       }, { passive: true });
 
       feedTimeline.addEventListener("touchend", () => {
         pulled = false;
       });
+
+      setInterval(() => {
+        refreshState(false, false);
+      }, 60000);
+
+      setInterval(() => {
+        renderSyncIndicator();
+      }, 30000);
     }
 
     function initResize() {
@@ -2369,9 +2435,10 @@
       initActivityPanel();
       initRefreshControls();
       initResize();
+      renderSyncIndicator();
       renderBoard();
       renderActivity();
-      await refreshState(false);
+      await refreshState(false, true);
       renderTabState();
       initServiceWorker();
 
