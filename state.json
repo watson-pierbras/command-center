@@ -138,35 +138,6 @@
       }
     ]
   },
-  "coachfinder": {
-    "status": "development",
-    "completion": 85,
-    "database": {
-      "schools": 4,
-      "coaches": 1,
-      "targetSchools": 130000
-    },
-    "pipeline": {
-      "scraper": "built",
-      "discovery": "built",
-      "extractor": "built",
-      "verifier": "built",
-      "hubspot": "built",
-      "celeryWorker": "needs-work",
-      "changeDetection": "built",
-      "deduplication": "built",
-      "telegram": "built"
-    },
-    "codebase": {
-      "pythonFiles": 31,
-      "totalLines": 7358
-    },
-    "securityIssues": [
-      ".env with HubSpot API keys committed to git"
-    ],
-    "lastScrapeRun": null,
-    "lastHubSpotSync": null
-  },
   "feed": [
     {
       "ts": "2026-02-08T21:35:00-05:00",
