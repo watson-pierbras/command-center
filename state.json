@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-11T22:25:20Z",
+  "lastUpdated": "2026-02-11T22:29:24Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-11T17:24:21-05:00"
+      "lastActivity": "2026-02-11T17:25:31-05:00"
     },
     "ollama": {
       "status": "online",
@@ -52,7 +52,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 72,
+        "calls": 73,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -61,11 +61,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 1323379,
-        "tokensOut": 10375,
-        "cacheRead": 634880,
+        "tokensIn": 1466163,
+        "tokensOut": 11054,
+        "cacheRead": 776192,
         "cacheWrite": 0,
-        "calls": 46,
+        "calls": 50,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -100,15 +100,15 @@
       {
         "hour": "2026-02-11T22:00Z",
         "model": "kimi-k2.5",
-        "calls": 33,
-        "tokensIn": 721006,
-        "tokensOut": 7964,
+        "calls": 37,
+        "tokensIn": 863790,
+        "tokensOut": 8643,
         "cost": 0
       },
       {
         "hour": "2026-02-11T22:00Z",
         "model": "delivery-mirror",
-        "calls": 3,
+        "calls": 4,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
@@ -293,7 +293,7 @@
       {
         "date": "2026-02-11",
         "cost": 0,
-        "calls": 36
+        "calls": 41
       }
     ]
   },
