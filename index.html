@@ -608,7 +608,7 @@
 
     .cost-summary {
       display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
       margin-bottom: 12px;
     }
@@ -624,6 +624,119 @@
       color: var(--text-secondary);
       text-transform: none;
       letter-spacing: 0.04em;
+    }
+
+    .cost-card .subvalue {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .cost-card.cost-warn {
+      border-color: var(--warn);
+    }
+
+    .cost-card.cost-warn .value {
+      color: var(--warn);
+    }
+
+    .cost-card.cost-danger {
+      border-color: var(--danger);
+    }
+
+    .cost-card.cost-danger .value {
+      color: var(--danger);
+    }
+
+    .sparkline-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 80px;
+      padding: 8px 0;
+    }
+
+    .spark-bar-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      justify-content: flex-end;
+      cursor: default;
+    }
+
+    .spark-bar {
+      width: 100%;
+      max-width: 32px;
+      background: var(--accent);
+      border-radius: 3px 3px 0 0;
+      min-height: 3px;
+      transition: opacity 150ms ease;
+    }
+
+    .spark-bar-wrap:hover .spark-bar {
+      opacity: 0.7;
+    }
+
+    .spark-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .cost-filters {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .filter-group select {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 13px;
+    }
+
+    .segmented-control {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .seg-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+    }
+
+    .seg-btn:last-child {
+      border-right: none;
+    }
+
+    .seg-btn.active {
+      background: var(--accent);
+      color: #fff;
     }
 
     .model-bars {
@@ -1402,7 +1515,7 @@
         transform: none !important;
       }
       .column { min-width: auto; }
-      .cost-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .cost-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .form-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
@@ -1415,6 +1528,8 @@
     }
 
     @media (max-width: 719px) {
+      .cost-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
       .activity-panel {
         display: none;
         width: 100vw;
@@ -1529,8 +1644,33 @@
         <section class="panel" id="panel-costs">
           <div class="cost-summary" id="costSummary"></div>
           <div class="breakdown-shell">
+            <div class="sparkline-section">
+              <h3 style="margin:0 0 8px;">Daily Spend</h3>
+              <div class="sparkline-chart" id="sparklineChart"></div>
+            </div>
+          </div>
+          <div class="cost-filters" id="costFilters">
+            <div class="filter-group">
+              <label>Model</label>
+              <select id="costModelFilter">
+                <option value="all">All Models</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <div class="segmented-control" id="costDateRange">
+                <button class="seg-btn active" data-range="48h">48h</button>
+                <button class="seg-btn" data-range="7d">7d</button>
+                <button class="seg-btn" data-range="30d">30d</button>
+              </div>
+            </div>
+          </div>
+          <div class="breakdown-shell">
             <h3 style="margin:0 0 8px;">Spend By Model</h3>
             <div class="model-bars" id="modelBars"></div>
+          </div>
+          <div class="project-spend-section" style="margin-top:12px;">
+            <h3 style="margin:0 0 8px;">Spend by Project</h3>
+            <div class="project-cards" id="projectCards"></div>
           </div>
           <div class="breakdown-shell" style="margin-top:12px;">
             <h3 style="margin:0 0 8px;">Cost Breakdown</h3>
@@ -1757,6 +1897,19 @@
             <p class="muted-note" id="githubPatPreview">No token saved</p>
             <button class="btn secondary" id="githubPatClearBtn" type="button">Clear</button>
           </div>
+          <div style="margin-top:16px; border-top:1px solid var(--border); padding-top:16px;">
+            <h4 style="margin:0 0 8px;">Cost Budget</h4>
+            <div class="form-grid">
+              <div>
+                <label for="budgetDailyInput">Daily Budget ($)</label>
+                <input id="budgetDailyInput" type="number" step="0.01" placeholder="e.g. 100" />
+              </div>
+              <div>
+                <label for="budgetMonthlyInput">Monthly Budget ($)</label>
+                <input id="budgetMonthlyInput" type="number" step="0.01" placeholder="e.g. 500" />
+              </div>
+            </div>
+          </div>
         </div>
         <div class="modal-actions">
           <div></div>
@@ -1811,6 +1964,8 @@
     const githubPatInput = document.getElementById("githubPatInput");
     const githubPatPreview = document.getElementById("githubPatPreview");
     const githubPatClearBtn = document.getElementById("githubPatClearBtn");
+    const budgetDailyInput = document.getElementById("budgetDailyInput");
+    const budgetMonthlyInput = document.getElementById("budgetMonthlyInput");
 
     const modalBackdrop = document.getElementById("modalBackdrop");
     const modal = document.getElementById("modal");
@@ -1843,7 +1998,11 @@
     const cardCommentSendBtn = document.getElementById("cardCommentSendBtn");
 
     const costSummaryEl = document.getElementById("costSummary");
+    const sparklineChartEl = document.getElementById("sparklineChart");
+    const costModelFilterEl = document.getElementById("costModelFilter");
+    const costDateRangeEl = document.getElementById("costDateRange");
     const modelBarsEl = document.getElementById("modelBars");
+    const projectCardsEl = document.getElementById("projectCards");
     const costTableHeadRow = document.getElementById("costTableHeadRow");
     const costTableBody = document.getElementById("costTableBody");
     const agentsContainer = document.getElementById("agentsContainer");
@@ -1874,6 +2033,7 @@
     let boardFingerprint = "";
     let lastSyncAt = null;
     let githubWriteStatusTimer = null;
+    const costFilterState = { model: "all", range: "48h" };
 
     function nowISO() {
       return new Date().toISOString();
@@ -1900,26 +2060,31 @@
           ollama: { status: "online", models: ["qwen2.5-coder:3b", "llama3.2:3b", "llama3.2:1b"], lastActivity: isoAt(10) }
         },
         costs: {
-          today: 4.86,
-          week: 18.42,
-          month: 54.73,
-          byModel: [
-            { model: "claude-opus-4-6", cost: 1.53, tokensIn: 6942, tokensOut: 2244, calls: 2, avgCost: 0.77, cacheRead: 500, cacheWrite: 2100 },
-            { model: "gpt-5.3-codex", cost: 3.22, tokensIn: 17510, tokensOut: 6430, calls: 2, avgCost: 1.61, cacheRead: 0, cacheWrite: 3300 },
-            { model: "qwen2.5-coder:3b", cost: 0.11, tokensIn: 4200, tokensOut: 1900, calls: 1, avgCost: 0.11, cacheRead: 0, cacheWrite: 0 }
+          summary: { today: 4.86, week: 18.42, month: 54.73, projectedMonth: 171.70, dailyAvg: 5.47 },
+          models: [
+            { id: "anthropic/claude-opus-4-6", name: "claude-opus-4-6", provider: "anthropic", cost: 1.53, tokensIn: 6942, tokensOut: 2244, calls: 2, avgCost: 0.77, cacheRead: 500, cacheWrite: 2100, cacheHitRate: 0.19 },
+            { id: "openai/gpt-5.3-codex", name: "gpt-5.3-codex", provider: "openai", cost: 3.22, tokensIn: 17510, tokensOut: 6430, calls: 2, avgCost: 1.61, cacheRead: 0, cacheWrite: 3300, cacheHitRate: 0 },
+            { id: "ollama/qwen2.5-coder:3b", name: "qwen2.5-coder:3b", provider: "ollama", cost: 0.11, tokensIn: 4200, tokensOut: 1900, calls: 1, avgCost: 0.11, cacheRead: 0, cacheWrite: 0, cacheHitRate: 0 }
+          ],
+          projects: [
+            { id: "command-center", name: "Command Center", totalCost: 42.50, taskCount: 8, completedTasks: 6 },
+            { id: "coachfinder", name: "CoachFinder", totalCost: 8.20, taskCount: 3, completedTasks: 1 }
           ],
           activity: [
             { hour: isoAt(12), model: "claude-opus-4-6", calls: 1, tokensIn: 930, tokensOut: 400, cost: 0.11 },
-            { hour: isoAt(9), model: "codex/gpt-5.3-codex", calls: 1, tokensIn: 3190, tokensOut: 1210, cost: 0.49 },
+            { hour: isoAt(9), model: "gpt-5.3-codex", calls: 1, tokensIn: 3190, tokensOut: 1210, cost: 0.49 },
             { hour: isoAt(7), model: "qwen2.5-coder:3b", calls: 1, tokensIn: 4200, tokensOut: 1900, cost: 0.11 }
           ],
-          entries: [
-            { date: isoAt(1), agent: "watson", model: "claude-opus-4-6", tokensIn: 6012, tokensOut: 1844, cost: 1.42 },
-            { date: isoAt(5), agent: "codex", model: "gpt-5.3-codex", tokensIn: 14320, tokensOut: 5220, cost: 2.73 },
-            { date: isoAt(7), agent: "ollama", model: "qwen2.5-coder:3b", tokensIn: 4200, tokensOut: 1900, cost: 0.11 },
-            { date: isoAt(9), agent: "codex", model: "gpt-5.3-codex", tokensIn: 3190, tokensOut: 1210, cost: 0.49 },
-            { date: isoAt(12), agent: "watson", model: "claude-opus-4-6", tokensIn: 930, tokensOut: 400, cost: 0.11 }
-          ]
+          dailyHistory: [
+            { date: "2026-02-04", cost: 3.21, calls: 40 },
+            { date: "2026-02-05", cost: 7.88, calls: 95 },
+            { date: "2026-02-06", cost: 5.12, calls: 62 },
+            { date: "2026-02-07", cost: 2.44, calls: 30 },
+            { date: "2026-02-08", cost: 12.67, calls: 155 },
+            { date: "2026-02-09", cost: 9.34, calls: 110 },
+            { date: "2026-02-10", cost: 4.86, calls: 58 }
+          ],
+          entries: []
         },
         feed: [
           { ts: isoAt(8.5), agent: "watson", type: "info", text: "Morning sync kicked off", detail: "Checked priorities across Board, Agents, and Costs." },
@@ -2055,6 +2220,8 @@
       const fallback = demoState();
       if (!input || typeof input !== "object") return fallback;
 
+      const valueOr = (v, fallbackValue) => Number.isFinite(Number(v)) ? Number(v) : fallbackValue;
+
       const costsEntriesRaw = Array.isArray(input.costs?.entries) ? input.costs.entries : fallback.costs.entries;
       const entries = costsEntriesRaw
         .filter(Boolean)
@@ -2080,14 +2247,39 @@
           tokensOut: Number.isFinite(Number(item.tokensOut)) ? Number(item.tokensOut) : 0,
           cost: parseCostValue(item.cost)
         }));
-      const costsByModelRaw = Array.isArray(input.costs?.byModel)
-        ? input.costs.byModel
-        : (Array.isArray(fallback.costs.byModel) ? fallback.costs.byModel : []);
-      const byModel = costsByModelRaw
+
+      const summary = input.costs?.summary || {
+        today: input.costs?.today,
+        week: input.costs?.week,
+        month: input.costs?.month
+      };
+      const fallbackSummary = fallback.costs?.summary || {};
+      const costsSummary = {
+        today: valueOr(summary.today, fallbackSummary.today || 0),
+        week: valueOr(summary.week, fallbackSummary.week || 0),
+        month: valueOr(summary.month, fallbackSummary.month || 0),
+        projectedMonth: valueOr(summary.projectedMonth, 0),
+        dailyAvg: valueOr(summary.dailyAvg, 0)
+      };
+
+      const modelsRaw = Array.isArray(input.costs?.models)
+        ? input.costs.models
+        : (Array.isArray(input.costs?.byModel) ? input.costs.byModel : []);
+      const fallbackModelsRaw = Array.isArray(fallback.costs?.models)
+        ? fallback.costs.models
+        : (Array.isArray(fallback.costs?.byModel) ? fallback.costs.byModel : []);
+      const costsModelsRaw = modelsRaw.length ? modelsRaw : fallbackModelsRaw;
+      const normalizedModels = costsModelsRaw
         .filter(Boolean)
         .map(item => {
+          const modelName = typeof item.name === "string" && item.name
+            ? item.name
+            : (typeof item.model === "string" && item.model ? item.model : "unknown");
           const row = {
-            model: typeof item.model === "string" && item.model ? item.model : "unknown",
+            id: typeof item.id === "string" ? item.id : modelName,
+            name: modelName,
+            provider: typeof item.provider === "string" ? item.provider : "",
+            model: modelName,
             cost: parseCostValue(item.cost),
             tokensIn: Number.isFinite(Number(item.tokensIn)) ? Number(item.tokensIn) : 0,
             tokensOut: Number.isFinite(Number(item.tokensOut)) ? Number(item.tokensOut) : 0,
@@ -2096,10 +2288,19 @@
           };
           if (Number.isFinite(Number(item.calls))) row.calls = Number(item.calls);
           if (Number.isFinite(Number(item.avgCost))) row.avgCost = Number(item.avgCost);
+          if (Number.isFinite(Number(item.cacheHitRate))) row.cacheHitRate = Number(item.cacheHitRate);
           return row;
         });
 
-      const valueOr = (v, fallbackValue) => Number.isFinite(Number(v)) ? Number(v) : fallbackValue;
+      const dailyHistory = Array.isArray(input.costs?.dailyHistory)
+        ? input.costs.dailyHistory.filter(Boolean).map(d => ({
+          date: d.date || "",
+          cost: parseCostValue(d.cost),
+          calls: Number(d.calls) || 0
+        }))
+        : [];
+      const projects = Array.isArray(input.costs?.projects) ? input.costs.projects : [];
+
       const agentsIn = input.agents || {};
       const agentBlock = {
         watson: {
@@ -2130,11 +2331,11 @@
         lastUpdated: typeof input.lastUpdated === "string" ? input.lastUpdated : fallback.lastUpdated,
         agents: agentBlock,
         costs: {
-          today: valueOr(input.costs?.today, fallback.costs.today),
-          week: valueOr(input.costs?.week, fallback.costs.week),
-          month: valueOr(input.costs?.month, fallback.costs.month),
-          byModel,
+          summary: costsSummary,
+          models: normalizedModels,
+          projects: projects,
           activity: activityCostRows,
+          dailyHistory: dailyHistory,
           entries
         },
         coachfinder: input.coachfinder && typeof input.coachfinder === "object" ? input.coachfinder : null,
@@ -2241,12 +2442,11 @@
         lastUpdated: state.lastUpdated,
         agents: state.agents,
         costs: {
-          today: state.costs?.today,
-          week: state.costs?.week,
-          month: state.costs?.month,
-          byModel: state.costs?.byModel,
+          summary: state.costs?.summary,
+          models: state.costs?.models,
+          projects: state.costs?.projects,
           activity: state.costs?.activity,
-          entries: state.costs?.entries
+          dailyHistory: state.costs?.dailyHistory
         },
         coachfinder: state.coachfinder,
         feed: state.feed
@@ -2664,10 +2864,39 @@
     }
 
     function renderCosts() {
-      const costs = appState.costs || { today: 0, week: 0, month: 0, byModel: [], activity: [], entries: [] };
+      const costs = appState.costs || {
+        summary: { today: 0, week: 0, month: 0, projectedMonth: 0, dailyAvg: 0 },
+        models: [],
+        projects: [],
+        activity: [],
+        dailyHistory: [],
+        entries: []
+      };
       const entries = Array.isArray(costs.entries) ? costs.entries : [];
       const activityRows = Array.isArray(costs.activity) ? costs.activity : [];
+      const summary = costs.summary || {
+        today: Number(costs.today) || 0,
+        week: Number(costs.week) || 0,
+        month: Number(costs.month) || 0,
+        projectedMonth: 0,
+        dailyAvg: 0
+      };
+      const costsModels = Array.isArray(costs.models)
+        ? costs.models
+        : (Array.isArray(costs.byModel) ? costs.byModel : []);
+      const projects = Array.isArray(costs.projects) ? costs.projects : [];
+      const history = Array.isArray(costs.dailyHistory) ? costs.dailyHistory : [];
       const displayCost = (value) => money(value);
+      const modelLabel = (row) => {
+        if (!row || typeof row !== "object") return "unknown";
+        if (typeof row.name === "string" && row.name) return row.name;
+        if (typeof row.model === "string" && row.model) return row.model;
+        if (typeof row.id === "string" && row.id) {
+          const chunks = row.id.split("/");
+          return chunks[chunks.length - 1] || row.id;
+        }
+        return "unknown";
+      };
       const shortModelName = (model) => {
         if (typeof model !== "string" || !model) return "unknown";
         const chunks = model.split("/");
@@ -2689,7 +2918,7 @@
         const modelMap = new Map();
         entries.forEach((entry) => {
           const key = entry.model || "unknown";
-          const current = modelMap.get(key) || { model: key, cost: 0, tokensIn: 0, tokensOut: 0 };
+          const current = modelMap.get(key) || { id: key, name: shortModelName(key), model: key, cost: 0, tokensIn: 0, tokensOut: 0 };
           current.cost += parseCostValue(entry.cost);
           current.tokensIn += Number(entry.tokensIn) || 0;
           current.tokensOut += Number(entry.tokensOut) || 0;
@@ -2697,14 +2926,74 @@
         });
         return Array.from(modelMap.values());
       };
+      const byModelRowsRaw = costsModels.length ? costsModels : fallbackByModel();
 
-      costSummaryEl.innerHTML = [
-        { label: "Today", value: displayCost(costs.today) },
-        { label: "This Week", value: displayCost(costs.week) },
-        { label: "This Month", value: displayCost(costs.month) }
-      ].map(item => `<article class='cost-card'><div class='label'>${item.label}</div><div class='value'>${item.value}</div></article>`).join("");
+      const budget = JSON.parse(localStorage.getItem("costBudget") || "null");
+      const budgetClass = (value, limit) => {
+        if (!Number.isFinite(Number(limit)) || Number(limit) <= 0) return "";
+        if (Number(value) > Number(limit)) return "cost-danger";
+        if (Number(value) > Number(limit) * Number(budget?.alertAt || 0.8)) return "cost-warn";
+        return "";
+      };
+      const dailyAvg = Number(summary.dailyAvg) || 0;
+      const summaryCards = [
+        { label: "Today", value: displayCost(summary.today || 0), className: budgetClass(summary.today || 0, budget?.daily) },
+        { label: "This Week", value: displayCost(summary.week || 0), className: "" },
+        { label: "This Month", value: displayCost(summary.month || 0), className: budgetClass(summary.month || 0, budget?.monthly), subvalue: `Avg ${displayCost(dailyAvg)}/day` },
+        { label: "Projected Month", value: displayCost(summary.projectedMonth || 0), className: "" }
+      ];
+      costSummaryEl.innerHTML = summaryCards.map(item => {
+        const cardClass = item.className ? `cost-card ${item.className}` : "cost-card";
+        return `<article class="${cardClass}"><div class="label">${item.label}</div><div class="value">${item.value}</div>${item.subvalue ? `<div class="subvalue">${item.subvalue}</div>` : ""}</article>`;
+      }).join("");
 
-      const byModelRowsRaw = Array.isArray(costs.byModel) && costs.byModel.length ? costs.byModel : fallbackByModel();
+      if (sparklineChartEl) {
+        if (!history.length) {
+          sparklineChartEl.innerHTML = "<div class='model-bar-row'>No daily data yet.</div>";
+        } else {
+          const maxCost = Math.max(...history.map(d => d.cost), 1);
+          sparklineChartEl.innerHTML = history.map(d => {
+            const pct = Math.max(4, Math.round((d.cost / maxCost) * 100));
+            const dayLabel = new Date(d.date + "T12:00:00").toLocaleDateString(undefined, { weekday: "short" });
+            return `<div class="spark-bar-wrap" title="${d.date}: ${money(d.cost)} (${d.calls} calls)">
+        <div class="spark-bar" style="height:${pct}%"></div>
+        <div class="spark-label">${dayLabel}</div>
+      </div>`;
+          }).join("");
+        }
+      }
+
+      if (costModelFilterEl) {
+        const modelNames = Array.from(new Set(byModelRowsRaw.map(row => shortModelName(modelLabel(row))).filter(Boolean)));
+        costModelFilterEl.innerHTML = `<option value="all">All Models</option>${modelNames.map(model => `<option value="${model}">${model}</option>`).join("")}`;
+        if (!modelNames.includes(costFilterState.model)) {
+          costFilterState.model = "all";
+        }
+        costModelFilterEl.value = costFilterState.model;
+        if (!costModelFilterEl.dataset.bound) {
+          costModelFilterEl.addEventListener("change", () => {
+            costFilterState.model = costModelFilterEl.value || "all";
+            renderCosts();
+          });
+          costModelFilterEl.dataset.bound = "true";
+        }
+      }
+
+      if (costDateRangeEl) {
+        costDateRangeEl.querySelectorAll(".seg-btn").forEach((button) => {
+          button.classList.toggle("active", button.dataset.range === costFilterState.range);
+        });
+        if (!costDateRangeEl.dataset.bound) {
+          costDateRangeEl.addEventListener("click", (event) => {
+            const btn = event.target.closest(".seg-btn");
+            if (!btn || !btn.dataset.range) return;
+            costFilterState.range = btn.dataset.range;
+            renderCosts();
+          });
+          costDateRangeEl.dataset.bound = "true";
+        }
+      }
+
       const sortedModels = byModelRowsRaw
         .slice()
         .sort((a, b) => parseCostValue(b.cost) - parseCostValue(a.cost));
@@ -2715,7 +3004,7 @@
         modelBarsEl.innerHTML = "<div class='model-bar-row'>No cost data yet.</div>";
       } else {
         sortedModels.forEach((rowData) => {
-          const model = shortModelName(rowData.model);
+          const model = shortModelName(modelLabel(rowData));
           const cost = parseCostValue(rowData.cost);
           const pct = max > 0 ? Math.max(8, Math.round((cost / max) * 100)) : 8;
           const meta = [];
@@ -2746,6 +3035,23 @@
         });
       }
 
+      if (projectCardsEl) {
+        if (!projects.length) {
+          projectCardsEl.innerHTML = "<div class='model-bar-row'>No project data yet.</div>";
+        } else {
+          const maxProjectCost = Math.max(...projects.map(p => p.totalCost || 0), 1);
+          projectCardsEl.innerHTML = projects.map(p => {
+            const pct = Math.max(8, Math.round(((p.totalCost || 0) / maxProjectCost) * 100));
+            const taskInfo = `${p.completedTasks || 0}/${p.taskCount || 0} tasks`;
+            return `<div class="model-bar-row">
+        <div class="model-bar-main"><strong>${p.name}</strong><span>${money(p.totalCost || 0)}</span></div>
+        <div class="model-bar-meta"><span class="model-meta-pill">${taskInfo}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="--bar-width:${pct}%"></div></div>
+      </div>`;
+          }).join("");
+        }
+      }
+
       costTableBody.innerHTML = "";
       if (activityRows.length) {
         if (costTableHeadRow) {
@@ -2758,10 +3064,30 @@
             <th>Cost</th>
           `;
         }
-        activityRows
+        const rangeMs = costFilterState.range === "7d"
+          ? 7 * 86400000
+          : (costFilterState.range === "30d" ? 30 * 86400000 : 48 * 3600000);
+        const cutoff = Date.now() - rangeMs;
+        const selectedModel = costFilterState.model;
+        const filteredRows = activityRows
+          .filter((entry) => {
+            const ts = new Date(entry.hour).getTime();
+            if (Number.isFinite(ts) && ts < cutoff) return false;
+            if (selectedModel !== "all") {
+              const model = shortModelName(entry.model);
+              return model === selectedModel;
+            }
+            return true;
+          })
           .slice()
-          .sort((a, b) => new Date(b.hour) - new Date(a.hour))
-          .forEach((entry) => {
+          .sort((a, b) => new Date(b.hour) - new Date(a.hour));
+
+        if (!filteredRows.length) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td colspan='6'>No activity for selected filters.</td>";
+          costTableBody.appendChild(tr);
+        } else {
+          filteredRows.forEach((entry) => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
               <td>${formatActivityTime(entry.hour)}</td>
@@ -2773,6 +3099,7 @@
             `;
             costTableBody.appendChild(tr);
           });
+        }
       } else if (!entries.length) {
         if (costTableHeadRow) {
           costTableHeadRow.innerHTML = `
@@ -3296,6 +3623,14 @@
 
     function openSettings() {
       renderGithubSettings();
+      const budget = JSON.parse(localStorage.getItem("costBudget") || "null");
+      if (budget) {
+        budgetDailyInput.value = budget.daily || "";
+        budgetMonthlyInput.value = budget.monthly || "";
+      } else {
+        budgetDailyInput.value = "";
+        budgetMonthlyInput.value = "";
+      }
       settingsBackdrop.classList.add("open");
       requestAnimationFrame(() => githubPatInput.focus());
     }
@@ -3303,18 +3638,24 @@
     function closeSettings() {
       settingsBackdrop.classList.remove("open");
       githubPatInput.value = "";
+      budgetDailyInput.value = "";
+      budgetMonthlyInput.value = "";
     }
 
     function saveGithubSettings() {
       const nextPat = githubPatInput.value.trim();
-      if (!nextPat) {
-        closeSettings();
-        return;
+      if (nextPat) localStorage.setItem(GITHUB_PAT_KEY, nextPat);
+      const daily = parseFloat(budgetDailyInput.value) || null;
+      const monthly = parseFloat(budgetMonthlyInput.value) || null;
+      if (daily || monthly) {
+        localStorage.setItem("costBudget", JSON.stringify({ daily, monthly, alertAt: 0.8 }));
+      } else {
+        localStorage.removeItem("costBudget");
       }
-      localStorage.setItem(GITHUB_PAT_KEY, nextPat);
       renderGithubSettings();
       closeSettings();
-      showGithubWriteStatus("GitHub token saved", "ok");
+      showGithubWriteStatus(nextPat ? "GitHub token saved" : "Settings saved", "ok");
+      if (activeTab === "costs") renderCosts();
     }
 
     function clearGithubSettings() {

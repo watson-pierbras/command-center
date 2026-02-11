@@ -113,32 +113,51 @@ SESSIONS_DIR="$HOME/.openclaw/agents/main/sessions"
 TODAY_DATE=$(date -u +"%Y-%m-%d")
 WEEK_AGO=$(date -u -v-7d +"%Y-%m-%dT00:00:00Z" 2>/dev/null || date -u -d "7 days ago" +"%Y-%m-%dT00:00:00Z")
 MONTH_AGO=$(date -u -v-30d +"%Y-%m-%dT00:00:00Z" 2>/dev/null || date -u -d "30 days ago" +"%Y-%m-%dT00:00:00Z")
+DAYS_ELAPSED=$(date -u +"%d" | sed 's/^0*//')
+if [[ -z "$DAYS_ELAPSED" ]] || [[ "$DAYS_ELAPSED" -lt 1 ]]; then
+  DAYS_ELAPSED=1
+fi
+DAYS_IN_MONTH=$(date -u -v1d -v+1m -v-1d +"%d" 2>/dev/null || date -u -d "$(date -u +%Y-%m-01) +1 month -1 day" +"%d")
+DAYS_IN_MONTH=$(echo "$DAYS_IN_MONTH" | sed 's/^0*//')
+if [[ -z "$DAYS_IN_MONTH" ]] || [[ "$DAYS_IN_MONTH" -lt 1 ]]; then
+  DAYS_IN_MONTH=30
+fi
 
 if [ -d "$SESSIONS_DIR" ] && ls "$SESSIONS_DIR"/*.jsonl 1>/dev/null 2>&1; then
-  COSTS_JSON=$(cat "$SESSIONS_DIR"/*.jsonl | jq -s --arg today "$TODAY_DATE" --arg weekAgo "$WEEK_AGO" --arg monthAgo "$MONTH_AGO" '
+  COSTS_JSON=$(cat "$SESSIONS_DIR"/*.jsonl | jq -s --arg today "$TODAY_DATE" --arg weekAgo "$WEEK_AGO" --arg monthAgo "$MONTH_AGO" --argjson daysElapsed "$DAYS_ELAPSED" --argjson daysInMonth "$DAYS_IN_MONTH" '
     def round2: (. * 100 | round / 100);
     def tokens_in($u): (($u.input // 0) + ($u.cacheRead // 0) + ($u.cacheWrite // 0));
+    def safe_div($a; $b): if $b > 0 then ($a / $b) else 0 end;
     [.[] | select(.message?.usage?)] |
     sort_by(.timestamp) as $records |
     {
       today: ([$records[] | select((.timestamp // "")[:10] == $today) | (.message.usage.cost.total // 0)] | add // 0),
       week: ([$records[] | select((.timestamp // "") >= $weekAgo) | (.message.usage.cost.total // 0)] | add // 0),
       month: ([$records[] | select((.timestamp // "") >= $monthAgo) | (.message.usage.cost.total // 0)] | add // 0),
-      byModel: (
+      models: (
         $records |
         group_by((.message.provider // "unknown") + "/" + (.message.model // "unknown")) |
         map({
-          model: ((.[0].message.provider // "unknown") + "/" + (.[0].message.model // "unknown")),
+          id: ((.[0].message.provider // "unknown") + "/" + (.[0].message.model // "unknown")),
+          name: (.[0].message.model // "unknown"),
+          provider: (.[0].message.provider // "unknown"),
           cost: ([.[].message.usage.cost.total // 0] | add // 0),
           tokensIn: ([.[].message.usage | tokens_in(.)] | add // 0),
           tokensOut: ([.[].message.usage.output // 0] | add // 0),
           cacheRead: ([.[].message.usage.cacheRead // 0] | add // 0),
           cacheWrite: ([.[].message.usage.cacheWrite // 0] | add // 0),
           calls: length,
-          avgCost: (if length > 0 then (([.[].message.usage.cost.total // 0] | add // 0) / length) else 0 end)
+          avgCost: (if length > 0 then (([.[].message.usage.cost.total // 0] | add // 0) / length) else 0 end),
+          cacheHitRate: (
+            safe_div(
+              ([.[].message.usage.cacheRead // 0] | add // 0);
+              (([.[].message.usage.cacheRead // 0] | add // 0) + ([.[].message.usage.cacheWrite // 0] | add // 0))
+            )
+          )
         }) |
         sort_by(.cost) | reverse
       ),
+      projects: [],
       activity: (
         $records |
         map(
@@ -165,16 +184,81 @@ if [ -d "$SESSIONS_DIR" ] && ls "$SESSIONS_DIR"/*.jsonl 1>/dev/null 2>&1; then
           cost: ([.[].cost] | add // 0)
         }) |
         sort_by(.hour, .model) | reverse
+      ),
+      dailyHistory: (
+        $records |
+        map(
+          select((.timestamp // "") >= $monthAgo) |
+          {
+            date: (.timestamp[0:10]),
+            cost: (.message.usage.cost.total // 0),
+            calls: 1
+          }
+        ) |
+        group_by(.date) |
+        map({
+          date: .[0].date,
+          cost: ([.[].cost] | add // 0),
+          calls: ([.[].calls] | add // 0)
+        }) |
+        sort_by(.date)
       )
     } |
+    .dailyAvg = (safe_div(.month; (if $daysElapsed < 1 then 1 else $daysElapsed end))) |
+    .projectedMonth = (.dailyAvg * $daysInMonth) |
     .today = (.today | round2) |
     .week = (.week | round2) |
     .month = (.month | round2) |
-    .byModel = (.byModel | map(.cost = (.cost | round2) | .avgCost = (.avgCost | round2))) |
-    .activity = (.activity | map(.cost = (.cost | round2)))
+    .dailyAvg = (.dailyAvg | round2) |
+    .projectedMonth = (.projectedMonth | round2) |
+    .models = (.models | map(
+      .cost = (.cost | round2) |
+      .avgCost = (.avgCost | round2) |
+      .cacheHitRate = (.cacheHitRate | round2)
+    )) |
+    .activity = (.activity | map(.cost = (.cost | round2))) |
+    .dailyHistory = (.dailyHistory | map(.cost = (.cost | round2))) |
+    {
+      summary: {
+        today: .today,
+        week: .week,
+        month: .month,
+        projectedMonth: .projectedMonth,
+        dailyAvg: .dailyAvg
+      },
+      models: .models,
+      projects: .projects,
+      activity: .activity,
+      dailyHistory: .dailyHistory
+    }
   ')
 else
-  COSTS_JSON='{"today":0,"week":0,"month":0,"byModel":[],"activity":[]}'
+  COSTS_JSON=$(jq -cn '
+    {
+      today: 0,
+      week: 0,
+      month: 0,
+      projectedMonth: 0,
+      dailyAvg: 0,
+      models: [],
+      projects: [],
+      activity: [],
+      dailyHistory: []
+    } |
+    {
+      summary: {
+        today: .today,
+        week: .week,
+        month: .month,
+        projectedMonth: .projectedMonth,
+        dailyAvg: .dailyAvg
+      },
+      models: .models,
+      projects: .projects,
+      activity: .activity,
+      dailyHistory: .dailyHistory
+    }
+  ')
 fi
 
 existing_feed='[]'
