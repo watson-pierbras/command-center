@@ -268,6 +268,25 @@ if [[ -f "$STATE_FILE" ]] && jq empty "$STATE_FILE" 2>/dev/null; then
 fi
 
 # ── Build state.json with jq ────────────────────────────────
+# ── Project Aggregation from board.json ─────────────────────
+BOARD_FILE="$REPO_DIR/board.json"
+PROJECTS_JSON='[]'
+if [[ -f "$BOARD_FILE" ]] && jq empty "$BOARD_FILE" 2>/dev/null; then
+  PROJECTS_JSON=$(jq -c '
+    [.tasks // [] | group_by(.project // "Uncategorized") | .[] | {
+      name: (.[0].project // "Uncategorized"),
+      taskCount: length,
+      completedTasks: ([.[] | select(.column == "done")] | length),
+      totalCost: ([.[] | .estimatedCost // 0] | add)
+    }]
+  ' "$BOARD_FILE" 2>/dev/null || echo '[]')
+fi
+
+# Merge projects into costs JSON
+COSTS_WITH_PROJECTS=$(jq -n --argjson costs "$COSTS_JSON" --argjson projects "$PROJECTS_JSON" '
+  $costs | .projects = $projects
+')
+
 jq -n \
   --arg ts "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
   --arg ws "$watson_status" \
@@ -278,7 +297,7 @@ jq -n \
   --arg cla "$codex_last_activity" \
   --arg os "$ollama_status" \
   --argjson om "$ollama_models" \
-  --argjson costs "$COSTS_JSON" \
+  --argjson costs "$COSTS_WITH_PROJECTS" \
   --argjson cfpf "$cf_py_files" \
   --argjson cfpl "$cf_py_lines" \
   --argjson cfsec "$cf_security" \
