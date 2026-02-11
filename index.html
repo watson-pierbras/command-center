@@ -2480,6 +2480,40 @@
       return (localStorage.getItem(GITHUB_PAT_KEY) || "").trim();
     }
 
+    // Diagnostic: run `await testGithubPat()` in browser console
+    async function testGithubPat() {
+      const pat = getGithubPat();
+      if (!pat) {
+        console.error("❌ No PAT set. Go to Settings → GitHub token");
+        return { ok: false, error: "PAT not set" };
+      }
+      console.log("Testing PAT...");
+      const endpoint = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}`;
+      const res = await fetch(endpoint, {
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${pat}`,
+          "X-GitHub-Api-Version": "2022-11-28"
+        }
+      });
+      if (res.status === 401) {
+        console.error("❌ PAT is invalid or expired");
+        return { ok: false, error: "Unauthorized", status: 401 };
+      }
+      if (res.status === 403) {
+        console.error("❌ PAT lacks permissions (needs Contents: Read+Write)");
+        return { ok: false, error: "Forbidden", status: 403 };
+      }
+      if (!res.ok) {
+        console.error("❌ GitHub API error:", res.status, await res.text());
+        return { ok: false, error: "API error", status: res.status };
+      }
+      const data = await res.json();
+      console.log("✅ PAT works! Repo:", data.full_name);
+      console.log("   Permissions:", data.permissions);
+      return { ok: true, repo: data.full_name, permissions: data.permissions };
+    }
+
     function showGithubWriteStatus(text, tone) {
       if (!githubWriteStatusEl) return;
       if (githubWriteStatusTimer) clearTimeout(githubWriteStatusTimer);
@@ -2511,10 +2545,13 @@
 
     async function githubWriteFile(path, content, message) {
       const pat = getGithubPat();
-      if (!pat) throw new Error("GitHub PAT not configured");
+      if (!pat) throw new Error("PAT not set — go to Settings and add your GitHub token");
+      if (!pat.startsWith("github_pat_") && !pat.startsWith("ghp_")) {
+        throw new Error("PAT format invalid — must start with github_pat_ or ghp_");
+      }
 
       const contentPath = githubContentPath(path);
-      if (!contentPath) throw new Error("Invalid GitHub file path");
+      if (!contentPath) throw new Error("Invalid file path");
 
       const endpoint = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${contentPath}`;
       const headers = {
@@ -2526,6 +2563,14 @@
 
       let sha;
       const getResponse = await fetch(endpoint, { method: "GET", headers });
+      if (getResponse.status === 401) {
+        const err = await getResponse.json().catch(() => ({}));
+        throw new Error(`PAT invalid or expired: ${err.message || "Unauthorized"}`);
+      }
+      if (getResponse.status === 403) {
+        const err = await getResponse.json().catch(() => ({}));
+        throw new Error(`PAT lacks permissions: ${err.message || "Forbidden — needs Contents: Read+Write"}`);
+      }
       if (getResponse.status !== 404) {
         if (!getResponse.ok) {
           const getError = await getResponse.text();
@@ -2546,12 +2591,20 @@
         headers,
         body: JSON.stringify(body)
       });
+      if (putResponse.status === 401) {
+        const err = await putResponse.json().catch(() => ({}));
+        throw new Error(`PAT invalid: ${err.message || "Unauthorized"}`);
+      }
+      if (putResponse.status === 403) {
+        const err = await putResponse.json().catch(() => ({}));
+        throw new Error(`PAT lacks write access: ${err.message || "Forbidden"}`);
+      }
       if (!putResponse.ok) {
         const putError = await putResponse.text();
         throw new Error(`GitHub PUT failed (${putResponse.status}): ${putError.slice(0, 200)}`);
       }
 
-      showGithubWriteStatus("Saved", "ok");
+      showGithubWriteStatus("Saved to GitHub", "ok");
       return putResponse.json();
     }
 
@@ -2569,8 +2622,11 @@
 
     function queueGithubBoardWrite() {
       githubWriteBoardJson().catch(error => {
-        console.error("GitHub board write failed", error);
-        showGithubWriteStatus("Local only", "warn");
+        console.error("GitHub board write failed:", error);
+        const msg = error?.message || "Unknown error";
+        // Show detailed error in UI for 5 seconds, then revert to generic message
+        showGithubWriteStatus(`Error: ${msg.slice(0, 60)}`, "warn");
+        setTimeout(() => showGithubWriteStatus("Local only (GitHub failed)", "warn"), 5000);
       });
     }
 
