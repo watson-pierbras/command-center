@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-10T23:55:45Z",
+  "lastUpdated": "2026-02-11T00:00:48Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "online",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-10T18:50:43-05:00"
+      "lastActivity": "2026-02-10T18:55:46-05:00"
     },
     "ollama": {
       "status": "online",
@@ -23,11 +23,11 @@
   },
   "costs": {
     "summary": {
-      "today": 62.5,
+      "today": 0,
       "week": 94.63,
       "month": 94.63,
-      "projectedMonth": 264.96,
-      "dailyAvg": 9.46
+      "projectedMonth": 240.87,
+      "dailyAvg": 8.6
     },
     "models": [
       {
