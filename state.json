@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-11T01:26:38Z",
+  "lastUpdated": "2026-02-11T21:59:10Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -7,9 +7,9 @@
       "lastActivity": "2026-02-10T20:47:56Z"
     },
     "codex": {
-      "status": "online",
+      "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-10T20:21:35-05:00"
+      "lastActivity": "2026-02-10T20:26:38-05:00"
     },
     "ollama": {
       "status": "online",
@@ -231,62 +231,6 @@
         "tokensIn": 1563711,
         "tokensOut": 2610,
         "cost": 2.25
-      },
-      {
-        "hour": "2026-02-09T12:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 1,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-09T11:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 1,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-09T03:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 62,
-        "tokensIn": 3943499,
-        "tokensOut": 11895,
-        "cost": 2.76
-      },
-      {
-        "hour": "2026-02-09T02:00Z",
-        "model": "delivery-mirror",
-        "calls": 7,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-09T02:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 74,
-        "tokensIn": 8315693,
-        "tokensOut": 12600,
-        "cost": 6.65
-      },
-      {
-        "hour": "2026-02-09T01:00Z",
-        "model": "delivery-mirror",
-        "calls": 1,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-09T01:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 2,
-        "tokensIn": 289205,
-        "tokensOut": 775,
-        "cost": 1
       }
     ],
     "dailyHistory": [
