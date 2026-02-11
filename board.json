@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "lastModified": "2026-02-10T21:59:15.000Z",
+  "lastModified": "2026-02-11T22:52:01.000Z",
   "modifiedBy": "watson",
   "tasks": [
     {
@@ -260,6 +260,13 @@
           "authorLabel": "🔍 Watson",
           "text": "watson",
           "timestamp": "2026-02-10T21:59:15.000Z"
+        },
+        {
+          "id": "wc-1770850321-5367",
+          "author": "watson",
+          "authorLabel": "🔍 Watson",
+          "text": "Test comment from Watson — board-ops.sh is working. If you see this, the issue is browser-side GitHub PAT configuration.",
+          "timestamp": "2026-02-11T22:52:01.000Z"
         }
       ],
       "history": [
@@ -311,6 +318,12 @@
           "field": "comments",
           "by": "watson",
           "at": "2026-02-10T21:59:15.000Z"
+        },
+        {
+          "action": "edited",
+          "field": "comments",
+          "by": "watson",
+          "at": "2026-02-11T22:52:01.000Z"
         }
       ]
     },
