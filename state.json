@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-02-12T19:40:01Z",
+  "lastUpdated": "2026-02-12T19:45:04Z",
   "agents": {
     "watson": {
       "status": "online",
       "model": "anthropic/claude-opus-4-6",
-      "lastActivity": "2026-02-12T18:32:19Z"
+      "lastActivity": "2026-02-12T19:43:41Z"
     },
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T14:38:28-05:00"
+      "lastActivity": "2026-02-12T14:40:01-05:00"
     },
     "ollama": {
       "status": "online",
@@ -156,7 +156,7 @@
           "reworkRate": 0.05
         },
         "history": {
-          "lastActive": "2026-02-12T18:32:19Z",
+          "lastActive": "2026-02-12T19:43:41Z",
           "currentStreak": 5,
           "joinedAt": "2026-02-08T16:30:00Z"
         }
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T14:38:28-05:00",
+          "lastActive": "2026-02-12T14:40:01-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,23 +494,23 @@
   ],
   "costs": {
     "summary": {
-      "today": 0,
-      "week": 94.63,
-      "month": 94.63,
-      "projectedMonth": 220.8,
-      "dailyAvg": 7.89
+      "today": 0.28,
+      "week": 94.91,
+      "month": 94.91,
+      "projectedMonth": 221.45,
+      "dailyAvg": 7.91
     },
     "models": [
       {
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 94.63,
-        "tokensIn": 116915284,
-        "tokensOut": 283160,
-        "cacheRead": 111855690,
-        "cacheWrite": 5058243,
-        "calls": 1164,
+        "cost": 94.91,
+        "tokensIn": 117082536,
+        "tokensOut": 284988,
+        "cacheRead": 111996736,
+        "cacheWrite": 5084438,
+        "calls": 1171,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -523,7 +523,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 99,
+        "calls": 102,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -532,11 +532,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 52832151,
-        "tokensOut": 130559,
-        "cacheRead": 50611712,
+        "tokensIn": 53296684,
+        "tokensOut": 130744,
+        "cacheRead": 50926080,
         "cacheWrite": 0,
-        "calls": 547,
+        "calls": 550,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -839,18 +839,26 @@
       {
         "hour": "2026-02-12T19:00Z",
         "model": "kimi-k2.5",
-        "calls": 87,
-        "tokensIn": 6926914,
-        "tokensOut": 16227,
+        "calls": 90,
+        "tokensIn": 7391447,
+        "tokensOut": 16412,
         "cost": 0
       },
       {
         "hour": "2026-02-12T19:00Z",
         "model": "delivery-mirror",
-        "calls": 1,
+        "calls": 4,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
+      },
+      {
+        "hour": "2026-02-12T19:00Z",
+        "model": "claude-opus-4-6",
+        "calls": 7,
+        "tokensIn": 167252,
+        "tokensOut": 1828,
+        "cost": 0.28
       },
       {
         "hour": "2026-02-12T18:00Z",
@@ -1044,8 +1052,8 @@
       },
       {
         "date": "2026-02-12",
-        "cost": 0,
-        "calls": 486
+        "cost": 0.28,
+        "calls": 499
       }
     ]
   },
