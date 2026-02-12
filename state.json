@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T20:50:40Z",
+  "lastUpdated": "2026-02-12T20:55:43Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T15:45:38-05:00"
+      "lastActivity": "2026-02-12T15:50:41-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T15:45:38-05:00",
+          "lastActive": "2026-02-12T15:50:41-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,23 +494,23 @@
   ],
   "costs": {
     "summary": {
-      "today": 4.05,
-      "week": 98.67,
-      "month": 98.67,
-      "projectedMonth": 230.24,
-      "dailyAvg": 8.22
+      "today": 4.48,
+      "week": 99.11,
+      "month": 99.11,
+      "projectedMonth": 231.25,
+      "dailyAvg": 8.26
     },
     "models": [
       {
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 98.67,
-        "tokensIn": 121056308,
-        "tokensOut": 297915,
-        "cacheRead": 115717185,
-        "cacheWrite": 5337682,
-        "calls": 1238,
+        "cost": 99.11,
+        "tokensIn": 121139090,
+        "tokensOut": 298743,
+        "cacheRead": 115735686,
+        "cacheWrite": 5401960,
+        "calls": 1239,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -839,10 +839,10 @@
       {
         "hour": "2026-02-12T20:00Z",
         "model": "claude-opus-4-6",
-        "calls": 33,
-        "tokensIn": 2436708,
-        "tokensOut": 5562,
-        "cost": 2.61
+        "calls": 34,
+        "tokensIn": 2519490,
+        "tokensOut": 6390,
+        "cost": 3.04
       },
       {
         "hour": "2026-02-12T19:00Z",
@@ -1022,19 +1022,11 @@
       },
       {
         "hour": "2026-02-10T20:00Z",
-        "model": "delivery-mirror",
-        "calls": 1,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-10T20:00Z",
         "model": "claude-opus-4-6",
-        "calls": 6,
-        "tokensIn": 948914,
-        "tokensOut": 7087,
-        "cost": 0.72
+        "calls": 2,
+        "tokensIn": 324102,
+        "tokensOut": 1411,
+        "cost": 0.2
       }
     ],
     "dailyHistory": [
@@ -1060,8 +1052,8 @@
       },
       {
         "date": "2026-02-12",
-        "cost": 4.05,
-        "calls": 551
+        "cost": 4.48,
+        "calls": 552
       }
     ]
   },
