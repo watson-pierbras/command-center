@@ -1943,6 +1943,190 @@
       padding: 6px 10px;
       font-size: 13px;
     }
+
+    /* Projects Panel Styles */
+    .projects-shell {
+      display: grid;
+      gap: 16px;
+    }
+
+    .projects-header {
+      margin-bottom: 8px;
+    }
+
+    .projects-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      transition: box-shadow 150ms ease, transform 150ms ease, border-color 150ms ease;
+      animation: fadeInUp 0.35s ease both;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    [data-theme='light'] .project-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .project-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .project-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .project-card-count {
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-border);
+      color: var(--text);
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .project-card-progress {
+      display: grid;
+      gap: 6px;
+    }
+
+    .project-card-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .project-card-progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--chip-bg);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--chip-border);
+    }
+
+    .project-card-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #06b6d4);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .project-card-stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .project-card-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .project-card-stat.active {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    [data-theme='light'] .project-card-stat.active {
+      background: rgba(59, 130, 246, 0.1);
+      color: #2563eb;
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+
+    .project-card-stat.planned {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    [data-theme='light'] .project-card-stat.planned {
+      background: rgba(245, 158, 11, 0.1);
+      color: #d97706;
+      border-color: rgba(245, 158, 11, 0.25);
+    }
+
+    .project-card-stat.done {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    [data-theme='light'] .project-card-stat.done {
+      background: rgba(34, 197, 94, 0.1);
+      color: #16a34a;
+      border-color: rgba(34, 197, 94, 0.25);
+    }
+
+    .project-card-budget {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-card-budget-value {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .project-card-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -2147,6 +2331,7 @@
       <button class="tab-mobile" data-tab="costs">Costs</button>
       <button class="tab-mobile" data-tab="pipeline">Pipeline</button>
       <button class="tab-mobile" data-tab="feed">Feed</button>
+      <button class="tab-mobile" data-tab="projects">Projects</button>
     </nav>
 
     <div class="activity-panel" id="activityPanel">
@@ -2534,6 +2719,8 @@
     const costTableBody = document.getElementById("costTableBody");
     const agentsContainer = document.getElementById("agentsContainer");
     const feedTimeline = document.getElementById("feedTimeline");
+    const projectsGridEl = document.getElementById("projectsGrid");
+    const projectsStatsEl = document.getElementById("projectsStats");
     const pipelineCompletionEl = document.getElementById("pipelineCompletion");
     const pipelineProgressFillEl = document.getElementById("pipelineProgressFill");
     const pipelineSummaryStatsEl = document.getElementById("pipelineSummaryStats");
@@ -2558,8 +2745,10 @@
     let stateSource = "Demo fallback";
     let stateFingerprint = "";
     let boardFingerprint = "";
+    let projectsFingerprint = "";
     let lastSyncAt = null;
     let githubWriteStatusTimer = null;
+    let projectCatalog = [];
     const costFilterState = { model: "all", range: "48h" };
 
     function nowISO() {
@@ -2879,6 +3068,37 @@
         coachfinder: input.coachfinder && typeof input.coachfinder === "object" ? input.coachfinder : null,
         feed
       };
+    }
+
+    function normalizeProjectRecord(item) {
+      if (!item || typeof item !== "object") return null;
+      const name = typeof item.name === "string" && item.name.trim()
+        ? item.name.trim()
+        : (typeof item.project === "string" && item.project.trim() ? item.project.trim() : "");
+      if (!name) return null;
+      const budget = item.budget && typeof item.budget === "object" ? item.budget : {};
+      const progress = item.progress && typeof item.progress === "object" ? item.progress : {};
+      const fallbackCost = parseCostValue(item.totalCost);
+      return {
+        id: typeof item.id === "string" && item.id.trim() ? item.id.trim() : name.toLowerCase().replace(/\s+/g, "-"),
+        name,
+        budget: {
+          currency: typeof budget.currency === "string" && budget.currency ? budget.currency : "USD",
+          allocated: Number.isFinite(Number(budget.allocated)) ? Number(budget.allocated) : null,
+          spent: Number.isFinite(Number(budget.spent)) ? Number(budget.spent) : fallbackCost,
+          projected: Number.isFinite(Number(budget.projected)) ? Number(budget.projected) : null
+        },
+        progress: {
+          taskCount: Number.isFinite(Number(progress.taskCount)) ? Number(progress.taskCount) : null,
+          completedTasks: Number.isFinite(Number(progress.completedTasks)) ? Number(progress.completedTasks) : null,
+          percentComplete: Number.isFinite(Number(progress.percentComplete)) ? Number(progress.percentComplete) : null
+        }
+      };
+    }
+
+    function fallbackProjectCatalog() {
+      const fallbackProjects = Array.isArray(appState.costs?.projects) ? appState.costs.projects : [];
+      return fallbackProjects.map(normalizeProjectRecord).filter(Boolean);
     }
 
     function loadData() {
@@ -3925,7 +4145,6 @@
         const projectPill = card.querySelector('.project-pill');
         if (projectPill) {
           projectPill.addEventListener('click', (e) => {
-            console.log("[DEBUG] Project pill clicked:", projectName);
             e.stopPropagation();
             openProjectDetail(projectName);
           });
@@ -3967,6 +4186,97 @@
       } else {
         recentDone.forEach(t => pipelineDoneEl.appendChild(renderProjectCard(t)));
       }
+    }
+
+    function renderProjects() {
+      if (!projectsGridEl || !projectsStatsEl) return;
+      const projects = Array.isArray(projectCatalog) && projectCatalog.length
+        ? [...projectCatalog]
+        : fallbackProjectCatalog();
+      const taskProjects = new Set(tasks.map(t => (t.project || "Other")).filter(Boolean));
+
+      // Include projects discovered from tasks even if not yet in projects.json.
+      taskProjects.forEach(projectName => {
+        if (!projects.some(p => p.name === projectName)) {
+          projects.push(normalizeProjectRecord({ name: projectName }));
+        }
+      });
+
+      const summaries = projects.map(project => {
+        const projectTasks = tasks.filter(t => (t.project || "Other") === project.name);
+        const active = projectTasks.filter(t => t.column === "active").length;
+        const planned = projectTasks.filter(t => t.column === "planned").length;
+        const done = projectTasks.filter(t => t.column === "done").length;
+        const total = projectTasks.length;
+        const progress = total ? Math.round((done / total) * 100) : (project.progress.percentComplete || 0);
+        return { project, active, planned, done, total, progress };
+      }).sort((a, b) => b.total - a.total || a.project.name.localeCompare(b.project.name));
+
+      const totalProjects = summaries.length;
+      const totalTasks = summaries.reduce((sum, item) => sum + item.total, 0);
+      const totalDone = summaries.reduce((sum, item) => sum + item.done, 0);
+      const completion = totalTasks ? Math.round((totalDone / totalTasks) * 100) : 0;
+
+      projectsStatsEl.innerHTML = `
+        <span class="pill">${totalProjects} projects</span>
+        <span class="pill">${totalTasks} tasks</span>
+        <span class="pill">${completion}% complete</span>
+      `;
+
+      projectsGridEl.innerHTML = "";
+      if (!summaries.length) {
+        projectsGridEl.innerHTML = '<p class="project-card-empty">No projects available.</p>';
+        return;
+      }
+
+      summaries.forEach(({ project, active, planned, done, total, progress }) => {
+        const card = document.createElement("article");
+        card.className = "project-card";
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `Open project ${project.name}`);
+
+        const budget = project.budget || {};
+        const budgetPieces = [];
+        const currency = budget.currency || "USD";
+        if (Number.isFinite(budget.allocated) && budget.allocated > 0) budgetPieces.push(`Allocated ${money(budget.allocated)} ${currency}`);
+        budgetPieces.push(`Spent ${money(budget.spent || 0)} ${currency}`);
+        if (Number.isFinite(budget.projected) && budget.projected > 0) budgetPieces.push(`Projected ${money(budget.projected)} ${currency}`);
+
+        card.innerHTML = `
+          <div class="project-card-header">
+            <h3 class="project-card-title">${escapeHtml(project.name)}</h3>
+            <span class="project-card-count">${total} total</span>
+          </div>
+          <div class="project-card-progress">
+            <div class="project-card-progress-label">
+              <span>Progress</span>
+              <span>${progress}%</span>
+            </div>
+            <div class="project-card-progress-track">
+              <div class="project-card-progress-fill" style="width:${progress}%"></div>
+            </div>
+          </div>
+          <div class="project-card-stats">
+            <span class="project-card-stat active">${active} Active</span>
+            <span class="project-card-stat planned">${planned} Planned</span>
+            <span class="project-card-stat done">${done} Done</span>
+          </div>
+          <div class="project-card-budget">
+            <span>Budget:</span>
+            <span class="project-card-budget-value">${escapeHtml(budgetPieces.join(" | "))}</span>
+          </div>
+        `;
+
+        card.addEventListener("click", () => openProjectDetail(project.name));
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openProjectDetail(project.name);
+          }
+        });
+        projectsGridEl.appendChild(card);
+      });
     }
 
     function renderFeed() {
@@ -4039,6 +4349,7 @@
       if (activeTab === "costs") renderCosts();
       if (activeTab === "pipeline") renderPipeline();
       if (activeTab === "feed") renderFeed();
+      if (activeTab === "projects") renderProjects();
     }
 
     function openCardDetail(id) {
@@ -4061,12 +4372,10 @@
     let viewingProject = null;
 
     function openProjectDetail(projectName) {
-      console.log("[DEBUG] openProjectDetail called:", projectName);
       viewingProject = projectName;
       activeProjectTab = "overview";
       renderProjectDetail(projectName);
       projectDetailBackdrop.classList.add("open");
-      console.log("[DEBUG] projectDetailBackdrop open class added");
     }
 
     function closeProjectDetail() {
@@ -5009,23 +5318,54 @@
       }
     }
 
+    async function fetchProjects() {
+      let ok = true;
+      try {
+        const response = await fetch("./projects.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("unavailable");
+        const payload = await response.json();
+        if (!payload || !Array.isArray(payload.projects)) throw new Error("invalid");
+        const normalizedProjects = payload.projects.map(normalizeProjectRecord).filter(Boolean);
+        const nextFingerprint = JSON.stringify(normalizedProjects);
+        const changed = nextFingerprint !== projectsFingerprint;
+        projectCatalog = normalizedProjects;
+        projectsFingerprint = nextFingerprint;
+        return { ok, changed };
+      } catch {
+        ok = false;
+        const fallback = fallbackProjectCatalog();
+        const nextFingerprint = JSON.stringify(fallback);
+        const changed = nextFingerprint !== projectsFingerprint;
+        projectCatalog = fallback;
+        projectsFingerprint = nextFingerprint;
+        return { ok, changed };
+      }
+    }
+
     async function refreshState(showLog = true, forceRender = false) {
-      const [{ ok: stateOk, changed: stateChanged }, { ok: boardOk, changed: boardChanged }] = await Promise.all([
+      const [
+        { ok: stateOk, changed: stateChanged },
+        { ok: boardOk, changed: boardChanged },
+        { ok: projectsOk, changed: projectsChanged }
+      ] = await Promise.all([
         fetchState(),
-        fetchBoard()
+        fetchBoard(),
+        fetchProjects()
       ]);
       if (showLog) {
         const stateText = stateOk ? "state.json refreshed" : "state.json unavailable, using demo data";
         const boardText = boardOk ? "board.json refreshed" : "board.json unavailable, using local cache";
-        logActivity(`${stateText}; ${boardText}`);
+        const projectsText = projectsOk ? "projects.json refreshed" : "projects.json unavailable, using state data";
+        logActivity(`${stateText}; ${boardText}; ${projectsText}`);
       }
-      const changed = stateChanged || boardChanged;
+      const changed = stateChanged || boardChanged || projectsChanged;
       if (!forceRender && !changed) return;
       renderBoard();
       if (activeTab === "agents") renderAgents();
       if (activeTab === "costs") renderCosts();
       if (activeTab === "pipeline") renderPipeline();
       if (activeTab === "feed") renderFeed();
+      if (activeTab === "projects") renderProjects();
       if (viewingId) {
         const task = tasks.find(t => t.id === viewingId);
         if (task) renderCardDetail(task);
