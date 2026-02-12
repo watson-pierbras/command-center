@@ -31,7 +31,7 @@ function renderBoardBody(host, projectId) {
               const project = PROJECTS.find((item) => item.id === task.projectId);
               const agent = AGENTS.find((item) => item.id === task.agentId);
               return `
-                <article class="surface-card task-card priority-${task.priority}">
+                <article class="surface-card task-card interactive priority-${task.priority}" data-task-id="${task.id}">
                   <strong>${task.name}</strong>
                   <div class="activity-meta">
                     <span class="color-dot" style="background: var(--color-project-${project?.color || 'slate'});"></span>
@@ -73,5 +73,18 @@ export function render(container) {
 
   filter.addEventListener('change', () => {
     renderBoardBody(host, filter.value);
+  });
+
+  host.addEventListener('click', (event) => {
+    const card = event.target.closest('[data-task-id]');
+    if (!card) return;
+
+    const taskId = card.dataset.taskId;
+    import('../components/slide-over.js').then(({ openSlideOver }) => {
+      import('./task-detail.js').then(({ renderTaskDetail }) => {
+        const task = TASKS.find((item) => item.id === taskId);
+        openSlideOver({ title: task?.name || 'Task', content: renderTaskDetail(taskId) });
+      });
+    });
   });
 }

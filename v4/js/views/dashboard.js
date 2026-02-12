@@ -115,7 +115,7 @@ export function render(container) {
         <h2 class="h-title">Recent Activity</h2>
         <div class="activity-list">
           ${recentActivities.map((activity) => `
-            <article class="surface-card activity-item">
+            <article class="surface-card activity-item ${activity.objectType === 'task' ? 'interactive' : ''}" ${activity.objectType === 'task' ? `data-task-id="${activity.objectId}"` : ''}>
               <div>${actorAvatar(activity.actor)} ${describeActivity(activity)}</div>
               <div class="activity-meta">
                 <span>${relativeTime(activity.createdAt)}</span>
@@ -136,7 +136,7 @@ export function render(container) {
               const blockedAt = blockedMap.get(task.id);
               const duration = blockedAt ? relativeTime(blockedAt) : 'unknown';
               return `
-                <article class="surface-card task-card priority-high">
+                <article class="surface-card task-card interactive priority-high" data-task-id="${task.id}">
                   <div class="task-top">
                     <strong>${task.name}</strong>
                     <span class="pill blocked">blocked</span>
@@ -151,4 +151,17 @@ export function render(container) {
       ` : ''}
     </section>
   `;
+
+  container.addEventListener('click', (event) => {
+    const card = event.target.closest('[data-task-id]');
+    if (!card) return;
+
+    const taskId = card.dataset.taskId;
+    import('../components/slide-over.js').then(({ openSlideOver }) => {
+      import('./task-detail.js').then(({ renderTaskDetail }) => {
+        const task = TASKS.find((item) => item.id === taskId);
+        openSlideOver({ title: task?.name || 'Task', content: renderTaskDetail(taskId) });
+      });
+    });
+  });
 }

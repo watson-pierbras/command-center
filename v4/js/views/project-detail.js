@@ -64,7 +64,7 @@ function renderTasks(projectTasks, selectedFilter = 'all') {
         ${filtered.map((task) => {
           const agent = AGENTS.find((item) => item.id === task.agentId);
           return `
-            <article class="surface-card interactive task-card priority-${task.priority}" data-open-task="${task.id}">
+            <article class="surface-card interactive task-card priority-${task.priority}" data-task-id="${task.id}">
               <div class="task-top">
                 <strong>${task.name}</strong>
                 <span class="pill ${task.status}">${task.status.replace('_', ' ')}</span>
@@ -158,21 +158,23 @@ export function render(container, params, query = {}) {
 
   if (currentTab === 'tasks') {
     const content = container.querySelector('#project-tab-content');
-    const bindTaskHandlers = () => {
-      content.querySelectorAll('[data-task-filter]').forEach((button) => {
-        button.addEventListener('click', () => {
-          content.innerHTML = renderTasks(projectTasks, button.dataset.taskFilter);
-          bindTaskHandlers();
+    content.addEventListener('click', (event) => {
+      const filterButton = event.target.closest('[data-task-filter]');
+      if (filterButton) {
+        content.innerHTML = renderTasks(projectTasks, filterButton.dataset.taskFilter);
+        return;
+      }
+
+      const taskCard = event.target.closest('[data-task-id]');
+      if (!taskCard) return;
+
+      const taskId = taskCard.dataset.taskId;
+      import('../components/slide-over.js').then(({ openSlideOver }) => {
+        import('./task-detail.js').then(({ renderTaskDetail }) => {
+          const task = TASKS.find((item) => item.id === taskId);
+          openSlideOver({ title: task?.name || 'Task', content: renderTaskDetail(taskId) });
         });
       });
-
-      content.querySelectorAll('[data-open-task]').forEach((taskCard) => {
-        taskCard.addEventListener('click', () => {
-          taskCard.style.borderColor = 'var(--color-accent)';
-        });
-      });
-    };
-
-    bindTaskHandlers();
+    });
   }
 }

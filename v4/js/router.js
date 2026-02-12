@@ -4,6 +4,7 @@ import * as projectDetailView from './views/project-detail.js';
 import * as boardView from './views/board.js';
 import * as activityView from './views/activity.js';
 import * as agentsView from './views/agents.js';
+import * as settingsView from './views/settings.js';
 
 let appContainer;
 
@@ -16,17 +17,6 @@ function parseHash() {
   return { path, query };
 }
 
-function renderSettings(container) {
-  container.innerHTML = `
-    <section class="app-view">
-      <h1 class="h-title">Settings</h1>
-      <article class="surface-card task-card">
-        <div class="subtle">Settings UI is placeholder for Phase 2.</div>
-      </article>
-    </section>
-  `;
-}
-
 function resolveRoute(path) {
   if (path === '/' || path === '') return { view: dashboardView, params: {} };
   if (path === '/projects') return { view: projectsView, params: {} };
@@ -37,7 +27,7 @@ function resolveRoute(path) {
   if (path === '/board') return { view: boardView, params: {} };
   if (path === '/activity') return { view: activityView, params: {} };
   if (path === '/agents') return { view: agentsView, params: {} };
-  if (path === '/settings') return { view: { render: renderSettings }, params: {} };
+  if (path === '/settings') return { view: settingsView, params: {} };
   return { view: dashboardView, params: {} };
 }
 
