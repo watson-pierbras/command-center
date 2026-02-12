@@ -1,6 +1,6 @@
 {
   "version": "3.1",
-  "lastUpdated": "2026-02-12T18:19:17Z",
+  "lastUpdated": "2026-02-12T19:29:55Z",
   "agents": [
     {
       "id": "agent-watson-001",
@@ -136,7 +136,7 @@
           "reworkRate": 0.05
         },
         "history": {
-          "lastActive": "2026-02-12T18:14:12Z",
+          "lastActive": "2026-02-12T18:32:19Z",
           "currentStreak": 5,
           "joinedAt": "2026-02-08T16:30:00Z"
         }
@@ -307,7 +307,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T13:14:15-05:00",
+          "lastActive": "2026-02-12T14:24:53-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
