@@ -7,6 +7,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 STATE_FILE="$REPO_DIR/state.json"
+AGENTS_FILE="$REPO_DIR/agents.json"
 OPENCLAW_DIR="$HOME/.openclaw"
 OPENCLAW_CONFIG="$OPENCLAW_DIR/openclaw.json"
 WORKSPACE="$OPENCLAW_DIR/workspace"
@@ -19,73 +20,116 @@ log() {
 log "Sync started"
 
 # ── Agent Status ─────────────────────────────────────────────
+# Load agents.json and detect runtime status dynamically
 
-# Watson (OpenClaw)
-watson_status="offline"
-watson_model="unknown"
-if pgrep -qf "openclaw" 2>/dev/null; then
-  watson_status="online"
-fi
-if [[ -f "$OPENCLAW_CONFIG" ]]; then
-  # Check for runtime override first, then default
-  watson_model=$(jq -r '
-    (.agents.defaults.models // {} | to_entries | map(select(.value.alias)) | first | .key)
-    // .agents.defaults.model.primary
-    // "unknown"
-  ' "$OPENCLAW_CONFIG" 2>/dev/null || echo "unknown")
-  # If we got the aliased model (opus = claude-opus-4-6), use it
-  # Fallback: check if anthropic provider is configured in auth
-  auth_model=$(jq -r '.auth.profiles[]? | select(.provider == "anthropic") | .provider' "$OPENCLAW_CONFIG" 2>/dev/null || true)
-  if [[ -n "$auth_model" ]]; then
-    # Anthropic is configured — get the actual model from aliases
-    aliased=$(jq -r '.agents.defaults.models // {} | to_entries[] | select(.value.alias == "opus") | .key' "$OPENCLAW_CONFIG" 2>/dev/null || true)
-    [[ -n "$aliased" ]] && watson_model="$aliased"
-  fi
+# Default agents data if agents.json doesn't exist
+DEFAULT_AGENTS='{"agents":[]}'
+
+# Load agents.json if it exists
+if [[ -f "$AGENTS_FILE" ]] && jq empty "$AGENTS_FILE" 2>/dev/null; then
+  AGENTS_DATA=$(jq -c '.agents // []' "$AGENTS_FILE")
+else
+  log "WARNING: agents.json not found or invalid, using defaults"
+  AGENTS_DATA='[]'
 fi
 
-# Watson last activity
-watson_last_activity=""
-latest_memory=$(ls -t "$WORKSPACE/memory/"*.md 2>/dev/null | head -1 || true)
-if [[ -n "$latest_memory" ]]; then
-  watson_last_activity=$(date -r "$latest_memory" -u +"%Y-%m-%dT%H:%M:%SZ")
-fi
+# Function to detect agent status based on runtime configuration
+detect_agent_status() {
+  local slug="$1"
+  local provider="$2"
+  local status="offline"
+  local model="unknown"
+  local last_activity=null
+  local extra_data='{}'
 
-# Codex CLI
-codex_status="offline"
-codex_model="gpt-5.3-codex"
-if command -v codex &>/dev/null; then
-  codex_status="idle"
-  codex_config="$HOME/.codex/config.toml"
-  if [[ -f "$codex_config" ]]; then
-    extracted=$(grep -E '^model\s*=' "$codex_config" 2>/dev/null | head -1 | sed 's/^model[[:space:]]*=[[:space:]]*"\(.*\)"/\1/' || true)
-    [[ -n "$extracted" ]] && codex_model="$extracted"
-  fi
-  if pgrep -qf "codex" 2>/dev/null; then
-    codex_status="online"
-  fi
-fi
+  case "$slug" in
+    watson)
+      # Watson (OpenClaw)
+      if pgrep -qf "openclaw" 2>/dev/null; then
+        status="online"
+      fi
+      if [[ -f "$OPENCLAW_CONFIG" ]]; then
+        model=$(jq -r '
+          (.agents.defaults.models // {} | to_entries | map(select(.value.alias)) | first | .key)
+          // .agents.defaults.model.primary
+          // "unknown"
+        ' "$OPENCLAW_CONFIG" 2>/dev/null || echo "unknown")
+        # Check for anthropic alias
+        aliased=$(jq -r '.agents.defaults.models // {} | to_entries[] | select(.value.alias == "opus") | .key' "$OPENCLAW_CONFIG" 2>/dev/null || true)
+        [[ -n "$aliased" ]] && model="$aliased"
+      fi
+      # Watson last activity from memory files
+      latest_memory=$(ls -t "$WORKSPACE/memory/"*.md 2>/dev/null | head -1 || true)
+      if [[ -n "$latest_memory" ]]; then
+        last_activity="\"$(date -r "$latest_memory" -u +"%Y-%m-%dT%H:%M:%SZ")\""
+      fi
+      ;;
+    codex)
+      # Codex CLI
+      model="gpt-5.3-codex"
+      if command -v codex &>/dev/null; then
+        status="idle"
+        codex_config="$HOME/.codex/config.toml"
+        if [[ -f "$codex_config" ]]; then
+          extracted=$(grep -E '^model\s*=' "$codex_config" 2>/dev/null | head -1 | sed 's/^model[[:space:]]*=[[:space:]]*"\(.*\)"/\1/' || true)
+          [[ -n "$extracted" ]] && model="$extracted"
+        fi
+        if pgrep -qf "codex" 2>/dev/null; then
+          status="online"
+        fi
+      fi
+      # Codex last activity from git
+      codex_last=$(cd "$REPO_DIR" && git log --all --format="%aI" -1 2>/dev/null || true)
+      if [[ -n "$codex_last" ]]; then
+        last_activity="\"$codex_last\""
+      fi
+      ;;
+    ollama)
+      # Ollama
+      status="offline"
+      local models='[]'
+      if command -v ollama &>/dev/null; then
+        if pgrep -qf "ollama" 2>/dev/null; then
+          status="online"
+        else
+          status="idle"
+        fi
+        models=$(ollama list 2>/dev/null | tail -n +2 | awk '{print $1}' | head -5 | jq -R . | jq -s . 2>/dev/null || true)
+        if [[ -z "$models" ]] || ! jq -e . >/dev/null 2>&1 <<<"$models"; then
+          models='[]'
+        fi
+      fi
+      extra_data=$(jq -n --argjson m "$models" '{models: $m}')
+      ;;
+  esac
 
-# Codex last activity
-codex_last_activity=""
-codex_last=$(cd "$REPO_DIR" && git log --all --format="%aI" -1 2>/dev/null || true)
-if [[ -n "$codex_last" ]]; then
-  codex_last_activity="$codex_last"
-fi
+  jq -n \
+    --arg slug "$slug" \
+    --arg status "$status" \
+    --arg model "$model" \
+    --argjson last_activity "${last_activity:-null}" \
+    --argjson extra "$extra_data" \
+    '{slug: $slug, status: $status, model: $model, lastActivity: $last_activity} + $extra'
+}
 
-# Ollama
-ollama_status="offline"
-ollama_models='[]'
-if command -v ollama &>/dev/null; then
-  if pgrep -qf "ollama" 2>/dev/null; then
-    ollama_status="online"
-  else
-    ollama_status="idle"
-  fi
-  ollama_models=$(ollama list 2>/dev/null | tail -n +2 | awk '{print $1}' | head -5 | jq -R . | jq -s . 2>/dev/null || true)
-  if [[ -z "$ollama_models" ]] || ! jq -e . >/dev/null 2>&1 <<<"$ollama_models"; then
-    ollama_models='[]'
-  fi
-fi
+# Build dynamic agents status from agents.json
+AGENTS_STATUS=$(echo "$AGENTS_DATA" | jq -c '.[]' | while read -r agent; do
+  slug=$(echo "$agent" | jq -r '.slug')
+  provider=$(echo "$agent" | jq -r '.runtime.provider')
+  detect_agent_status "$slug" "$provider"
+done | jq -s '.')
+
+# Extract individual agent statuses for backward compatibility
+watson_status=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "watson") | .status // "offline"')
+watson_model=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "watson") | .model // "unknown"')
+watson_last_activity=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "watson") | .lastActivity // empty')
+
+codex_status=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "codex") | .status // "offline"')
+codex_model=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "codex") | .model // "gpt-5.3-codex"')
+codex_last_activity=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "codex") | .lastActivity // empty')
+
+ollama_status=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "ollama") | .status // "offline"')
+ollama_models=$(echo "$AGENTS_STATUS" | jq -r '.[] | select(.slug == "ollama") | .models // "[]"')
 
 # ── CoachFinder Status ───────────────────────────────────────
 cf_py_files=0
@@ -267,10 +311,63 @@ if [[ -f "$STATE_FILE" ]] && jq empty "$STATE_FILE" 2>/dev/null; then
   [[ -n "$ef" ]] && existing_feed="$ef"
 fi
 
-# ── Build state.json with jq ────────────────────────────────
-# ── Project Data from projects.json ─────────────────────────
+# ── Build agents.json dynamic update ───────────────────────
+# Define file paths first
 BOARD_FILE="$REPO_DIR/board.json"
 PROJECTS_FILE="$REPO_DIR/projects.json"
+
+# Calculate task statistics from board.json for performance metrics
+BOARD_STATS=$(jq -c '
+  (.tasks // []) | group_by(.assignedAgent) |
+  map({
+    key: (.[0].assignedAgent // "unassigned"),
+    value: {
+      total: length,
+      completed: ([.[] | select(.column == "done")] | length),
+      active: ([.[] | select(.column == "active")] | length),
+      planned: ([.[] | select(.column == "planned")] | length),
+      totalCost: ([.[] | .estimatedCost // 0] | add),
+      avgCost: (if length > 0 then (([.[] | .estimatedCost // 0] | add) / length) else 0 end)
+    }
+  }) | from_entries
+' "$BOARD_FILE" 2>/dev/null || echo '{}')
+
+# Update agents.json with dynamic availability and performance metrics
+if [[ -f "$AGENTS_FILE" ]] && jq empty "$AGENTS_FILE" 2>/dev/null; then
+  # Update agents.json in place with new status and metrics
+  UPDATED_AGENTS=$(jq --argjson statuses "$AGENTS_STATUS" --argjson stats "$BOARD_STATS" --arg ts "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" '
+    $stats as $s |
+    $statuses as $st |
+    {
+      version: .version,
+      lastUpdated: $ts,
+      agents: [
+        .agents[] |
+        (.slug) as $slug |
+        ($st[] | select(.slug == $slug)) as $status |
+        ($s[$slug] // {total: 0, completed: 0, active: 0, planned: 0, totalCost: 0, avgCost: 0}) as $stat |
+        .availability.status = ($status.status // "offline") |
+        .availability.currentLoad = $stat.active |
+        .performance.metrics.tasksAssigned = $stat.total |
+        .performance.metrics.tasksCompleted = $stat.completed |
+        .performance.metrics.tasksSuccessRate = (if $stat.total > 0 then ($stat.completed / $stat.total) else 0 end) |
+        .performance.metrics.avgCostPerTask = $stat.avgCost |
+        .performance.history.lastActive = ($status.lastActivity // .performance.history.lastActive)
+      ]
+    }
+  ' "$AGENTS_FILE")
+
+  # Validate and write updated agents.json
+  if echo "$UPDATED_AGENTS" | jq empty 2>/dev/null; then
+    echo "$UPDATED_AGENTS" > "$AGENTS_FILE"
+    log "Updated agents.json with dynamic metrics"
+  else
+    log "WARNING: Failed to update agents.json, keeping existing"
+  fi
+fi
+
+# ── Build state.json with jq ────────────────────────────────
+# ── Project Data from projects.json ─────────────────────────
 PROJECTS_JSON='[]'
 
 # Calculate task statistics from board.json
@@ -326,6 +423,9 @@ COSTS_WITH_PROJECTS=$(jq -n --argjson costs "$COSTS_JSON" --argjson projects "$P
   $costs | .projects = $projects
 ')
 
+# Load agents.json for state.json inclusion
+AGENTS_JSON_DATA=$(jq -c '.agents // []' "$AGENTS_FILE" 2>/dev/null || echo '[]')
+
 jq -n \
   --arg ts "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
   --arg ws "$watson_status" \
@@ -342,6 +442,7 @@ jq -n \
   --argjson cfsec "$cf_security" \
   --argjson feed "$existing_feed" \
   --argjson projects "$PROJECTS_JSON" \
+  --argjson agentsArray "$AGENTS_JSON_DATA" \
 '{
   lastUpdated: $ts,
   agents: {
@@ -361,6 +462,7 @@ jq -n \
       lastActivity: null
     }
   },
+  agentsRegistry: $agentsArray,
   costs: $costs,
   projects: $projects,
   coachfinder: {
