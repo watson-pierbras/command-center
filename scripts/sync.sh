@@ -268,18 +268,57 @@ if [[ -f "$STATE_FILE" ]] && jq empty "$STATE_FILE" 2>/dev/null; then
 fi
 
 # ── Build state.json with jq ────────────────────────────────
-# ── Project Aggregation from board.json ─────────────────────
+# ── Project Data from projects.json ─────────────────────────
 BOARD_FILE="$REPO_DIR/board.json"
+PROJECTS_FILE="$REPO_DIR/projects.json"
 PROJECTS_JSON='[]'
+
+# Calculate task statistics from board.json
+BOARD_STATS='{}'
 if [[ -f "$BOARD_FILE" ]] && jq empty "$BOARD_FILE" 2>/dev/null; then
-  PROJECTS_JSON=$(jq -c '
-    [.tasks // [] | group_by(.project // "Uncategorized") | .[] | {
-      name: (.[0].project // "Uncategorized"),
-      taskCount: length,
-      completedTasks: ([.[] | select(.column == "done")] | length),
-      totalCost: ([.[] | .estimatedCost // 0] | add)
-    }]
-  ' "$BOARD_FILE" 2>/dev/null || echo '[]')
+  BOARD_STATS=$(jq -c '
+    (.tasks // []) | group_by(.project // "Uncategorized") | 
+    map({
+      key: (.[0].project // "Uncategorized"),
+      value: {
+        taskCount: length,
+        completedTasks: ([.[] | select(.column == "done")] | length),
+        totalCost: ([.[] | .estimatedCost // 0] | add)
+      }
+    }) | from_entries
+  ' "$BOARD_FILE" 2>/dev/null || echo '{}')
+fi
+
+# Load projects.json and merge with board stats
+if [[ -f "$PROJECTS_FILE" ]] && jq empty "$PROJECTS_FILE" 2>/dev/null; then
+  # Merge stats into projects using jq with --argjson
+  PROJECTS_JSON=$(jq --arg stats "$BOARD_STATS" '
+    ($stats | fromjson) as $s |
+    (.projects // []) | map(. as $proj | 
+      ($s[$proj.name] // {taskCount: 0, completedTasks: 0, totalCost: 0}) as $stat |
+      {
+        id: $proj.id,
+        slug: $proj.slug,
+        name: $proj.name,
+        description: $proj.description,
+        status: $proj.status,
+        visibility: $proj.visibility,
+        metadata: $proj.metadata,
+        timeline: $proj.timeline,
+        budget: (($proj.budget // {}) | .spent = $stat.totalCost),
+        team: $proj.team,
+        settings: $proj.settings,
+        progress: {
+          taskCount: $stat.taskCount,
+          completedTasks: $stat.completedTasks,
+          percentComplete: (if $stat.taskCount > 0 then (($stat.completedTasks * 100) / $stat.taskCount | floor) else 0 end),
+          currentPhase: $proj.progress.currentPhase,
+          blocked: $proj.progress.blocked
+        },
+        integrations: $proj.integrations
+      }
+    )
+  ' "$PROJECTS_FILE" 2>/dev/null || echo '[]')
 fi
 
 # Merge projects into costs JSON
@@ -302,6 +341,7 @@ jq -n \
   --argjson cfpl "$cf_py_lines" \
   --argjson cfsec "$cf_security" \
   --argjson feed "$existing_feed" \
+  --argjson projects "$PROJECTS_JSON" \
 '{
   lastUpdated: $ts,
   agents: {
@@ -322,6 +362,7 @@ jq -n \
     }
   },
   costs: $costs,
+  projects: $projects,
   coachfinder: {
     status: "development",
     completion: 85,
