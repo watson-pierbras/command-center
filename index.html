@@ -3007,15 +3007,29 @@
         if (!history.length) {
           sparklineChartEl.innerHTML = "<div class='model-bar-row'>No daily data yet.</div>";
         } else {
-          const maxCost = Math.max(...history.map(d => d.cost), 1);
-          sparklineChartEl.innerHTML = history.map(d => {
-            const pct = Math.max(4, Math.round((d.cost / maxCost) * 100));
-            const dayLabel = new Date(d.date + "T12:00:00").toLocaleDateString(undefined, { weekday: "short" });
-            return `<div class="spark-bar-wrap" title="${d.date}: ${money(d.cost)} (${d.calls} calls)">
+          // Filter history by date range
+          const rangeMs = costFilterState.range === "7d"
+            ? 7 * 86400000
+            : (costFilterState.range === "30d" ? 30 * 86400000 : 2 * 86400000); // 48h = 2 days
+          const cutoff = Date.now() - rangeMs;
+          const filteredHistory = history.filter(d => {
+            const ts = new Date(d.date + "T00:00:00").getTime();
+            return Number.isFinite(ts) && ts >= cutoff;
+          });
+
+          if (!filteredHistory.length) {
+            sparklineChartEl.innerHTML = "<div class='model-bar-row'>No data for selected range.</div>";
+          } else {
+            const maxCost = Math.max(...filteredHistory.map(d => d.cost), 1);
+            sparklineChartEl.innerHTML = filteredHistory.map(d => {
+              const pct = Math.max(4, Math.round((d.cost / maxCost) * 100));
+              const dayLabel = new Date(d.date + "T12:00:00").toLocaleDateString(undefined, { weekday: "short" });
+              return `<div class="spark-bar-wrap" title="${d.date}: ${money(d.cost)} (${d.calls} calls)">
         <div class="spark-bar" style="height:${pct}%"></div>
         <div class="spark-label">${dayLabel}</div>
       </div>`;
-          }).join("");
+            }).join("");
+          }
         }
       }
 
@@ -3059,10 +3073,12 @@
       if (!sortedModels.length) {
         modelBarsEl.innerHTML = "<div class='model-bar-row'>No cost data yet.</div>";
       } else {
+        const selectedModel = costFilterState.model;
         sortedModels.forEach((rowData) => {
           const model = shortModelName(modelLabel(rowData));
           const cost = parseCostValue(rowData.cost);
           const pct = max > 0 ? Math.max(8, Math.round((cost / max) * 100)) : 8;
+          const isDimmed = selectedModel !== "all" && model !== selectedModel;
           const meta = [];
           if (Number.isFinite(Number(rowData.calls))) {
             meta.push(`<span class="model-meta-pill">${Number(rowData.calls).toLocaleString()} calls</span>`);
@@ -3082,6 +3098,9 @@
           }
           const row = document.createElement("div");
           row.className = "model-bar-row";
+          if (isDimmed) {
+            row.style.opacity = "0.3";
+          }
           row.innerHTML = `
             <div class="model-bar-main"><strong>${model}</strong><span>${displayCost(cost)}</span></div>
             <div class="model-bar-meta">${meta.join("")}</div>
@@ -3109,6 +3128,14 @@
       }
 
       costTableBody.innerHTML = "";
+
+      // Calculate filter parameters for both activity and entries
+      const rangeMs = costFilterState.range === "7d"
+        ? 7 * 86400000
+        : (costFilterState.range === "30d" ? 30 * 86400000 : 48 * 3600000);
+      const cutoff = Date.now() - rangeMs;
+      const selectedModel = costFilterState.model;
+
       if (activityRows.length) {
         if (costTableHeadRow) {
           costTableHeadRow.innerHTML = `
@@ -3120,11 +3147,6 @@
             <th>Cost</th>
           `;
         }
-        const rangeMs = costFilterState.range === "7d"
-          ? 7 * 86400000
-          : (costFilterState.range === "30d" ? 30 * 86400000 : 48 * 3600000);
-        const cutoff = Date.now() - rangeMs;
-        const selectedModel = costFilterState.model;
         const filteredRows = activityRows
           .filter((entry) => {
             const ts = new Date(entry.hour).getTime();
@@ -3171,6 +3193,7 @@
         tr.innerHTML = "<td colspan='6'>No activity yet.</td>";
         costTableBody.appendChild(tr);
       } else {
+        // Apply filters to entries as well
         if (costTableHeadRow) {
           costTableHeadRow.innerHTML = `
             <th>Date</th>
@@ -3182,10 +3205,25 @@
             <th data-col="note">Note</th>
           `;
         }
-        entries
+        const filteredEntries = entries
+          .filter((entry) => {
+            const ts = new Date(entry.date).getTime();
+            if (Number.isFinite(ts) && ts < cutoff) return false;
+            if (selectedModel !== "all") {
+              const model = shortModelName(entry.model);
+              return model === selectedModel;
+            }
+            return true;
+          })
           .slice()
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .forEach(entry => {
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        if (!filteredEntries.length) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td colspan='7'>No entries for selected filters.</td>";
+          costTableBody.appendChild(tr);
+        } else {
+          filteredEntries.forEach(entry => {
             const tr = document.createElement("tr");
             const agent = AGENT_META[entry.agent] ? agentNameBadge(entry.agent) : entry.agent;
             tr.innerHTML = `
@@ -3199,6 +3237,7 @@
             `;
             costTableBody.appendChild(tr);
           });
+        }
       }
     }
 
