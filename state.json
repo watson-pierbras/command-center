@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T13:41:54Z",
+  "lastUpdated": "2026-02-12T13:46:56Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T08:36:51-05:00"
+      "lastActivity": "2026-02-12T08:41:54-05:00"
     },
     "ollama": {
       "status": "online",
@@ -268,7 +268,7 @@
       {
         "hour": "2026-02-10T13:00Z",
         "model": "delivery-mirror",
-        "calls": 3,
+        "calls": 1,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
@@ -276,10 +276,10 @@
       {
         "hour": "2026-02-10T13:00Z",
         "model": "claude-opus-4-6",
-        "calls": 15,
-        "tokensIn": 869238,
-        "tokensOut": 7325,
-        "cost": 0.7
+        "calls": 3,
+        "tokensIn": 194028,
+        "tokensOut": 5818,
+        "cost": 0.28
       }
     ],
     "dailyHistory": [
