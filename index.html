@@ -2932,6 +2932,16 @@
       renderActivity();
     }
 
+    function escapeHtml(text) {
+      if (!text) return "";
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     function formatDate(iso, withTime = false) {
       if (!iso) return "-";
       const d = new Date(iso);
