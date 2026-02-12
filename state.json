@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T14:17:11Z",
+  "lastUpdated": "2026-02-12T14:22:13Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T09:16:54-05:00"
+      "lastActivity": "2026-02-12T09:17:11-05:00"
     },
     "ollama": {
       "status": "online",
@@ -39,7 +39,7 @@
         "tokensOut": 283160,
         "cacheRead": 111855690,
         "cacheWrite": 5058243,
-        "calls": 1156,
+        "calls": 1158,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -61,11 +61,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 8486968,
-        "tokensOut": 32194,
-        "cacheRead": 7520256,
+        "tokensIn": 9461369,
+        "tokensOut": 39242,
+        "cacheRead": 8479744,
         "cacheWrite": 0,
-        "calls": 165,
+        "calls": 181,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -100,14 +100,22 @@
       {
         "hour": "2026-02-12T14:00Z",
         "model": "kimi-k2.5",
-        "calls": 26,
-        "tokensIn": 1912210,
-        "tokensOut": 5383,
+        "calls": 42,
+        "tokensIn": 2886611,
+        "tokensOut": 12431,
         "cost": 0
       },
       {
         "hour": "2026-02-12T14:00Z",
         "model": "delivery-mirror",
+        "calls": 2,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-12T14:00Z",
+        "model": "claude-opus-4-6",
         "calls": 2,
         "tokensIn": 0,
         "tokensOut": 0,
@@ -268,10 +276,10 @@
       {
         "hour": "2026-02-10T14:00Z",
         "model": "claude-opus-4-6",
-        "calls": 138,
-        "tokensIn": 10731821,
-        "tokensOut": 29913,
-        "cost": 8.31
+        "calls": 113,
+        "tokensIn": 8312021,
+        "tokensOut": 25203,
+        "cost": 6.16
       }
     ],
     "dailyHistory": [
@@ -298,7 +306,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 76
+        "calls": 94
       }
     ]
   },
