@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T15:19:11Z",
+  "lastUpdated": "2026-02-12T15:22:42Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T10:17:39-05:00"
+      "lastActivity": "2026-02-12T10:20:07-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T10:17:39-05:00",
+          "lastActive": "2026-02-12T10:20:07-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -523,7 +523,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 83,
+        "calls": 84,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -532,11 +532,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 14787417,
-        "tokensOut": 94247,
-        "cacheRead": 13616406,
+        "tokensIn": 15167619,
+        "tokensOut": 94969,
+        "cacheRead": 13994518,
         "cacheWrite": 0,
-        "calls": 264,
+        "calls": 267,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -839,15 +839,15 @@
       {
         "hour": "2026-02-12T15:00Z",
         "model": "kimi-k2.5",
-        "calls": 53,
-        "tokensIn": 2766429,
-        "tokensOut": 20542,
+        "calls": 56,
+        "tokensIn": 3146631,
+        "tokensOut": 21264,
         "cost": 0
       },
       {
         "hour": "2026-02-12T15:00Z",
         "model": "delivery-mirror",
-        "calls": 2,
+        "calls": 3,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
@@ -1023,10 +1023,10 @@
       {
         "hour": "2026-02-10T15:00Z",
         "model": "claude-opus-4-6",
-        "calls": 24,
-        "tokensIn": 698141,
-        "tokensOut": 7004,
-        "cost": 1.05
+        "calls": 9,
+        "tokensIn": 312507,
+        "tokensOut": 2815,
+        "cost": 0.44
       }
     ],
     "dailyHistory": [
@@ -1053,7 +1053,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 187
+        "calls": 191
       }
     ]
   },
