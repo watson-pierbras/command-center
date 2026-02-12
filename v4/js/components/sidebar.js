@@ -12,7 +12,6 @@ const MAIN_ITEMS = [
 const EXTRA_ITEMS = [{ key: 'settings', icon: '⚙', label: 'Settings', path: '/settings' }];
 
 let tabletCollapsed = true;
-let outsideClickBound = false;
 
 function getPath() {
   const hash = window.location.hash || '#/';
@@ -108,6 +107,37 @@ function buildSidebar() {
   renderThemeToggle(sidebar.querySelector('[data-theme-toggle]'));
 }
 
+function getMoreMenu() {
+  let menu = document.getElementById('more-menu-portal');
+  if (!menu) {
+    menu = document.createElement('div');
+    menu.id = 'more-menu-portal';
+    menu.className = 'more-menu';
+    menu.setAttribute('data-more-menu', '');
+    menu.hidden = true;
+    menu.innerHTML = `
+      <button type="button" class="more-item" data-bottom-path="/agents">🤖 Agents</button>
+      <button type="button" class="more-item" data-bottom-path="/settings">⚙ Settings</button>
+    `;
+    document.body.appendChild(menu);
+
+    menu.querySelectorAll('[data-bottom-path]').forEach((button) => {
+      button.addEventListener('click', () => {
+        navigate(button.dataset.bottomPath);
+        menu.hidden = true;
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      const tabs = document.getElementById('bottom-tabs');
+      if (!menu.hidden && !menu.contains(event.target) && (!tabs || !tabs.contains(event.target))) {
+        menu.hidden = true;
+      }
+    });
+  }
+  return menu;
+}
+
 function buildBottomTabs() {
   const container = document.getElementById('bottom-tabs');
   if (!container) {
@@ -135,39 +165,21 @@ function buildBottomTabs() {
         <span>⋯</span><span>More</span>
       </button>
     </div>
-    <div class="more-menu" data-more-menu hidden>
-      <button type="button" class="more-item" data-bottom-path="/agents">🤖 Agents</button>
-      <button type="button" class="more-item" data-bottom-path="/settings">⚙ Settings</button>
-    </div>
   `;
 
   container.querySelectorAll('[data-bottom-path]').forEach((button) => {
     button.addEventListener('click', () => {
       navigate(button.dataset.bottomPath);
-      const menu = container.querySelector('[data-more-menu]');
-      if (menu) {
-        menu.hidden = true;
-      }
+      getMoreMenu().hidden = true;
     });
   });
 
   const more = container.querySelector('[data-open-more]');
-  const menu = container.querySelector('[data-more-menu]');
-  if (more && menu) {
+  if (more) {
     more.addEventListener('click', () => {
+      const menu = getMoreMenu();
       menu.hidden = !menu.hidden;
     });
-
-    if (!outsideClickBound) {
-      document.addEventListener('click', (event) => {
-        const activeMenu = document.querySelector('#bottom-tabs [data-more-menu]');
-        const tabs = document.getElementById('bottom-tabs');
-        if (activeMenu && tabs && !tabs.contains(event.target)) {
-          activeMenu.hidden = true;
-        }
-      });
-      outsideClickBound = true;
-    }
   }
 }
 
