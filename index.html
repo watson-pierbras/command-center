@@ -3365,8 +3365,13 @@
             metaEl.className = "meta";
 
             const projectEl = document.createElement("span");
-            projectEl.className = "pill";
-            projectEl.textContent = task.project;
+            projectEl.className = "pill project-pill";
+            projectEl.textContent = task.project || "Other";
+            projectEl.style.cursor = "pointer";
+            projectEl.addEventListener("click", (e) => {
+              e.stopPropagation();
+              openProjectDetail(task.project || "Other");
+            });
 
             const priorityEl = document.createElement("span");
             priorityEl.className = `pill priority-${task.priority}`;
