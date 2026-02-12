@@ -1771,6 +1771,178 @@
       outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
+
+    /* Project Detail Styles */
+    .project-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .project-stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .project-stat-value {
+      display: block;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .project-stat-label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .project-tasks-filter {
+      margin-bottom: 12px;
+    }
+
+    .project-tasks-filter select {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .project-tasks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .project-task-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .project-task-item:hover {
+      border-color: var(--accent);
+      background: var(--soft-accent-bg);
+    }
+
+    .project-task-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .project-task-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .project-task-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .project-task-assignee {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .pill.danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    /* Relationship indicator text styles */
+    .rel-indicator {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .rel-blocked {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    .rel-subtasks {
+      background: rgba(99, 102, 241, 0.15);
+      color: #6366f1;
+    }
+
+    .rel-blocks {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    /* Clickable project pill */
+    .project-pill {
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    }
+
+    .project-pill:hover {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .project-pill:active {
+      transform: scale(0.95);
+    }
+
+    /* Feed filter styles */
+    .feed-filters {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .feed-filters .filter-group {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .feed-filters .filter-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .feed-filters select {
+      width: 100%;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
@@ -1923,8 +2095,34 @@
         <section class="panel" id="panel-feed">
           <div class="feed-shell">
             <div class="feed-actions">
-              <span>Timeline</span>
+              <span>Task Activity Feed</span>
               <button class="btn secondary" id="feedRefreshBtn" type="button">Refresh Feed</button>
+            </div>
+            <div class="feed-filters">
+              <div class="filter-group">
+                <label>Project</label>
+                <select id="feedProjectFilter">
+                  <option value="all">All Projects</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Agent</label>
+                <select id="feedAgentFilter">
+                  <option value="all">All Agents</option>
+                  <option value="watson">Watson</option>
+                  <option value="codex">Codex</option>
+                  <option value="ollama">Ollama</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Type</label>
+                <select id="feedTypeFilter">
+                  <option value="all">All Activity</option>
+                  <option value="created">Created</option>
+                  <option value="completed">Completed</option>
+                  <option value="moved">Moved</option>
+                </select>
+              </div>
             </div>
             <div class="timeline" id="feedTimeline"></div>
           </div>
@@ -2028,6 +2226,69 @@
         <div class="comment-input" id="cardDetailCommentInput">
           <textarea id="cardCommentInput" placeholder="Add a comment"></textarea>
           <button class="btn primary" id="cardCommentSendBtn" type="button">Send</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Project Detail View -->
+    <div class="card-detail-backdrop" id="projectDetailBackdrop">
+      <aside class="card-detail card-detail-panel" id="projectDetail" role="dialog" aria-modal="true" aria-labelledby="projectDetailTitle">
+        <div class="card-detail-header">
+          <button class="icon-btn" id="projectDetailBack" type="button" title="Back">←</button>
+          <div class="card-detail-head-main">
+            <span class="pill">Project</span>
+            <h2 id="projectDetailTitle">Project Name</h2>
+          </div>
+        </div>
+        <div class="detail-tabs" id="projectDetailTabs">
+          <button class="detail-tab active" data-project-tab="overview">Overview</button>
+          <button class="detail-tab" data-project-tab="tasks">Tasks</button>
+        </div>
+        <div class="card-detail-scroll">
+          <!-- Overview Panel -->
+          <div class="detail-panel active" id="projectPanel-overview">
+            <div class="card-detail-meta" id="projectDetailMeta"></div>
+            <section class="card-detail-section">
+              <h4>Statistics</h4>
+              <div class="project-stats-grid" id="projectStatsGrid">
+                <div class="project-stat-card">
+                  <span class="project-stat-value" id="projectStatTotal">0</span>
+                  <span class="project-stat-label">Total Tasks</span>
+                </div>
+                <div class="project-stat-card">
+                  <span class="project-stat-value" id="projectStatActive">0</span>
+                  <span class="project-stat-label">Active</span>
+                </div>
+                <div class="project-stat-card">
+                  <span class="project-stat-value" id="projectStatDone">0</span>
+                  <span class="project-stat-label">Completed</span>
+                </div>
+                <div class="project-stat-card">
+                  <span class="project-stat-value" id="projectStatProgress">0%</span>
+                  <span class="project-stat-label">Progress</span>
+                </div>
+              </div>
+            </section>
+            <section class="card-detail-section">
+              <h4>Recent Activity</h4>
+              <div class="timeline" id="projectActivityTimeline"></div>
+            </section>
+          </div>
+          <!-- Tasks Panel -->
+          <div class="detail-panel" id="projectPanel-tasks">
+            <section class="card-detail-section">
+              <h4>All Tasks</h4>
+              <div class="project-tasks-filter">
+                <select id="projectTaskFilter">
+                  <option value="all">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="planned">Planned</option>
+                  <option value="done">Done</option>
+                </select>
+              </div>
+              <div class="project-tasks-list" id="projectTasksList"></div>
+            </section>
+          </div>
         </div>
       </aside>
     </div>
@@ -2232,6 +2493,25 @@
     const cardDetailDeleteBtn = document.getElementById("cardDetailDeleteBtn");
     const cardCommentInput = document.getElementById("cardCommentInput");
     const cardCommentSendBtn = document.getElementById("cardCommentSendBtn");
+
+    // Project Detail Elements
+    const projectDetailBackdrop = document.getElementById("projectDetailBackdrop");
+    const projectDetailBack = document.getElementById("projectDetailBack");
+    const projectDetailTitle = document.getElementById("projectDetailTitle");
+    const projectDetailMeta = document.getElementById("projectDetailMeta");
+    const projectDetailTabs = document.getElementById("projectDetailTabs");
+    const projectStatTotal = document.getElementById("projectStatTotal");
+    const projectStatActive = document.getElementById("projectStatActive");
+    const projectStatDone = document.getElementById("projectStatDone");
+    const projectStatProgress = document.getElementById("projectStatProgress");
+    const projectActivityTimeline = document.getElementById("projectActivityTimeline");
+    const projectTaskFilter = document.getElementById("projectTaskFilter");
+    const projectTasksList = document.getElementById("projectTasksList");
+
+    // Feed Filter Elements
+    const feedProjectFilter = document.getElementById("feedProjectFilter");
+    const feedAgentFilter = document.getElementById("feedAgentFilter");
+    const feedTypeFilter = document.getElementById("feedTypeFilter");
 
     const costSummaryEl = document.getElementById("costSummary");
     const sparklineChartEl = document.getElementById("sparklineChart");
@@ -3126,7 +3406,7 @@
               const blockedByNames = getBlockedTaskNames(task);
               const blockedEl = document.createElement("span");
               blockedEl.className = "rel-indicator rel-blocked";
-              blockedEl.textContent = "🔴";
+              blockedEl.textContent = "Blocked";
               blockedEl.title = `Blocked by: ${blockedByNames}`;
               relIndicators.appendChild(blockedEl);
             }
@@ -3134,7 +3414,7 @@
             if (hasSubtasks) {
               const subtasksEl = document.createElement("span");
               subtasksEl.className = "rel-indicator rel-subtasks";
-              subtasksEl.textContent = `📎 ${rels.subtasks.length}`;
+              subtasksEl.textContent = `${rels.subtasks.length} Subtasks`;
               subtasksEl.title = `${rels.subtasks.length} subtask${rels.subtasks.length !== 1 ? 's' : ''}`;
               relIndicators.appendChild(subtasksEl);
             }
@@ -3142,7 +3422,7 @@
             if (hasBlocks) {
               const blocksEl = document.createElement("span");
               blocksEl.className = "rel-indicator rel-blocks";
-              blocksEl.textContent = "🚫";
+              blocksEl.textContent = `Blocks ${rels.dependencies.blocks.length}`;
               blocksEl.title = `Blocks ${rels.dependencies.blocks.length} task${rels.dependencies.blocks.length !== 1 ? 's' : ''}`;
               relIndicators.appendChild(blocksEl);
             }
@@ -3603,16 +3883,33 @@
           footerHtml += `<span>Est: ${task.estimatedTime}</span>`;
         }
 
+        const projectName = task.project || "Other";
         card.innerHTML = `
           <div class="project-title">${task.title}</div>
           <div class="project-meta">
             <span class="pill">${agent}</span>
             <span class="pill priority-${task.priority}">${task.priority}</span>
-            <span class="pill">${task.project || "Other"}</span>
+            <span class="pill project-pill" role="button" tabindex="0" data-project="${projectName}">${projectName}</span>
           </div>
           ${notesPreview ? `<div class="project-notes">${notesPreview}</div>` : ""}
           ${footerHtml ? `<div class="project-footer">${footerHtml}</div>` : ""}
         `;
+
+        // Make project pill clickable to open project detail
+        const projectPill = card.querySelector('.project-pill');
+        if (projectPill) {
+          projectPill.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openProjectDetail(projectName);
+          });
+          projectPill.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+              openProjectDetail(projectName);
+            }
+          });
+        }
 
         card.addEventListener("click", () => openCardDetail(task.id));
         card.addEventListener("keydown", (e) => {
@@ -3733,6 +4030,158 @@
     }
 
     let activeDetailTab = "details";
+    let activeProjectTab = "overview";
+    let viewingProject = null;
+
+    function openProjectDetail(projectName) {
+      viewingProject = projectName;
+      activeProjectTab = "overview";
+      renderProjectDetail(projectName);
+      projectDetailBackdrop.classList.add("open");
+    }
+
+    function closeProjectDetail() {
+      projectDetailBackdrop.classList.remove("open");
+      viewingProject = null;
+    }
+
+    function renderProjectDetail(projectName) {
+      const projectTasks = tasks.filter(t => (t.project || "Other") === projectName);
+      const total = projectTasks.length;
+      const active = projectTasks.filter(t => t.column === "active").length;
+      const done = projectTasks.filter(t => t.column === "done").length;
+      const planned = projectTasks.filter(t => t.column === "planned").length;
+      const progress = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      projectDetailTitle.textContent = projectName;
+
+      // Update stats
+      projectStatTotal.textContent = total;
+      projectStatActive.textContent = active;
+      projectStatDone.textContent = done;
+      projectStatProgress.textContent = `${progress}%`;
+
+      // Render meta
+      projectDetailMeta.innerHTML = "";
+      const metaItems = [
+        { text: `${planned} Planned`, className: "pill" },
+        { text: `${active} Active`, className: "pill" },
+        { text: `${done} Done`, className: "pill" }
+      ];
+      metaItems.forEach(item => {
+        const chip = document.createElement("span");
+        chip.className = item.className;
+        chip.textContent = item.text;
+        projectDetailMeta.appendChild(chip);
+      });
+
+      // Render activity timeline (recent task changes for this project)
+      renderProjectActivity(projectName);
+
+      // Render tasks list
+      renderProjectTasksList(projectName);
+
+      // Update tab states
+      updateProjectTabs();
+    }
+
+    function renderProjectActivity(projectName) {
+      projectActivityTimeline.innerHTML = "";
+      
+      // Get activity related to this project's tasks
+      const projectTaskIds = new Set(tasks.filter(t => (t.project || "Other") === projectName).map(t => t.id));
+      const relevantActivity = activity.filter(a => {
+        // Check if activity message contains any task ID from this project
+        return projectTaskIds.size === 0 || Array.from(projectTaskIds).some(id => a.message?.includes(id));
+      }).slice(0, 10);
+
+      if (relevantActivity.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "timeline-item feed-info";
+        empty.innerHTML = "<p class='timeline-text empty-state-text'>No recent activity for this project.</p>";
+        projectActivityTimeline.appendChild(empty);
+        return;
+      }
+
+      relevantActivity.forEach(entry => {
+        const item = document.createElement("article");
+        item.className = "timeline-item feed-info";
+        item.innerHTML = `
+          <div class="timeline-head">
+            <span>${entry.message}</span>
+            <span>${formatDate(entry.ts, true)}</span>
+          </div>
+        `;
+        projectActivityTimeline.appendChild(item);
+      });
+    }
+
+    function renderProjectTasksList(projectName) {
+      const filterValue = projectTaskFilter?.value || "all";
+      let projectTasks = tasks.filter(t => (t.project || "Other") === projectName);
+      
+      if (filterValue !== "all") {
+        projectTasks = projectTasks.filter(t => t.column === filterValue);
+      }
+
+      projectTasksList.innerHTML = "";
+
+      if (projectTasks.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state-text";
+        empty.textContent = "No tasks found.";
+        empty.style.padding = "20px";
+        empty.style.textAlign = "center";
+        projectTasksList.appendChild(empty);
+        return;
+      }
+
+      // Sort by status (active first, then planned, then done)
+      const columnOrder = { active: 0, planned: 1, done: 2 };
+      projectTasks.sort((a, b) => {
+        const orderDiff = columnOrder[a.column] - columnOrder[b.column];
+        if (orderDiff !== 0) return orderDiff;
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+
+      projectTasks.forEach(task => {
+        const taskEl = document.createElement("div");
+        taskEl.className = "project-task-item";
+        taskEl.onclick = () => {
+          closeProjectDetail();
+          openCardDetail(task.id);
+        };
+
+        const assigneeName = task.assignedAgent && AGENT_META[task.assignedAgent]
+          ? AGENT_META[task.assignedAgent].name
+          : "Unassigned";
+
+        const statusClass = task.column === "done" ? "done" : task.column === "active" ? "active" : "planned";
+
+        taskEl.innerHTML = `
+          <div class="project-task-header">
+            <span class="project-task-title">${escapeHtml(task.title)}</span>
+            <span class="pill priority-${task.priority}">${task.priority}</span>
+          </div>
+          <div class="project-task-meta">
+            <span class="status-indicator ${statusClass}"></span>
+            <span class="pill">${task.column}</span>
+            <span class="project-task-assignee">${assigneeName}</span>
+            ${isBlocked(task) ? '<span class="pill danger">Blocked</span>' : ''}
+          </div>
+        `;
+        projectTasksList.appendChild(taskEl);
+      });
+    }
+
+    function updateProjectTabs() {
+      projectDetailTabs.querySelectorAll(".detail-tab").forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.projectTab === activeProjectTab);
+      });
+      document.querySelectorAll("[id^='projectPanel-']").forEach(panel => {
+        panel.classList.toggle("active", panel.id === `projectPanel-${activeProjectTab}`);
+      });
+    }
 
     function renderCardDetail(task) {
       cardDetailProject.textContent = task.project || "Other";
@@ -3754,7 +4203,7 @@
       // Add blocked indicator to meta if blocked
       if (isBlocked(task)) {
         const blockedNames = getBlockedTaskNames(task);
-        metaValues.push({ text: "🔴 Blocked", className: "pill", title: `Blocked by: ${blockedNames}` });
+        metaValues.push({ text: "Blocked", className: "pill danger", title: `Blocked by: ${blockedNames}` });
       }
 
       metaValues.forEach(item => {
@@ -4446,6 +4895,31 @@
       // });
     }
 
+    function initProjectDetail() {
+      projectDetailBack.addEventListener("click", closeProjectDetail);
+      projectDetailBackdrop.addEventListener("click", e => {
+        if (e.target === projectDetailBackdrop) closeProjectDetail();
+      });
+
+      // Project detail tabs
+      projectDetailTabs.querySelectorAll(".detail-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          activeProjectTab = tab.dataset.projectTab;
+          updateProjectTabs();
+          if (activeProjectTab === "tasks") {
+            renderProjectTasksList(viewingProject);
+          }
+        });
+      });
+
+      // Task filter
+      if (projectTaskFilter) {
+        projectTaskFilter.addEventListener("change", () => {
+          renderProjectTasksList(viewingProject);
+        });
+      }
+    }
+
     function initActivityPanel() {
       document.getElementById("activityClose").addEventListener("click", () => {
         activityPanel.classList.remove("open");
@@ -4588,6 +5062,7 @@
       initSettings();
       initModal();
       initCardDetail();
+      initProjectDetail();
       initActivityPanel();
       initRefreshControls();
       initResize();
