@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-11T23:55:05Z",
+  "lastUpdated": "2026-02-12T00:00:07Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-11T18:50:03-05:00"
+      "lastActivity": "2026-02-11T18:55:05-05:00"
     },
     "ollama": {
       "status": "online",
@@ -26,8 +26,8 @@
       "today": 0,
       "week": 94.63,
       "month": 94.63,
-      "projectedMonth": 240.87,
-      "dailyAvg": 8.6
+      "projectedMonth": 220.8,
+      "dailyAvg": 7.89
     },
     "models": [
       {
