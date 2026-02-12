@@ -2394,7 +2394,18 @@
           .map(normalizeHistoryEvent)
           .filter(Boolean)
         : [];
-      return { id, title, column, priority, project, notes, dueDate, createdAt, completedAt, assignedAgent, model, estimatedTime, estimatedCost, attachments, comments, history };
+      const relationships = input.relationships && typeof input.relationships === "object" ? {
+        parent: typeof input.relationships.parent === "string" ? input.relationships.parent : null,
+        subtasks: Array.isArray(input.relationships.subtasks) ? input.relationships.subtasks : [],
+        dependencies: input.relationships.dependencies && typeof input.relationships.dependencies === "object" ? {
+          blocks: Array.isArray(input.relationships.dependencies.blocks) ? input.relationships.dependencies.blocks : [],
+          blockedBy: Array.isArray(input.relationships.dependencies.blockedBy) ? input.relationships.dependencies.blockedBy : [],
+          related: Array.isArray(input.relationships.dependencies.related) ? input.relationships.dependencies.related : [],
+          duplicates: Array.isArray(input.relationships.dependencies.duplicates) ? input.relationships.dependencies.duplicates : [],
+          supersedes: Array.isArray(input.relationships.dependencies.supersedes) ? input.relationships.dependencies.supersedes : []
+        } : { blocks: [], blockedBy: [], related: [], duplicates: [], supersedes: [] }
+      } : { parent: null, subtasks: [], dependencies: { blocks: [], blockedBy: [], related: [], duplicates: [], supersedes: [] } };
+      return { id, title, column, priority, project, notes, dueDate, createdAt, completedAt, assignedAgent, model, estimatedTime, estimatedCost, attachments, comments, history, relationships };
     }
 
     function normalizeComment(input) {
