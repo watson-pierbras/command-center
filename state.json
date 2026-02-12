@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T17:59:07Z",
+  "lastUpdated": "2026-02-12T18:04:09Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T12:54:04-05:00"
+      "lastActivity": "2026-02-12T13:01:24-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T12:54:04-05:00",
+          "lastActive": "2026-02-12T13:01:24-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -523,7 +523,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 97,
+        "calls": 98,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -532,11 +532,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 36861250,
-        "tokensOut": 110913,
-        "cacheRead": 35104000,
+        "tokensIn": 40393842,
+        "tokensOut": 113050,
+        "cacheRead": 38592256,
         "cacheWrite": 0,
-        "calls": 383,
+        "calls": 407,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -837,11 +837,27 @@
     ],
     "activity": [
       {
+        "hour": "2026-02-12T18:00Z",
+        "model": "kimi-k2.5",
+        "calls": 9,
+        "tokensIn": 2088459,
+        "tokensOut": 1814,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-12T18:00Z",
+        "model": "delivery-mirror",
+        "calls": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cost": 0
+      },
+      {
         "hour": "2026-02-12T17:00Z",
         "model": "kimi-k2.5",
-        "calls": 90,
-        "tokensIn": 10705636,
-        "tokensOut": 39797,
+        "calls": 105,
+        "tokensIn": 12149769,
+        "tokensOut": 40120,
         "cost": 0
       },
       {
@@ -1007,7 +1023,7 @@
       {
         "hour": "2026-02-10T18:00Z",
         "model": "delivery-mirror",
-        "calls": 4,
+        "calls": 3,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
@@ -1015,10 +1031,10 @@
       {
         "hour": "2026-02-10T18:00Z",
         "model": "claude-opus-4-6",
-        "calls": 75,
-        "tokensIn": 6145534,
-        "tokensOut": 21510,
-        "cost": 4.27
+        "calls": 71,
+        "tokensIn": 5928145,
+        "tokensOut": 12501,
+        "cost": 3.88
       }
     ],
     "dailyHistory": [
@@ -1045,7 +1061,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 320
+        "calls": 345
       }
     ]
   },
