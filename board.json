@@ -16,7 +16,21 @@
       "assignedAgent": "watson",
       "model": null,
       "estimatedTime": "1h",
-      "estimatedCost": 1.1,
+      "cost": {
+        "estimated": 1.1,
+        "actual": 0.45,
+        "currency": "USD",
+        "breakdown": [
+          {
+            "model": "claude-opus-4-6",
+            "provider": "anthropic",
+            "cost": 0.45,
+            "tokensIn": 3500,
+            "tokensOut": 1200,
+            "calls": 1
+          }
+        ]
+      },
       "time": {
         "estimate": {
           "value": 1,
@@ -37,7 +51,7 @@
               "endedAt": "2026-02-08T18:00:00Z",
               "duration": 60,
               "cost": 0.45,
-              "model": null,
+              "model": "claude-opus-4-6",
               "description": "Security audit and vulnerability assessment"
             }
           ]
@@ -210,7 +224,21 @@
       "assignedAgent": "codex",
       "model": "gpt-5.3-codex",
       "estimatedTime": "4h",
-      "estimatedCost": 2.1,
+      "cost": {
+        "estimated": 2.1,
+        "actual": 1.80,
+        "currency": "USD",
+        "breakdown": [
+          {
+            "model": "gpt-5.3-codex",
+            "provider": "openai",
+            "cost": 1.80,
+            "tokensIn": 28000,
+            "tokensOut": 5500,
+            "calls": 2
+          }
+        ]
+      },
       "time": {
         "estimate": {
           "value": 4,
@@ -331,6 +359,21 @@
       "model": "gpt-5.3-codex",
       "estimatedTime": "6h",
       "estimatedCost": 2.7,
+      "cost": {
+        "estimated": 2.70,
+        "actual": 3.20,
+        "currency": "USD",
+        "breakdown": [
+          {
+            "model": "gpt-5.3-codex",
+            "provider": "openai",
+            "cost": 3.20,
+            "tokensIn": 42000,
+            "tokensOut": 8000,
+            "calls": 2
+          }
+        ]
+      },
       "time": {
         "estimate": {
           "value": 6,
