@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T18:14:15Z",
+  "lastUpdated": "2026-02-12T18:19:17Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T13:09:12-05:00"
+      "lastActivity": "2026-02-12T13:14:15-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T13:09:12-05:00",
+          "lastActive": "2026-02-12T13:14:15-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -532,11 +532,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 40561828,
-        "tokensOut": 111636,
-        "cacheRead": 38546944,
+        "tokensIn": 42644769,
+        "tokensOut": 123162,
+        "cacheRead": 40589056,
         "cacheWrite": 0,
-        "calls": 402,
+        "calls": 446,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -839,9 +839,9 @@
       {
         "hour": "2026-02-12T18:00Z",
         "model": "kimi-k2.5",
-        "calls": 10,
-        "tokensIn": 2323140,
-        "tokensOut": 2843,
+        "calls": 54,
+        "tokensIn": 4406081,
+        "tokensOut": 14369,
         "cost": 0
       },
       {
@@ -1019,22 +1019,6 @@
         "tokensIn": 2086654,
         "tokensOut": 5273,
         "cost": 1.9
-      },
-      {
-        "hour": "2026-02-10T18:00Z",
-        "model": "delivery-mirror",
-        "calls": 2,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-10T18:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 22,
-        "tokensIn": 2208764,
-        "tokensOut": 4874,
-        "cost": 1.29
       }
     ],
     "dailyHistory": [
@@ -1061,7 +1045,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 340
+        "calls": 384
       }
     ]
   },
