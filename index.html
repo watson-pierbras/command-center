@@ -486,13 +486,13 @@
     }
 
     .rel-indicator.rel-blocked {
-      background: rgba(239, 68, 68, 0.15);
-      color: #ef4444;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warn);
     }
 
     [data-theme='light'] .rel-indicator.rel-blocked {
-      background: rgba(239, 68, 68, 0.1);
-      color: #dc2626;
+      background: rgba(245, 158, 11, 0.1);
+      color: #d97706;
     }
 
     .rel-indicator.rel-subtasks {
@@ -517,16 +517,8 @@
 
     /* Blocked card styling */
     .card.card-blocked {
-      opacity: 0.85;
-      border-left-color: #ef4444 !important;
-    }
-
-    .card.card-blocked h4 {
-      color: #ef4444;
-    }
-
-    [data-theme='light'] .card.card-blocked h4 {
-      color: #dc2626;
+      opacity: 1;
+      border-left-color: var(--warn) !important;
     }
 
     /* Relationships tab styling */
@@ -536,12 +528,10 @@
     }
 
     .relationships-section h4 {
-      margin: 0 0 8px 0;
-      font-size: 13px;
+      margin: 0 0 10px 0;
+      font-size: 12px;
       font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      color: var(--text);
     }
 
     .relationships-section ul {
@@ -2005,30 +1995,30 @@
             <section class="card-detail-section relationships-section" id="relationshipsSection">
               <!-- Parent Task -->
               <div id="relParentSection">
-                <h4>📋 Parent Task</h4>
+                <h4>Parent Task</h4>
                 <div id="relParentContent"></div>
               </div>
               <!-- Subtasks -->
               <div id="relSubtasksSection">
-                <h4>📎 Subtasks</h4>
+                <h4>Subtasks</h4>
                 <ul id="relSubtasksList"></ul>
                 <button class="add-dependency-btn" id="addSubtaskBtn">+ Add Subtask</button>
               </div>
               <!-- Blocked By -->
               <div id="relBlockedBySection">
-                <h4>🔴 Blocked By</h4>
+                <h4>Blocked By</h4>
                 <ul id="relBlockedByList"></ul>
                 <button class="add-dependency-btn" id="addBlockedByBtn">+ Add Dependency</button>
               </div>
               <!-- Blocks -->
               <div id="relBlocksSection">
-                <h4>🚫 Blocks</h4>
+                <h4>Blocks</h4>
                 <ul id="relBlocksList"></ul>
                 <button class="add-dependency-btn" id="addBlocksBtn">+ Add Dependency</button>
               </div>
               <!-- Related -->
               <div id="relRelatedSection">
-                <h4>🔗 Related Tasks</h4>
+                <h4>Related Tasks</h4>
                 <ul id="relRelatedList"></ul>
                 <button class="add-dependency-btn" id="addRelatedBtn">+ Add Related Task</button>
               </div>
