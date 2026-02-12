@@ -77,7 +77,9 @@
         "parent": null,
         "subtasks": [],
         "dependencies": {
-          "blocks": ["a1b2c3d4-0007-4000-8000-000000000007"],
+          "blocks": [
+            "a1b2c3d4-0007-4000-8000-000000000007"
+          ],
           "blockedBy": [],
           "related": [],
           "duplicates": [],
@@ -188,6 +190,27 @@
           "duplicates": [],
           "supersedes": []
         }
+      },
+      "cost": {
+        "estimated": 0.4,
+        "actual": 0.4,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 30,
+          "unit": "minutes",
+          "formatted": "30m"
+        },
+        "actual": {
+          "value": 30,
+          "unit": "minutes",
+          "formatted": "30m"
+        },
+        "tracking": {
+          "sessions": []
+        }
       }
     },
     {
@@ -229,6 +252,27 @@
           "related": [],
           "duplicates": [],
           "supersedes": []
+        }
+      },
+      "cost": {
+        "estimated": 0.3,
+        "actual": 0.3,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 1,
+          "unit": "hours",
+          "formatted": "1h"
+        },
+        "actual": {
+          "value": 1,
+          "unit": "hours",
+          "formatted": "1h"
+        },
+        "tracking": {
+          "sessions": []
         }
       }
     },
@@ -363,6 +407,27 @@
           "related": [],
           "duplicates": [],
           "supersedes": []
+        }
+      },
+      "cost": {
+        "estimated": 1.9,
+        "actual": 1.9,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 6,
+          "unit": "hours",
+          "formatted": "6h"
+        },
+        "actual": {
+          "value": 6,
+          "unit": "hours",
+          "formatted": "6h"
+        },
+        "tracking": {
+          "sessions": []
         }
       }
     },
@@ -600,8 +665,12 @@
           "a1b2c3d4-0003-4000-8000-000000000003"
         ],
         "dependencies": {
-          "blocks": ["a1b2c3d4-0011-4000-8000-000000000011"],
-          "blockedBy": ["a1b2c3d4-0001-4000-8000-000000000001"],
+          "blocks": [
+            "a1b2c3d4-0011-4000-8000-000000000011"
+          ],
+          "blockedBy": [
+            "a1b2c3d4-0001-4000-8000-000000000001"
+          ],
           "related": [],
           "duplicates": [],
           "supersedes": []
@@ -641,6 +710,27 @@
           "duplicates": [],
           "supersedes": []
         }
+      },
+      "cost": {
+        "estimated": 0.8,
+        "actual": 0.8,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 2,
+          "unit": "days",
+          "formatted": "2d"
+        },
+        "actual": {
+          "value": 2,
+          "unit": "days",
+          "formatted": "2d"
+        },
+        "tracking": {
+          "sessions": []
+        }
       }
     },
     {
@@ -672,9 +762,32 @@
         "dependencies": {
           "blocks": [],
           "blockedBy": [],
-          "related": ["a1b2c3d4-0008-4000-8000-000000000008"],
+          "related": [
+            "a1b2c3d4-0008-4000-8000-000000000008"
+          ],
           "duplicates": [],
           "supersedes": []
+        }
+      },
+      "cost": {
+        "estimated": 0.6,
+        "actual": 0.6,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 4,
+          "unit": "hours",
+          "formatted": "4h"
+        },
+        "actual": {
+          "value": 4,
+          "unit": "hours",
+          "formatted": "4h"
+        },
+        "tracking": {
+          "sessions": []
         }
       }
     },
@@ -711,6 +824,27 @@
           "duplicates": [],
           "supersedes": []
         }
+      },
+      "cost": {
+        "estimated": 3.4,
+        "actual": 3.4,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 1,
+          "unit": "weeks",
+          "formatted": "1w"
+        },
+        "actual": {
+          "value": 1,
+          "unit": "weeks",
+          "formatted": "1w"
+        },
+        "tracking": {
+          "sessions": []
+        }
       }
     },
     {
@@ -741,10 +875,33 @@
         "subtasks": [],
         "dependencies": {
           "blocks": [],
-          "blockedBy": ["a1b2c3d4-0007-4000-8000-000000000007"],
+          "blockedBy": [
+            "a1b2c3d4-0007-4000-8000-000000000007"
+          ],
           "related": [],
           "duplicates": [],
           "supersedes": []
+        }
+      },
+      "cost": {
+        "estimated": 0.4,
+        "actual": 0.4,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 2,
+          "unit": "hours",
+          "formatted": "2h"
+        },
+        "actual": {
+          "value": 2,
+          "unit": "hours",
+          "formatted": "2h"
+        },
+        "tracking": {
+          "sessions": []
         }
       }
     }
