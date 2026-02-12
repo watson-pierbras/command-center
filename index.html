@@ -3899,6 +3899,7 @@
         const projectPill = card.querySelector('.project-pill');
         if (projectPill) {
           projectPill.addEventListener('click', (e) => {
+            console.log("[DEBUG] Project pill clicked:", projectName);
             e.stopPropagation();
             openProjectDetail(projectName);
           });
@@ -4034,10 +4035,12 @@
     let viewingProject = null;
 
     function openProjectDetail(projectName) {
+      console.log("[DEBUG] openProjectDetail called:", projectName);
       viewingProject = projectName;
       activeProjectTab = "overview";
       renderProjectDetail(projectName);
       projectDetailBackdrop.classList.add("open");
+      console.log("[DEBUG] projectDetailBackdrop open class added");
     }
 
     function closeProjectDetail() {
