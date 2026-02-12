@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T14:22:34Z",
+  "lastUpdated": "2026-02-12T14:27:16Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T09:22:13-05:00"
+      "lastActivity": "2026-02-12T09:22:34-05:00"
     },
     "ollama": {
       "status": "online",
@@ -39,7 +39,7 @@
         "tokensOut": 283160,
         "cacheRead": 111855690,
         "cacheWrite": 5058243,
-        "calls": 1160,
+        "calls": 1164,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -61,11 +61,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 9521088,
-        "tokensOut": 39335,
-        "cacheRead": 8539136,
+        "tokensIn": 9937751,
+        "tokensOut": 40811,
+        "cacheRead": 8864512,
         "cacheWrite": 0,
-        "calls": 182,
+        "calls": 187,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -100,9 +100,9 @@
       {
         "hour": "2026-02-12T14:00Z",
         "model": "kimi-k2.5",
-        "calls": 43,
-        "tokensIn": 2946330,
-        "tokensOut": 12524,
+        "calls": 48,
+        "tokensIn": 3362993,
+        "tokensOut": 14000,
         "cost": 0
       },
       {
@@ -116,7 +116,7 @@
       {
         "hour": "2026-02-12T14:00Z",
         "model": "claude-opus-4-6",
-        "calls": 4,
+        "calls": 8,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
@@ -276,10 +276,10 @@
       {
         "hour": "2026-02-10T14:00Z",
         "model": "claude-opus-4-6",
-        "calls": 110,
-        "tokensIn": 7884212,
-        "tokensOut": 24934,
-        "cost": 5.94
+        "calls": 87,
+        "tokensIn": 7066092,
+        "tokensOut": 22206,
+        "cost": 5.38
       }
     ],
     "dailyHistory": [
@@ -306,7 +306,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 97
+        "calls": 106
       }
     ]
   },
