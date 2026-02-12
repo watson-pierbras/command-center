@@ -6,12 +6,38 @@
   transition: box-shadow var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
+#app {
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
+  will-change: opacity, transform;
+}
+
+#app.view-entering {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
 .interactive {
   cursor: pointer;
 }
 
 .interactive:hover {
   box-shadow: var(--shadow-md);
+}
+
+.surface-card.interactive {
+  transition: box-shadow 150ms ease-out, border-color 150ms ease-out, transform 150ms ease-out;
+  transform: translateY(0) scale(1);
+}
+
+@media (hover: hover) {
+  .surface-card.interactive:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.surface-card.interactive:active {
+  transform: scale(0.98);
 }
 
 .section-stack {
@@ -213,7 +239,7 @@
   background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
 }
 
 .slide-over-backdrop.open {
@@ -232,7 +258,9 @@
   border-left: 1px solid var(--color-border-primary);
   box-shadow: var(--shadow-lg);
   transform: translateX(100%);
-  transition: transform var(--transition-slow);
+  opacity: 0;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+  will-change: transform, opacity;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -240,6 +268,7 @@
 
 .slide-over-backdrop.open .slide-over-panel {
   transform: translateX(0);
+  opacity: 1;
 }
 
 .slide-over-header {
@@ -283,6 +312,67 @@
   flex: 1;
   overflow-y: auto;
   padding: var(--space-5);
+}
+
+.more-menu {
+  bottom: calc(56px + var(--space-2) + env(safe-area-inset-bottom, 0px));
+  transform-origin: bottom right;
+}
+
+.more-menu:not([hidden]) {
+  animation: more-menu-in 150ms ease-out both;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-tertiary);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 900ms linear infinite;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes more-menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app,
+  .surface-card.interactive,
+  .slide-over-backdrop,
+  .slide-over-panel,
+  .more-menu:not([hidden]) {
+    transition: none;
+    animation: none;
+  }
+
+  .skeleton::after {
+    animation: none;
+  }
 }
 
 /* Task detail content */

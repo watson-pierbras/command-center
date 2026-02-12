@@ -37,7 +37,13 @@ function renderCurrentRoute() {
   }
   const { path, query } = parseHash();
   const route = resolveRoute(path);
+  appContainer.classList.add('view-entering');
   route.view.render(appContainer, route.params, query);
+  window.requestAnimationFrame(() => {
+    if (appContainer) {
+      appContainer.classList.remove('view-entering');
+    }
+  });
   window.dispatchEvent(new CustomEvent('cc:route-change', { detail: { path } }));
 }
 
