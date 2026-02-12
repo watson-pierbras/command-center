@@ -42,7 +42,23 @@ This belongs in `02-DATA-MODEL.md` under Core Tables, after `settings`.
 - If a client submits an inverse label (e.g., `belongs_to` instead of `has_task`), the API returns `400 Bad Request` with a message indicating the canonical label to use.
 - This keeps the API simple and explicit. No silent normalization.
 
-## 5. Additional Simplifications (Consultant Review)
+## 5. API Best Practices Additions (OpenAI/Anthropic Audit)
+
+**Input sanitization**: All user-facing text rendering in the frontend MUST use `textContent` assignment or equivalent escaping. Never use `innerHTML` with raw object `name`, `description`, or activity `data.text` fields. This prevents stored XSS.
+
+**Rate limiting tiers**:
+- Auth endpoints (`/api/auth/*`): 5 requests/minute per IP
+- Write endpoints (POST, PATCH, DELETE): 60 requests/minute per token
+- Read endpoints (GET): 300 requests/minute per token
+- Health (`/api/health`): unlimited, public
+
+**Idempotency**: POST endpoints accept an `Idempotency-Key` header. Worker deduplicates within a 5-minute window. If the same key is seen twice, the original response is returned without re-executing the operation.
+
+**Response schemas**: Each endpoint's success and error response shapes should be documented as JSON schemas in 03-API-SPEC.md for client-side validation.
+
+**Timestamps**: API always returns ISO 8601 UTC (e.g., `2026-02-12T21:00:00Z`). Frontend converts to relative time for display. Never store or return relative time strings.
+
+## 6. Additional Simplifications (Consultant Review)
 
 - **Activity timeline = audit trail only for MVP.** No comment input UI in v4 MVP. Paul communicates via Telegram. The activity timeline shows system-generated events (status changes, assignments, creation). Comment support is Phase 3.
 - **Auth MVP = simple Bearer token for Watson + server-set cookie for Paul.** No setup codes, no token rotation UI, no sliding window. Add later.
