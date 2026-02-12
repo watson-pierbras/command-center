@@ -1,6 +1,6 @@
 {
   "version": "3.1",
-  "lastUpdated": "2026-02-12T15:47:55Z",
+  "lastUpdated": "2026-02-12T17:59:07Z",
   "agents": [
     {
       "id": "agent-watson-001",
@@ -131,7 +131,7 @@
           "tasksAssigned": 6,
           "tasksSuccessRate": 0.5,
           "avgTaskDuration": "45m",
-          "avgCostPerTask": 0.6,
+          "avgCostPerTask": 0.4166666666666667,
           "reviewRating": 4.8,
           "reworkRate": 0.05
         },
@@ -302,12 +302,12 @@
           "tasksAssigned": 5,
           "tasksSuccessRate": 0.6,
           "avgTaskDuration": "1h 32m",
-          "avgCostPerTask": 2.48,
+          "avgCostPerTask": 2.0599999999999996,
           "reviewRating": 4.5,
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T10:42:52-05:00",
+          "lastActive": "2026-02-12T12:54:04-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
