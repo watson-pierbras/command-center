@@ -17,6 +17,32 @@
       "model": null,
       "estimatedTime": "1h",
       "estimatedCost": 1.1,
+      "time": {
+        "estimate": {
+          "value": 1,
+          "unit": "hours",
+          "formatted": "1h"
+        },
+        "actual": {
+          "value": 1,
+          "unit": "hours",
+          "formatted": "1h"
+        },
+        "tracking": {
+          "sessions": [
+            {
+              "id": "sess-sa-001",
+              "agent": "watson",
+              "startedAt": "2026-02-08T17:00:00Z",
+              "endedAt": "2026-02-08T18:00:00Z",
+              "duration": 60,
+              "cost": 0.45,
+              "model": null,
+              "description": "Security audit and vulnerability assessment"
+            }
+          ]
+        }
+      },
       "attachments": [],
       "comments": [],
       "history": [
@@ -185,6 +211,42 @@
       "model": "gpt-5.3-codex",
       "estimatedTime": "4h",
       "estimatedCost": 2.1,
+      "time": {
+        "estimate": {
+          "value": 4,
+          "unit": "hours",
+          "formatted": "4h"
+        },
+        "actual": {
+          "value": 4,
+          "unit": "hours",
+          "formatted": "4h"
+        },
+        "tracking": {
+          "sessions": [
+            {
+              "id": "sess-ds-001",
+              "agent": "codex",
+              "startedAt": "2026-02-08T19:00:00Z",
+              "endedAt": "2026-02-08T19:45:00Z",
+              "duration": 120,
+              "cost": 0.90,
+              "model": "gpt-5.3-codex",
+              "description": "Typography system design"
+            },
+            {
+              "id": "sess-ds-002",
+              "agent": "codex",
+              "startedAt": "2026-02-08T19:45:00Z",
+              "endedAt": "2026-02-08T21:00:00Z",
+              "duration": 120,
+              "cost": 0.90,
+              "model": "gpt-5.3-codex",
+              "description": "Spacing tokens and component library"
+            }
+          ]
+        }
+      },
       "attachments": [],
       "comments": [],
       "history": [
@@ -269,6 +331,42 @@
       "model": "gpt-5.3-codex",
       "estimatedTime": "6h",
       "estimatedCost": 2.7,
+      "time": {
+        "estimate": {
+          "value": 6,
+          "unit": "hours",
+          "formatted": "6h"
+        },
+        "actual": {
+          "value": 8.5,
+          "unit": "hours",
+          "formatted": "8h 30m"
+        },
+        "tracking": {
+          "sessions": [
+            {
+              "id": "sess-cc-001",
+              "agent": "codex",
+              "startedAt": "2026-02-10T09:00:00Z",
+              "endedAt": "2026-02-10T12:00:00Z",
+              "duration": 180,
+              "cost": 1.25,
+              "model": "gpt-5.3-codex",
+              "description": "Initial schema and sync implementation"
+            },
+            {
+              "id": "sess-cc-002",
+              "agent": "codex",
+              "startedAt": "2026-02-11T14:00:00Z",
+              "endedAt": "2026-02-11T18:30:00Z",
+              "duration": 270,
+              "cost": 1.95,
+              "model": "gpt-5.3-codex",
+              "description": "Board watch and comment integration"
+            }
+          ]
+        }
+      },
       "attachments": [],
       "comments": [
         {
