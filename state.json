@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T21:05:49Z",
+  "lastUpdated": "2026-02-12T21:10:51Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T16:00:46-05:00"
+      "lastActivity": "2026-02-12T16:05:49-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T16:00:46-05:00",
+          "lastActive": "2026-02-12T16:05:49-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,23 +494,23 @@
   ],
   "costs": {
     "summary": {
-      "today": 4.81,
-      "week": 99.44,
-      "month": 99.44,
-      "projectedMonth": 232.03,
-      "dailyAvg": 8.29
+      "today": 5.68,
+      "week": 100.31,
+      "month": 100.31,
+      "projectedMonth": 234.05,
+      "dailyAvg": 8.36
     },
     "models": [
       {
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 99.44,
-        "tokensIn": 121569446,
-        "tokensOut": 302466,
-        "cacheRead": 116161160,
-        "cacheWrite": 5406827,
-        "calls": 1244,
+        "cost": 100.31,
+        "tokensIn": 122416561,
+        "tokensOut": 316537,
+        "cacheRead": 116992889,
+        "cacheWrite": 5422204,
+        "calls": 1253,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -839,10 +839,10 @@
       {
         "hour": "2026-02-12T21:00Z",
         "model": "claude-opus-4-6",
-        "calls": 4,
-        "tokensIn": 346607,
-        "tokensOut": 2232,
-        "cost": 0.25
+        "calls": 13,
+        "tokensIn": 1193722,
+        "tokensOut": 16303,
+        "cost": 1.12
       },
       {
         "hour": "2026-02-12T20:00Z",
@@ -1052,8 +1052,8 @@
       },
       {
         "date": "2026-02-12",
-        "cost": 4.81,
-        "calls": 557
+        "cost": 5.68,
+        "calls": 566
       }
     ]
   },
