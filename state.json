@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T14:59:36Z",
+  "lastUpdated": "2026-02-12T15:01:56Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T09:58:20-05:00"
+      "lastActivity": "2026-02-12T09:59:36-05:00"
     },
     "ollama": {
       "status": "online",
@@ -61,23 +61,324 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 12941199,
-        "tokensOut": 81545,
-        "cacheRead": 11770390,
+        "tokensIn": 13204702,
+        "tokensOut": 83426,
+        "cacheRead": 12030742,
         "cacheWrite": 0,
-        "calls": 229,
+        "calls": 235,
         "avgCost": 0,
         "cacheHitRate": 1
       }
     ],
-    "projects": [],
+    "projects": [
+      {
+        "id": "proj-infrastructure-2024",
+        "slug": "infrastructure",
+        "name": "Infrastructure",
+        "description": "Core platform infrastructure, tooling, and system architecture",
+        "status": "active",
+        "visibility": "private",
+        "metadata": {
+          "createdAt": "2026-02-08T17:00:00Z",
+          "updatedAt": "2026-02-12T14:55:00Z",
+          "createdBy": "watson",
+          "tags": [
+            "infrastructure",
+            "platform",
+            "devops"
+          ],
+          "category": "infrastructure",
+          "priority": 1
+        },
+        "timeline": {
+          "startDate": "2026-02-08",
+          "targetDate": "",
+          "completedAt": null,
+          "sprints": []
+        },
+        "budget": {
+          "allocated": 0,
+          "currency": "USD",
+          "spent": 6.5,
+          "projected": 0,
+          "billing": {
+            "model": "actual",
+            "alertThreshold": 0.8,
+            "alertsEnabled": true
+          }
+        },
+        "team": {
+          "lead": "watson",
+          "members": [
+            "watson",
+            "codex"
+          ],
+          "stakeholders": [
+            "paul"
+          ],
+          "defaultModel": "gpt-5.3-codex"
+        },
+        "settings": {
+          "autoAssign": true,
+          "defaultTaskPriority": "medium",
+          "notificationChannels": [
+            "telegram",
+            "feed"
+          ],
+          "costTrackingEnabled": true,
+          "timeTrackingEnabled": true
+        },
+        "progress": {
+          "taskCount": 4,
+          "completedTasks": 2,
+          "percentComplete": 50,
+          "currentPhase": "active",
+          "blocked": false
+        },
+        "integrations": {
+          "github": {
+            "repo": "command-center",
+            "enabled": true
+          },
+          "telegram": {
+            "enabled": true
+          }
+        }
+      },
+      {
+        "id": "proj-watson-2024",
+        "slug": "watson",
+        "name": "Watson",
+        "description": "Watson AI agent infrastructure and capability enhancements",
+        "status": "active",
+        "visibility": "private",
+        "metadata": {
+          "createdAt": "2026-02-08T17:00:00Z",
+          "updatedAt": "2026-02-12T14:55:00Z",
+          "createdBy": "watson",
+          "tags": [
+            "agent",
+            "ai",
+            "orchestration"
+          ],
+          "category": "agent",
+          "priority": 1
+        },
+        "timeline": {
+          "startDate": "2026-02-08",
+          "targetDate": "",
+          "completedAt": null,
+          "sprints": []
+        },
+        "budget": {
+          "allocated": 0,
+          "currency": "USD",
+          "spent": 0.7,
+          "projected": 0,
+          "billing": {
+            "model": "actual",
+            "alertThreshold": 0.8,
+            "alertsEnabled": true
+          }
+        },
+        "team": {
+          "lead": "watson",
+          "members": [
+            "watson"
+          ],
+          "stakeholders": [
+            "paul"
+          ],
+          "defaultModel": "claude-opus-4-6"
+        },
+        "settings": {
+          "autoAssign": true,
+          "defaultTaskPriority": "medium",
+          "notificationChannels": [
+            "telegram",
+            "feed"
+          ],
+          "costTrackingEnabled": true,
+          "timeTrackingEnabled": true
+        },
+        "progress": {
+          "taskCount": 2,
+          "completedTasks": 2,
+          "percentComplete": 100,
+          "currentPhase": "completed",
+          "blocked": false
+        },
+        "integrations": {
+          "telegram": {
+            "enabled": true
+          }
+        }
+      },
+      {
+        "id": "proj-coachfinder-2024",
+        "slug": "coachfinder",
+        "name": "CoachFinder",
+        "description": "Complete lead intelligence and outreach automation platform",
+        "status": "active",
+        "visibility": "private",
+        "metadata": {
+          "createdAt": "2026-02-08T18:00:00Z",
+          "updatedAt": "2026-02-12T14:55:00Z",
+          "createdBy": "watson",
+          "tags": [
+            "lead-gen",
+            "automation",
+            "hubspot",
+            "scraping"
+          ],
+          "category": "product",
+          "priority": 1
+        },
+        "timeline": {
+          "startDate": "2026-02-08",
+          "targetDate": "",
+          "completedAt": null,
+          "sprints": []
+        },
+        "budget": {
+          "allocated": 0,
+          "currency": "USD",
+          "spent": 7.4,
+          "projected": 0,
+          "billing": {
+            "model": "actual",
+            "alertThreshold": 0.8,
+            "alertsEnabled": true
+          }
+        },
+        "team": {
+          "lead": "codex",
+          "members": [
+            "codex",
+            "watson"
+          ],
+          "stakeholders": [
+            "paul"
+          ],
+          "defaultModel": "gpt-5.3-codex"
+        },
+        "settings": {
+          "autoAssign": true,
+          "defaultTaskPriority": "high",
+          "notificationChannels": [
+            "telegram",
+            "feed"
+          ],
+          "costTrackingEnabled": true,
+          "timeTrackingEnabled": true
+        },
+        "progress": {
+          "taskCount": 3,
+          "completedTasks": 2,
+          "percentComplete": 66,
+          "currentPhase": "integration",
+          "blocked": false
+        },
+        "integrations": {
+          "github": {
+            "repo": "coachfinder-core",
+            "enabled": true
+          },
+          "hubspot": {
+            "enabled": true,
+            "syncStatus": "active"
+          },
+          "telegram": {
+            "enabled": true
+          }
+        }
+      },
+      {
+        "id": "proj-lead-intel-2024",
+        "slug": "lead-intel",
+        "name": "Lead Intel",
+        "description": "Research workflow automation for lead intelligence gathering",
+        "status": "planned",
+        "visibility": "private",
+        "metadata": {
+          "createdAt": "2026-02-08T20:00:00Z",
+          "updatedAt": "2026-02-12T14:55:00Z",
+          "createdBy": "watson",
+          "tags": [
+            "research",
+            "automation",
+            "twitter",
+            "youtube"
+          ],
+          "category": "research",
+          "priority": 2
+        },
+        "timeline": {
+          "startDate": "2026-02-08",
+          "targetDate": "",
+          "completedAt": null,
+          "sprints": []
+        },
+        "budget": {
+          "allocated": 0,
+          "currency": "USD",
+          "spent": 1.4,
+          "projected": 0,
+          "billing": {
+            "model": "actual",
+            "alertThreshold": 0.8,
+            "alertsEnabled": true
+          }
+        },
+        "team": {
+          "lead": "watson",
+          "members": [
+            "watson"
+          ],
+          "stakeholders": [
+            "paul"
+          ],
+          "defaultModel": "claude-opus-4-6"
+        },
+        "settings": {
+          "autoAssign": true,
+          "defaultTaskPriority": "medium",
+          "notificationChannels": [
+            "telegram",
+            "feed"
+          ],
+          "costTrackingEnabled": true,
+          "timeTrackingEnabled": true
+        },
+        "progress": {
+          "taskCount": 2,
+          "completedTasks": 0,
+          "percentComplete": 0,
+          "currentPhase": "planned",
+          "blocked": false
+        },
+        "integrations": {
+          "telegram": {
+            "enabled": true
+          }
+        }
+      }
+    ],
     "activity": [
+      {
+        "hour": "2026-02-12T15:00Z",
+        "model": "kimi-k2.5",
+        "calls": 5,
+        "tokensIn": 235815,
+        "tokensOut": 1788,
+        "cost": 0
+      },
       {
         "hour": "2026-02-12T14:00Z",
         "model": "kimi-k2.5",
-        "calls": 90,
-        "tokensIn": 6366441,
-        "tokensOut": 54734,
+        "calls": 91,
+        "tokensIn": 6394129,
+        "tokensOut": 54827,
         "cost": 0
       },
       {
@@ -273,7 +574,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 150
+        "calls": 156
       }
     ]
   },
