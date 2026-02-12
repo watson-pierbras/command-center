@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T14:52:28Z",
+  "lastUpdated": "2026-02-12T14:57:22Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T09:47:25-05:00"
+      "lastActivity": "2026-02-12T09:52:28-05:00"
     },
     "ollama": {
       "status": "online",
@@ -61,48 +61,23 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 12162648,
-        "tokensOut": 72941,
-        "cacheRead": 11018518,
+        "tokensIn": 12474521,
+        "tokensOut": 77413,
+        "cacheRead": 11311382,
         "cacheWrite": 0,
-        "calls": 212,
+        "calls": 218,
         "avgCost": 0,
         "cacheHitRate": 1
       }
     ],
-    "projects": [
-      {
-        "name": "CoachFinder",
-        "taskCount": 3,
-        "completedTasks": 2,
-        "totalCost": 7.4
-      },
-      {
-        "name": "Infrastructure",
-        "taskCount": 4,
-        "completedTasks": 2,
-        "totalCost": 6.5
-      },
-      {
-        "name": "Lead Intel",
-        "taskCount": 2,
-        "completedTasks": 0,
-        "totalCost": 1.4
-      },
-      {
-        "name": "Watson",
-        "taskCount": 2,
-        "completedTasks": 2,
-        "totalCost": 0.7
-      }
-    ],
+    "projects": [],
     "activity": [
       {
         "hour": "2026-02-12T14:00Z",
         "model": "kimi-k2.5",
-        "calls": 73,
-        "tokensIn": 5587890,
-        "tokensOut": 46130,
+        "calls": 79,
+        "tokensIn": 5899763,
+        "tokensOut": 50602,
         "cost": 0
       },
       {
@@ -272,14 +247,6 @@
         "tokensIn": 2804951,
         "tokensOut": 10601,
         "cost": 3.25
-      },
-      {
-        "hour": "2026-02-10T14:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 46,
-        "tokensIn": 4939329,
-        "tokensOut": 6030,
-        "cost": 3.1
       }
     ],
     "dailyHistory": [
@@ -306,7 +273,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 132
+        "calls": 138
       }
     ]
   },
