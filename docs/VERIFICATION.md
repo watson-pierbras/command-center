@@ -1,10 +1,10 @@
-# Verification Framework (Simplified)
+# Verification Framework
 
 ## Philosophy
 
-> **"Verify what matters, skip what doesn't."**
+> **"Watson is the QA gate. Paul receives finished products only."**
 
-The best verification is the one that actually runs. This framework is designed to catch real bugs without bureaucratic overhead.
+If Paul finds a bug, Watson failed.
 
 ---
 
@@ -26,118 +26,166 @@ Every `git commit` runs `.git/hooks/pre-commit` automatically.
 
 ---
 
-### Step 2: Targeted Verification (Manual)
+### Step 2: Watson QA Review (Mandatory)
 
-After implementation, verify based on what you changed:
+**Before any code reaches Paul, Watson reviews:**
 
-| If you changed... | Verify this... | How |
-|-------------------|----------------|-----|
-| **CSS only** | Visual appearance | Open browser, check the change |
-| **board.json data** | Data integrity | Run `jq '.tasks[0]' board.json` |
-| **JavaScript logic** | Functionality | Test the feature manually |
-| **HTML structure** | Renders correctly | Check mobile + desktop |
-| **Schema/relationships** | References valid | Check related files load |
-| **New feature** | End-to-end works | Full user flow test |
+#### Code Quality
+- [ ] Follows existing patterns and conventions
+- [ ] No obvious bugs or logic errors
+- [ ] Proper error handling
+- [ ] No security issues
 
-**Time:** 1-5 minutes depending on change
+#### Completeness
+- [ ] All requirements from spec implemented
+- [ ] Edge cases handled
+- [ ] No TODO comments or unfinished code
+- [ ] Documentation updated if needed
+
+#### Functionality
+- [ ] Feature works as designed
+- [ ] No console errors
+- [ ] Works on mobile and desktop (if UI)
+- [ ] Responsive design intact
+
+#### Integration
+- [ ] Doesn't break existing features
+- [ ] References valid (no orphaned data)
+- [ ] Schema changes backward compatible
+
+#### Polish
+- [ ] Visual design consistent
+- [ ] Text copy correct (no placeholders)
+- [ ] No debug code left in
+
+**Tools Watson uses:**
+- Browser automation for UI testing
+- JSON validation for data
+- Git diff review for code quality
+- Console monitoring for JS errors
+
+**If fails:** Return to Codex with specific fixes  
+**If passes:** Proceed to delivery
+
+**Time:** 2-10 minutes depending on change
 
 ---
 
-### Step 3: User Acceptance (You)
+### Step 3: Paul Approval (Strategic)
 
-**Required before marking "done":**
-- [ ] Feature works as expected
-- [ ] No obvious bugs
-- [ ] UX feels right
+**Paul's role:**
+- [ ] Confirms feature meets business need
+- [ ] Approves direction and tradeoffs
+- [ ] Decides next steps
 
-**Time:** Your discretion
+**Not Paul's role:**
+- ❌ Finding bugs (Watson should have caught them)
+- ❌ Testing functionality (Watson already tested)
+- ❌ Reporting console errors (unacceptable)
 
 ---
 
-## Quick Decision Tree
+## The Golden Rule
 
-```
-Is it a data-only change (no code)?
-├── Yes → Pre-commit hook handles it
-└── No → Does it change JavaScript/HTML?
-    ├── Yes → Manual test the feature
-    └── No → Visual check only
-```
+> **Paul should never receive broken code.**
+
+If Paul has to:
+- Test if a feature works → Watson failed
+- Report a console error → Watson failed
+- Find an incomplete implementation → Watson failed
+- Discover a visual glitch → Watson failed
+
+**Watson's job is to be the filter.**
 
 ---
 
 ## Examples
 
 ### Example 1: Add a task to board.json
-```bash
-# Edit board.json
-git add board.json
-git commit -m "add: new task for feature X"
-# Pre-commit hook runs automatically → PASS
-# No manual testing needed (data only)
-# Paul reviews → APPROVED
+```
+Paul: "Add a task for the new feature"
+
+Watson:
+  1. Design: Where does it fit? What priority?
+  2. Implement: Add to board.json
+  3. Verify: JSON valid? References correct?
+  4. Deliver: "Task added. Here's what I created..."
+
+Paul: "Looks good" → APPROVED
 ```
 
-### Example 2: Change CSS for cards
-```bash
-# Edit index.html (CSS)
-git add index.html
-git commit -m "style: improve card spacing"
-# Pre-commit hook runs → PASS
-# Manual: Open browser, check cards look right
-# Paul reviews → APPROVED
+### Example 2: New UI feature (JavaScript)
+```
+Paul: "Add a filter to the board"
+
+Watson:
+  1. Design: How should filter work? Where in UI?
+  2. Orchestrate: Spawn Codex with spec
+  3. Receive: Codex returns implementation
+  4. Review: Check code quality
+  5. Test: Open browser, test filter works
+  6. Test: Check mobile
+  7. Test: Verify no console errors
+  8. Deliver: "Filter added. Tested on desktop and mobile. Screenshot attached..."
+
+Paul: "Perfect" → APPROVED
 ```
 
-### Example 3: New JavaScript feature
-```bash
-# Edit index.html (JS)
-git add index.html
-git commit -m "feat: add filter to board"
-# Pre-commit hook runs → PASS
-# Manual: Open browser, test filter works
-# Manual: Test on mobile
-# Paul reviews → APPROVED
+### Example 3: Bug found (the failure case)
+```
+Paul: "The filter doesn't work on mobile"
+
+Watson: FAILED — should have tested mobile
+  1. Acknowledge failure
+  2. Fix the bug
+  3. Re-test thoroughly
+  4. Re-deliver
+
+Paul: "Now it works" → APPROVED
 ```
 
 ---
 
-## What This Catches
+## What Each Level Catches
 
-✅ **Definitely catches:**
-- Broken JSON (syntax errors, missing commas)
-- Missing required files
-- Deleted files accidentally
-- Orphaned references (project in board that doesn't exist)
-- Obvious secrets committed by mistake
+### Pre-Commit Hook (Automatic)
+✅ Broken JSON syntax
+✅ Missing required files
+✅ Orphaned references
+✅ Obvious secrets
 
-✅ **Probably catches (with manual testing):**
-- JavaScript runtime errors
-- UI rendering issues
-- Broken functionality
+### Watson QA Review
+✅ Logic errors
+✅ Incomplete implementations
+✅ Console errors
+✅ UI/UX issues
+✅ Integration problems
+✅ Security issues
+✅ Performance problems
 
-❌ **Won't catch:**
-- Logic errors in complex algorithms
-- Performance issues
-- Accessibility problems
-- Cross-browser quirks
+### Paul Approval
+✅ Strategic direction
+✅ Business requirements
+✅ Priority decisions
 
 ---
 
-## When to Worry
+## When to Escalate to Paul
 
-**Stop and think harder if:**
-- You're changing the schema (adds new fields)
-- You're modifying sync.sh or critical infrastructure
-- You're deleting data or files
-- You're changing authentication/security code
+Watson should ask Paul when:
+- Requirements are unclear
+- Multiple valid approaches exist
+- Technical tradeoffs need input
+- Scope needs to change
+- External approval needed (payments, public posts)
 
-In these cases, add explicit verification steps.
+**Not for bugs.** Watson handles bugs.
 
 ---
 
 ## Commands
 
-### Run verification manually
+### Run pre-commit hook manually
 ```bash
 .git/hooks/pre-commit
 ```
@@ -146,7 +194,7 @@ In these cases, add explicit verification steps.
 ```bash
 git commit --no-verify -m "emergency fix"
 ```
-⚠️ Only use if you know what you're doing.
+⚠️ Watson should never need this. If using, explain why.
 
 ### Check JSON file
 ```bash
@@ -161,36 +209,25 @@ jq -r '.projects[].name' projects.json | sort -u
 
 ---
 
-## Maintenance
-
-**Update this framework when:**
-- New file types added to project
-- New required files introduced
-- New security patterns discovered
-
-**Keep it simple.** If verification takes longer than 5 minutes, it's too heavy.
-
----
-
 ## Success Metrics
 
 Target:
-- 100% of commits pass pre-commit hook
-- <5% need follow-up fixes after commit
-- Verification overhead < 1 minute per typical change
+- **100%** of delivered features work on first try
+- **0** bugs reported by Paul
+- **<5%** of work needs rework after Watson review
 
 ---
 
-## Comparison: Old vs New
+## Comparison: Before vs After
 
-| Aspect | Old (4 Levels) | New (Simplified) |
-|--------|----------------|------------------|
-| Levels | 4 | 2 (hook + manual) |
-| Time | 7-20 min | 1-5 min |
-| Mandatory | L1 only | L1 automatic |
-| Actually used | Rarely | Every commit |
-| Catches bugs | Sometimes | Most syntax/reference |
+| Aspect | Before | After (Watson as QA Gate) |
+|--------|--------|---------------------------|
+| Who tests? | Paul | Watson |
+| Bug discovery | By Paul | By Watson (before delivery) |
+| Paul's role | QA tester | Product owner |
+| Delivery quality | Variable | Polished, working |
+| Paul's time | Testing and reporting bugs | Strategic direction |
 
 ---
 
-*"The best code is code that ships. The best verification is verification that runs."*
+*"The best code is code that works. The best process delivers working code."*

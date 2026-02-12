@@ -99,6 +99,27 @@
       "model": "gpt-5.3-codex",
       "estimatedTime": "2h",
       "estimatedCost": 2.3,
+      "cost": {
+        "estimated": 2.3,
+        "actual": 2.3,
+        "currency": "USD",
+        "breakdown": []
+      },
+      "time": {
+        "estimate": {
+          "value": 2,
+          "unit": "hours",
+          "formatted": "2h"
+        },
+        "actual": {
+          "value": 2,
+          "unit": "hours",
+          "formatted": "2h"
+        },
+        "tracking": {
+          "sessions": []
+        }
+      },
       "attachments": [],
       "comments": [],
       "history": [
@@ -381,9 +402,9 @@
           "formatted": "6h"
         },
         "actual": {
-          "value": 8.5,
+          "value": 7.5,
           "unit": "hours",
-          "formatted": "8h 30m"
+          "formatted": "7h 30m"
         },
         "tracking": {
           "sessions": [
