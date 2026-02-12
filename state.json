@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T16:58:33Z",
+  "lastUpdated": "2026-02-12T17:03:37Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T11:57:27-05:00"
+      "lastActivity": "2026-02-12T11:58:34-05:00"
     },
     "ollama": {
       "status": "online",
@@ -151,7 +151,7 @@
           "tasksAssigned": 6,
           "tasksSuccessRate": 0.5,
           "avgTaskDuration": "45m",
-          "avgCostPerTask": 0.6,
+          "avgCostPerTask": 0.4166666666666667,
           "reviewRating": 4.8,
           "reworkRate": 0.05
         },
@@ -322,12 +322,12 @@
           "tasksAssigned": 5,
           "tasksSuccessRate": 0.6,
           "avgTaskDuration": "1h 32m",
-          "avgCostPerTask": 2.48,
+          "avgCostPerTask": 2.0599999999999996,
           "reviewRating": 4.5,
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-12T11:57:27-05:00",
+          "lastActive": "2026-02-12T11:58:34-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -523,7 +523,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 89,
+        "calls": 93,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -532,11 +532,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 26441502,
-        "tokensOut": 90630,
-        "cacheRead": 24928000,
+        "tokensIn": 27544828,
+        "tokensOut": 95805,
+        "cacheRead": 25975808,
         "cacheWrite": 0,
-        "calls": 314,
+        "calls": 326,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -570,7 +570,7 @@
         "budget": {
           "allocated": 0,
           "currency": "USD",
-          "spent": 6.5,
+          "spent": 5.4,
           "projected": 0,
           "billing": {
             "model": "actual",
@@ -714,7 +714,7 @@
         "budget": {
           "allocated": 0,
           "currency": "USD",
-          "spent": 7.4,
+          "spent": 5.3,
           "projected": 0,
           "billing": {
             "model": "actual",
@@ -837,17 +837,33 @@
     ],
     "activity": [
       {
+        "hour": "2026-02-12T17:00Z",
+        "model": "kimi-k2.5",
+        "calls": 5,
+        "tokensIn": 465735,
+        "tokensOut": 3517,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-12T17:00Z",
+        "model": "delivery-mirror",
+        "calls": 2,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cost": 0
+      },
+      {
         "hour": "2026-02-12T16:00Z",
         "model": "kimi-k2.5",
-        "calls": 67,
-        "tokensIn": 7671585,
-        "tokensOut": 34723,
+        "calls": 74,
+        "tokensIn": 8309176,
+        "tokensOut": 36381,
         "cost": 0
       },
       {
         "hour": "2026-02-12T16:00Z",
         "model": "delivery-mirror",
-        "calls": 4,
+        "calls": 6,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
@@ -1045,7 +1061,7 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 243
+        "calls": 259
       }
     ]
   },
@@ -1078,7 +1094,7 @@
       "budget": {
         "allocated": 0,
         "currency": "USD",
-        "spent": 6.5,
+        "spent": 5.4,
         "projected": 0,
         "billing": {
           "model": "actual",
@@ -1222,7 +1238,7 @@
       "budget": {
         "allocated": 0,
         "currency": "USD",
-        "spent": 7.4,
+        "spent": 5.3,
         "projected": 0,
         "billing": {
           "model": "actual",
