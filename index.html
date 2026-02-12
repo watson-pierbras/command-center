@@ -465,6 +465,211 @@
 
     [data-theme='light'] .meta .chip { background: #e2e8f0; color: #334155; border-color: #94a3b8; }
 
+    /* Relationship indicators on cards */
+    .relationship-indicators {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .rel-indicator {
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--chip-bg);
+      cursor: help;
+    }
+
+    .rel-indicator.rel-blocked {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    [data-theme='light'] .rel-indicator.rel-blocked {
+      background: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+    }
+
+    .rel-indicator.rel-subtasks {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+    }
+
+    [data-theme='light'] .rel-indicator.rel-subtasks {
+      background: rgba(59, 130, 246, 0.1);
+      color: #2563eb;
+    }
+
+    .rel-indicator.rel-blocks {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    [data-theme='light'] .rel-indicator.rel-blocks {
+      background: rgba(245, 158, 11, 0.1);
+      color: #d97706;
+    }
+
+    /* Blocked card styling */
+    .card.card-blocked {
+      opacity: 0.85;
+      border-left-color: #ef4444 !important;
+    }
+
+    .card.card-blocked h4 {
+      color: #ef4444;
+    }
+
+    [data-theme='light'] .card.card-blocked h4 {
+      color: #dc2626;
+    }
+
+    /* Relationships tab styling */
+    .relationships-section {
+      display: grid;
+      gap: 16px;
+    }
+
+    .relationships-section h4 {
+      margin: 0 0 8px 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .relationships-section ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+
+    .relationships-section li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .relationships-section li .rel-task-link {
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .relationships-section li .rel-task-link:hover {
+      text-decoration: underline;
+    }
+
+    .relationships-section li .rel-task-status {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--chip-bg);
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .relationships-section li .rel-task-status.done {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .relationships-section li .rel-task-status.active {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+    }
+
+    .relationships-section li .rel-task-status.planned {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    .rel-empty {
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 13px;
+      padding: 8px 0;
+    }
+
+    .add-dependency-btn {
+      margin-top: 8px;
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px dashed var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .add-dependency-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--soft-accent-bg);
+    }
+
+    /* Detail tabs navigation */
+    .detail-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .detail-tab {
+      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+      position: relative;
+      top: 1px;
+    }
+
+    .detail-tab:hover {
+      color: var(--text);
+    }
+
+    .detail-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .detail-panel {
+      display: none;
+    }
+
+    .detail-panel.active {
+      display: grid;
+      gap: 12px;
+    }
+
     .agent-badge {
       display: inline-flex;
       align-items: center;
@@ -1762,34 +1967,75 @@
             <h2 id="cardDetailTitle">Task Detail</h2>
           </div>
         </div>
-        <div class="card-detail-scroll">
-          <div class="card-detail-meta" id="cardDetailMeta"></div>
-          <section class="card-detail-section">
-            <h4>Notes</h4>
-            <p class="detail-notes empty-state-text" id="cardDetailNotes">No notes yet. Add context, decisions, or links.</p>
-          </section>
-          <section class="card-detail-section">
-            <h4>Attachments</h4>
-            <ul class="attachments-list" id="cardDetailAttachments"></ul>
-          </section>
-          <section class="card-detail-section">
-            <h4>Comments</h4>
-            <div class="comment-list" id="cardDetailComments"></div>
-          </section>
-          <section class="card-detail-section">
-            <details id="cardDetailHistoryToggle">
-              <summary>History</summary>
-              <div class="history-list" id="cardDetailHistory"></div>
-            </details>
-          </section>
-          <section class="card-detail-section">
-            <div class="detail-actions">
-              <button class="btn secondary" id="cardDetailEditBtn" type="button">Edit</button>
-              <button class="btn danger" id="cardDetailDeleteBtn" type="button">Delete</button>
-            </div>
-          </section>
+        <div class="detail-tabs" id="cardDetailTabs">
+          <button class="detail-tab active" data-detail-tab="details">Details</button>
+          <button class="detail-tab" data-detail-tab="relationships">Relationships</button>
         </div>
-        <div class="comment-input">
+        <div class="card-detail-scroll">
+          <!-- Details Panel -->
+          <div class="detail-panel active" id="detailPanel-details">
+            <div class="card-detail-meta" id="cardDetailMeta"></div>
+            <section class="card-detail-section">
+              <h4>Notes</h4>
+              <p class="detail-notes empty-state-text" id="cardDetailNotes">No notes yet. Add context, decisions, or links.</p>
+            </section>
+            <section class="card-detail-section">
+              <h4>Attachments</h4>
+              <ul class="attachments-list" id="cardDetailAttachments"></ul>
+            </section>
+            <section class="card-detail-section">
+              <h4>Comments</h4>
+              <div class="comment-list" id="cardDetailComments"></div>
+            </section>
+            <section class="card-detail-section">
+              <details id="cardDetailHistoryToggle">
+                <summary>History</summary>
+                <div class="history-list" id="cardDetailHistory"></div>
+              </details>
+            </section>
+            <section class="card-detail-section">
+              <div class="detail-actions">
+                <button class="btn secondary" id="cardDetailEditBtn" type="button">Edit</button>
+                <button class="btn danger" id="cardDetailDeleteBtn" type="button">Delete</button>
+              </div>
+            </section>
+          </div>
+          <!-- Relationships Panel -->
+          <div class="detail-panel" id="detailPanel-relationships">
+            <section class="card-detail-section relationships-section" id="relationshipsSection">
+              <!-- Parent Task -->
+              <div id="relParentSection">
+                <h4>📋 Parent Task</h4>
+                <div id="relParentContent"></div>
+              </div>
+              <!-- Subtasks -->
+              <div id="relSubtasksSection">
+                <h4>📎 Subtasks</h4>
+                <ul id="relSubtasksList"></ul>
+                <button class="add-dependency-btn" id="addSubtaskBtn">+ Add Subtask</button>
+              </div>
+              <!-- Blocked By -->
+              <div id="relBlockedBySection">
+                <h4>🔴 Blocked By</h4>
+                <ul id="relBlockedByList"></ul>
+                <button class="add-dependency-btn" id="addBlockedByBtn">+ Add Dependency</button>
+              </div>
+              <!-- Blocks -->
+              <div id="relBlocksSection">
+                <h4>🚫 Blocks</h4>
+                <ul id="relBlocksList"></ul>
+                <button class="add-dependency-btn" id="addBlocksBtn">+ Add Dependency</button>
+              </div>
+              <!-- Related -->
+              <div id="relRelatedSection">
+                <h4>🔗 Related Tasks</h4>
+                <ul id="relRelatedList"></ul>
+                <button class="add-dependency-btn" id="addRelatedBtn">+ Add Related Task</button>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="comment-input" id="cardDetailCommentInput">
           <textarea id="cardCommentInput" placeholder="Add a comment"></textarea>
           <button class="btn primary" id="cardCommentSendBtn" type="button">Send</button>
         </div>
@@ -2710,6 +2956,72 @@
       return "Updated";
     }
 
+    // Task Relationship Helper Functions
+    function getTaskRelationships(task) {
+      if (!task || !task.relationships) {
+        return {
+          parent: null,
+          subtasks: [],
+          dependencies: { blocks: [], blockedBy: [], related: [], duplicates: [], supersedes: [] }
+        };
+      }
+      return task.relationships;
+    }
+
+    function isBlocked(task) {
+      const rels = getTaskRelationships(task);
+      return rels.dependencies.blockedBy.length > 0;
+    }
+
+    function getBlockingTasks(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return [];
+      const rels = getTaskRelationships(task);
+      return rels.dependencies.blockedBy
+        .map(id => tasks.find(t => t.id === id))
+        .filter(Boolean);
+    }
+
+    function getBlockedTaskNames(task) {
+      const blockingTasks = getBlockingTasks(task.id);
+      if (blockingTasks.length === 0) return "";
+      return blockingTasks.map(t => t.title).join(", ");
+    }
+
+    function getParentTask(task) {
+      const rels = getTaskRelationships(task);
+      if (!rels.parent) return null;
+      return tasks.find(t => t.id === rels.parent) || null;
+    }
+
+    function getSubtasks(task) {
+      const rels = getTaskRelationships(task);
+      return rels.subtasks
+        .map(id => tasks.find(t => t.id === id))
+        .filter(Boolean);
+    }
+
+    function getBlocks(task) {
+      const rels = getTaskRelationships(task);
+      return rels.dependencies.blocks
+        .map(id => tasks.find(t => t.id === id))
+        .filter(Boolean);
+    }
+
+    function getBlockedBy(task) {
+      const rels = getTaskRelationships(task);
+      return rels.dependencies.blockedBy
+        .map(id => tasks.find(t => t.id === id))
+        .filter(Boolean);
+    }
+
+    function getRelated(task) {
+      const rels = getTaskRelationships(task);
+      return rels.dependencies.related
+        .map(id => tasks.find(t => t.id === id))
+        .filter(Boolean);
+    }
+
     function isMobile() {
       return window.matchMedia("(max-width: 719px)").matches;
     }
@@ -2777,6 +3089,17 @@
             card.style.borderLeftColor = columnBorderColor(task.column);
             card.style.animationDelay = `${Math.min(idx * 40, 160)}ms`;
 
+            // Add blocked class if task is blocked
+            const blocked = isBlocked(task);
+            if (blocked) {
+              card.classList.add("card-blocked");
+              card.setAttribute("aria-label", `Open task details for ${task.title}, Blocked`);
+            }
+
+            const rels = getTaskRelationships(task);
+            const hasSubtasks = rels.subtasks.length > 0;
+            const hasBlocks = rels.dependencies.blocks.length > 0;
+
             const due = task.dueDate ? `Due ${formatDate(task.dueDate)}` : "";
             const titleEl = document.createElement("h4");
             titleEl.textContent = task.title;
@@ -2828,9 +3151,41 @@
             agentWrap.className = "meta";
             agentWrap.innerHTML = agentBadge(task.assignedAgent);
 
+            // Relationship indicators row
+            const relIndicators = document.createElement("div");
+            relIndicators.className = "relationship-indicators";
+
+            if (blocked) {
+              const blockedByNames = getBlockedTaskNames(task);
+              const blockedEl = document.createElement("span");
+              blockedEl.className = "rel-indicator rel-blocked";
+              blockedEl.textContent = "🔴";
+              blockedEl.title = `Blocked by: ${blockedByNames}`;
+              relIndicators.appendChild(blockedEl);
+            }
+
+            if (hasSubtasks) {
+              const subtasksEl = document.createElement("span");
+              subtasksEl.className = "rel-indicator rel-subtasks";
+              subtasksEl.textContent = `📎 ${rels.subtasks.length}`;
+              subtasksEl.title = `${rels.subtasks.length} subtask${rels.subtasks.length !== 1 ? 's' : ''}`;
+              relIndicators.appendChild(subtasksEl);
+            }
+
+            if (hasBlocks) {
+              const blocksEl = document.createElement("span");
+              blocksEl.className = "rel-indicator rel-blocks";
+              blocksEl.textContent = "🚫";
+              blocksEl.title = `Blocks ${rels.dependencies.blocks.length} task${rels.dependencies.blocks.length !== 1 ? 's' : ''}`;
+              relIndicators.appendChild(blocksEl);
+            }
+
             card.appendChild(titleEl);
             card.appendChild(agentWrap);
             card.appendChild(metaEl);
+            if (relIndicators.children.length > 0) {
+              card.appendChild(relIndicators);
+            }
 
             card.addEventListener("click", () => openCardDetail(task.id));
             card.addEventListener("keydown", e => {
@@ -3410,10 +3765,13 @@
       cardCommentInput.value = "";
     }
 
+    let activeDetailTab = "details";
+
     function renderCardDetail(task) {
       cardDetailProject.textContent = task.project || "Other";
       cardDetailTitle.textContent = task.title;
 
+      // Render Details Tab
       cardDetailMeta.innerHTML = "";
       const assigned = task.assignedAgent && AGENT_META[task.assignedAgent]
         ? AGENT_META[task.assignedAgent].name
@@ -3425,10 +3783,18 @@
         ...(task.estimatedCost !== null ? [{ text: `Est ${money(task.estimatedCost)}`, className: "pill" }] : []),
         { text: `Status: ${task.column}`, className: "pill" }
       ];
+
+      // Add blocked indicator to meta if blocked
+      if (isBlocked(task)) {
+        const blockedNames = getBlockedTaskNames(task);
+        metaValues.push({ text: "🔴 Blocked", className: "pill", title: `Blocked by: ${blockedNames}` });
+      }
+
       metaValues.forEach(item => {
         const chip = document.createElement("span");
         chip.className = item.className;
         chip.textContent = item.text;
+        if (item.title) chip.title = item.title;
         cardDetailMeta.appendChild(chip);
       });
 
@@ -3514,6 +3880,140 @@
         });
       }
       cardDetailHistoryToggle.open = Boolean(sortedHistory.length);
+
+      // Render Relationships Tab
+      renderRelationshipsPanel(task);
+
+      // Update tab visibility
+      updateDetailTabVisibility();
+    }
+
+    function renderRelationshipsPanel(task) {
+      // Parent Task
+      const parentSection = document.getElementById("relParentSection");
+      const parentContent = document.getElementById("relParentContent");
+      const parentTask = getParentTask(task);
+
+      if (parentTask) {
+        parentSection.style.display = "block";
+        parentContent.innerHTML = `
+          <li>
+            <span class="rel-task-link" data-task-id="${parentTask.id}">${parentTask.title}</span>
+            <span class="rel-task-status ${parentTask.column}">${parentTask.column}</span>
+          </li>
+        `;
+        parentContent.querySelector(".rel-task-link").addEventListener("click", () => {
+          openCardDetail(parentTask.id);
+        });
+      } else {
+        parentSection.style.display = "none";
+      }
+
+      // Subtasks
+      const subtasksSection = document.getElementById("relSubtasksSection");
+      const subtasksList = document.getElementById("relSubtasksList");
+      const subtasks = getSubtasks(task);
+
+      if (subtasks.length > 0) {
+        subtasksSection.style.display = "block";
+        subtasksList.innerHTML = subtasks.map(st => `
+          <li>
+            <span class="rel-task-link" data-task-id="${st.id}">${st.title}</span>
+            <span class="rel-task-status ${st.column}">${st.column}</span>
+          </li>
+        `).join("");
+        subtasksList.querySelectorAll(".rel-task-link").forEach(link => {
+          link.addEventListener("click", () => {
+            const taskId = link.getAttribute("data-task-id");
+            openCardDetail(taskId);
+          });
+        });
+      } else {
+        subtasksSection.style.display = "none";
+      }
+
+      // Blocked By
+      const blockedBySection = document.getElementById("relBlockedBySection");
+      const blockedByList = document.getElementById("relBlockedByList");
+      const blockedBy = getBlockedBy(task);
+
+      if (blockedBy.length > 0) {
+        blockedBySection.style.display = "block";
+        blockedByList.innerHTML = blockedBy.map(bt => `
+          <li>
+            <span class="rel-task-link" data-task-id="${bt.id}">${bt.title}</span>
+            <span class="rel-task-status ${bt.column}">${bt.column}</span>
+          </li>
+        `).join("");
+        blockedByList.querySelectorAll(".rel-task-link").forEach(link => {
+          link.addEventListener("click", () => {
+            const taskId = link.getAttribute("data-task-id");
+            openCardDetail(taskId);
+          });
+        });
+      } else {
+        blockedBySection.style.display = "none";
+      }
+
+      // Blocks
+      const blocksSection = document.getElementById("relBlocksSection");
+      const blocksList = document.getElementById("relBlocksList");
+      const blocks = getBlocks(task);
+
+      if (blocks.length > 0) {
+        blocksSection.style.display = "block";
+        blocksList.innerHTML = blocks.map(bt => `
+          <li>
+            <span class="rel-task-link" data-task-id="${bt.id}">${bt.title}</span>
+            <span class="rel-task-status ${bt.column}">${bt.column}</span>
+          </li>
+        `).join("");
+        blocksList.querySelectorAll(".rel-task-link").forEach(link => {
+          link.addEventListener("click", () => {
+            const taskId = link.getAttribute("data-task-id");
+            openCardDetail(taskId);
+          });
+        });
+      } else {
+        blocksSection.style.display = "none";
+      }
+
+      // Related
+      const relatedSection = document.getElementById("relRelatedSection");
+      const relatedList = document.getElementById("relRelatedList");
+      const related = getRelated(task);
+
+      if (related.length > 0) {
+        relatedSection.style.display = "block";
+        relatedList.innerHTML = related.map(rt => `
+          <li>
+            <span class="rel-task-link" data-task-id="${rt.id}">${rt.title}</span>
+            <span class="rel-task-status ${rt.column}">${rt.column}</span>
+          </li>
+        `).join("");
+        relatedList.querySelectorAll(".rel-task-link").forEach(link => {
+          link.addEventListener("click", () => {
+            const taskId = link.getAttribute("data-task-id");
+            openCardDetail(taskId);
+          });
+        });
+      } else {
+        relatedSection.style.display = "none";
+      }
+    }
+
+    function updateDetailTabVisibility() {
+      document.querySelectorAll(".detail-tab").forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.detailTab === activeDetailTab);
+      });
+      document.querySelectorAll(".detail-panel").forEach(panel => {
+        panel.classList.toggle("active", panel.id === `detailPanel-${activeDetailTab}`);
+      });
+    }
+
+    function switchDetailTab(tabName) {
+      activeDetailTab = tabName;
+      updateDetailTabVisibility();
     }
 
     function appendTaskHistory(task, event) {
@@ -3930,6 +4430,13 @@
       });
       cardDetailEditBtn.addEventListener("click", () => {
         if (!viewingId) return;
+        // Check if task is blocked and trying to move to done
+        const task = tasks.find(t => t.id === viewingId);
+        if (task && isBlocked(task) && task.column !== "done") {
+          const blockedNames = getBlockedTaskNames(task);
+          alert(`This task is blocked by: ${blockedNames}\n\nCannot edit blocked tasks until blockers are resolved.`);
+          return;
+        }
         const id = viewingId;
         closeCardDetail();
         openModal(id);
@@ -3948,6 +4455,27 @@
           e.preventDefault();
           addCommentToViewingTask();
         }
+      });
+
+      // Detail tabs
+      document.querySelectorAll(".detail-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          switchDetailTab(tab.dataset.detailTab);
+        });
+      });
+
+      // Add dependency buttons (placeholders)
+      document.getElementById("addSubtaskBtn").addEventListener("click", () => {
+        alert("Add Subtask: Coming soon!");
+      });
+      document.getElementById("addBlockedByBtn").addEventListener("click", () => {
+        alert("Add Blocked By Dependency: Coming soon!");
+      });
+      document.getElementById("addBlocksBtn").addEventListener("click", () => {
+        alert("Add Blocks Dependency: Coming soon!");
+      });
+      document.getElementById("addRelatedBtn").addEventListener("click", () => {
+        alert("Add Related Task: Coming soon!");
       });
     }
 

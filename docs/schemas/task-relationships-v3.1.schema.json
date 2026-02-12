@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://command-center.openclaw.ai/schemas/task-relationships-v3.1.json",
+  "title": "Task Relationships v3.1",
+  "description": "Task dependency and hierarchy relationships for Command Center v3.1",
+  "type": "object",
+  "required": [],
+  "additionalProperties": false,
+  "properties": {
+    "parent": {
+      "type": ["string", "null"],
+      "description": "ID of the parent task (null if root task)",
+      "pattern": "^task-[a-z0-9]{8}-[0-9]{4}$",
+      "examples": ["task-a1b2c3d4-0001", null]
+    },
+    "subtasks": {
+      "type": "array",
+      "description": "IDs of child tasks (subtasks)",
+      "items": {
+        "type": "string",
+        "pattern": "^task-[a-z0-9]{8}-[0-9]{4}$"
+      },
+      "uniqueItems": true,
+      "default": []
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Task dependency relationships",
+      "additionalProperties": false,
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "description": "Tasks that cannot start until this task completes (this task blocks them)",
+          "items": {
+            "type": "string",
+            "pattern": "^task-[a-z0-9]{8}-[0-9]{4}$"
+          },
+          "uniqueItems": true,
+          "default": []
+        },
+        "blockedBy": {
+          "type": "array",
+          "description": "Tasks that must complete before this task can start (this task is blocked by them)",
+          "items": {
+            "type": "string",
+            "pattern": "^task-[a-z0-9]{8}-[0-9]{4}$"
+          },
+          "uniqueItems": true,
+          "default": []
+        },
+        "related": {
+          "type": "array",
+          "description": "Associated tasks with no execution dependency",
+          "items": {
+            "type": "string",
+            "pattern": "^task-[a-z0-9]{8}-[0-9]{4}$"
+          },
+          "uniqueItems": true,
+          "default": []
+        },
+        "duplicates": {
+          "type": "array",
+          "description": "Tasks representing the same work (mark as duplicate of this)",
+          "items": {
+            "type": "string",
+            "pattern": "^task-[a-z0-9]{8}-[0-9]{4}$"
+          },
+          "uniqueItems": true,
+          "default": []
+        },
+        "supersedes": {
+          "type": "array",
+          "description": "Tasks that this task replaces or renders obsolete",
+          "items": {
+            "type": "string",
+            "pattern": "^task-[a-z0-9]{8}-[0-9]{4}$"
+          },
+          "uniqueItems": true,
+          "default": []
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "validationRules": {
+      "type": "object",
+      "description": "Validation constraints enforced by the system",
+      "properties": {
+        "noCyclicDependencies": {
+          "description": "A task cannot directly or indirectly block itself",
+          "type": "boolean",
+          "const": true
+        },
+        "parentMustExist": {
+          "description": "If parent is not null, the referenced task must exist",
+          "type": "boolean",
+          "const": true
+        },
+        "subtasksMustExist": {
+          "description": "All subtask IDs must reference existing tasks",
+          "type": "boolean",
+          "const": true
+        },
+        "noSelfReference": {
+          "description": "A task cannot reference itself in any relationship",
+          "type": "boolean",
+          "const": true
+        },
+        "bidirectionalConsistency": {
+          "description": "If A blocks B, B should have A in blockedBy (auto-maintained)",
+          "type": "boolean",
+          "const": true
+        },
+        "hierarchyDepthLimit": {
+          "description": "Maximum nesting depth for parent-child relationships",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "default": 5
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "version": "3.0",
-  "lastModified": "2026-02-12T14:09:04.000Z",
+  "version": "3.1",
+  "lastModified": "2026-02-12T15:37:00.000Z",
   "modifiedBy": "watson",
   "tasks": [
     {
@@ -32,7 +32,18 @@
           "from": "active",
           "to": "done"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": ["a1b2c3d4-0007-4000-8000-000000000007"],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0002-4000-8000-000000000002",
@@ -63,7 +74,18 @@
           "from": "active",
           "to": "done"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": "a1b2c3d4-0007-4000-8000-000000000007",
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0003-4000-8000-000000000003",
@@ -94,7 +116,18 @@
           "from": "active",
           "to": "done"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": "a1b2c3d4-0007-4000-8000-000000000007",
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0004-4000-8000-000000000004",
@@ -125,7 +158,18 @@
           "from": "active",
           "to": "done"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0005-4000-8000-000000000005",
@@ -156,7 +200,18 @@
           "from": "active",
           "to": "done"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0006-4000-8000-000000000006",
@@ -187,7 +242,18 @@
           "from": "active",
           "to": "done"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0007-4000-8000-000000000007",
@@ -364,7 +430,21 @@
           "by": "watson",
           "at": "2026-02-12T14:09:04.000Z"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [
+          "a1b2c3d4-0002-4000-8000-000000000002",
+          "a1b2c3d4-0003-4000-8000-000000000003"
+        ],
+        "dependencies": {
+          "blocks": ["a1b2c3d4-0011-4000-8000-000000000011"],
+          "blockedBy": ["a1b2c3d4-0001-4000-8000-000000000001"],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0008-4000-8000-000000000008",
@@ -388,7 +468,18 @@
           "by": "watson",
           "at": "2026-02-08T20:00:00-05:00"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0009-4000-8000-000000000009",
@@ -412,7 +503,18 @@
           "by": "watson",
           "at": "2026-02-08T20:00:00-05:00"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": ["a1b2c3d4-0008-4000-8000-000000000008"],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0010-4000-8000-000000000010",
@@ -436,7 +538,18 @@
           "by": "watson",
           "at": "2026-02-08T20:00:00-05:00"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": [],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     },
     {
       "id": "a1b2c3d4-0011-4000-8000-000000000011",
@@ -460,7 +573,18 @@
           "by": "watson",
           "at": "2026-02-08T20:30:00-05:00"
         }
-      ]
+      ],
+      "relationships": {
+        "parent": null,
+        "subtasks": [],
+        "dependencies": {
+          "blocks": [],
+          "blockedBy": ["a1b2c3d4-0007-4000-8000-000000000007"],
+          "related": [],
+          "duplicates": [],
+          "supersedes": []
+        }
+      }
     }
   ]
 }
