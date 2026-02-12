@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T15:02:32Z",
+  "lastUpdated": "2026-02-12T15:04:18Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-12T10:01:56-05:00"
+      "lastActivity": "2026-02-12T10:02:33-05:00"
     },
     "ollama": {
       "status": "online",
@@ -61,11 +61,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 13264219,
-        "tokensOut": 83565,
-        "cacheRead": 12089878,
+        "tokensIn": 13545045,
+        "tokensOut": 85273,
+        "cacheRead": 12365590,
         "cacheWrite": 0,
-        "calls": 237,
+        "calls": 243,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -368,9 +368,9 @@
       {
         "hour": "2026-02-12T15:00Z",
         "model": "kimi-k2.5",
-        "calls": 7,
-        "tokensIn": 295332,
-        "tokensOut": 1927,
+        "calls": 13,
+        "tokensIn": 576158,
+        "tokensOut": 3635,
         "cost": 0
       },
       {
@@ -544,10 +544,10 @@
       {
         "hour": "2026-02-10T15:00Z",
         "model": "claude-opus-4-6",
-        "calls": 36,
-        "tokensIn": 2804951,
-        "tokensOut": 10601,
-        "cost": 3.25
+        "calls": 33,
+        "tokensIn": 2289605,
+        "tokensOut": 10167,
+        "cost": 1.99
       }
     ],
     "dailyHistory": [
@@ -574,10 +574,304 @@
       {
         "date": "2026-02-12",
         "cost": 0,
-        "calls": 158
+        "calls": 164
       }
     ]
   },
+  "projects": [
+    {
+      "id": "proj-infrastructure-2024",
+      "slug": "infrastructure",
+      "name": "Infrastructure",
+      "description": "Core platform infrastructure, tooling, and system architecture",
+      "status": "active",
+      "visibility": "private",
+      "metadata": {
+        "createdAt": "2026-02-08T17:00:00Z",
+        "updatedAt": "2026-02-12T14:55:00Z",
+        "createdBy": "watson",
+        "tags": [
+          "infrastructure",
+          "platform",
+          "devops"
+        ],
+        "category": "infrastructure",
+        "priority": 1
+      },
+      "timeline": {
+        "startDate": "2026-02-08",
+        "targetDate": "",
+        "completedAt": null,
+        "sprints": []
+      },
+      "budget": {
+        "allocated": 0,
+        "currency": "USD",
+        "spent": 6.5,
+        "projected": 0,
+        "billing": {
+          "model": "actual",
+          "alertThreshold": 0.8,
+          "alertsEnabled": true
+        }
+      },
+      "team": {
+        "lead": "watson",
+        "members": [
+          "watson",
+          "codex"
+        ],
+        "stakeholders": [
+          "paul"
+        ],
+        "defaultModel": "gpt-5.3-codex"
+      },
+      "settings": {
+        "autoAssign": true,
+        "defaultTaskPriority": "medium",
+        "notificationChannels": [
+          "telegram",
+          "feed"
+        ],
+        "costTrackingEnabled": true,
+        "timeTrackingEnabled": true
+      },
+      "progress": {
+        "taskCount": 4,
+        "completedTasks": 2,
+        "percentComplete": 50,
+        "currentPhase": "active",
+        "blocked": false
+      },
+      "integrations": {
+        "github": {
+          "repo": "command-center",
+          "enabled": true
+        },
+        "telegram": {
+          "enabled": true
+        }
+      }
+    },
+    {
+      "id": "proj-watson-2024",
+      "slug": "watson",
+      "name": "Watson",
+      "description": "Watson AI agent infrastructure and capability enhancements",
+      "status": "active",
+      "visibility": "private",
+      "metadata": {
+        "createdAt": "2026-02-08T17:00:00Z",
+        "updatedAt": "2026-02-12T14:55:00Z",
+        "createdBy": "watson",
+        "tags": [
+          "agent",
+          "ai",
+          "orchestration"
+        ],
+        "category": "agent",
+        "priority": 1
+      },
+      "timeline": {
+        "startDate": "2026-02-08",
+        "targetDate": "",
+        "completedAt": null,
+        "sprints": []
+      },
+      "budget": {
+        "allocated": 0,
+        "currency": "USD",
+        "spent": 0.7,
+        "projected": 0,
+        "billing": {
+          "model": "actual",
+          "alertThreshold": 0.8,
+          "alertsEnabled": true
+        }
+      },
+      "team": {
+        "lead": "watson",
+        "members": [
+          "watson"
+        ],
+        "stakeholders": [
+          "paul"
+        ],
+        "defaultModel": "claude-opus-4-6"
+      },
+      "settings": {
+        "autoAssign": true,
+        "defaultTaskPriority": "medium",
+        "notificationChannels": [
+          "telegram",
+          "feed"
+        ],
+        "costTrackingEnabled": true,
+        "timeTrackingEnabled": true
+      },
+      "progress": {
+        "taskCount": 2,
+        "completedTasks": 2,
+        "percentComplete": 100,
+        "currentPhase": "completed",
+        "blocked": false
+      },
+      "integrations": {
+        "telegram": {
+          "enabled": true
+        }
+      }
+    },
+    {
+      "id": "proj-coachfinder-2024",
+      "slug": "coachfinder",
+      "name": "CoachFinder",
+      "description": "Complete lead intelligence and outreach automation platform",
+      "status": "active",
+      "visibility": "private",
+      "metadata": {
+        "createdAt": "2026-02-08T18:00:00Z",
+        "updatedAt": "2026-02-12T14:55:00Z",
+        "createdBy": "watson",
+        "tags": [
+          "lead-gen",
+          "automation",
+          "hubspot",
+          "scraping"
+        ],
+        "category": "product",
+        "priority": 1
+      },
+      "timeline": {
+        "startDate": "2026-02-08",
+        "targetDate": "",
+        "completedAt": null,
+        "sprints": []
+      },
+      "budget": {
+        "allocated": 0,
+        "currency": "USD",
+        "spent": 7.4,
+        "projected": 0,
+        "billing": {
+          "model": "actual",
+          "alertThreshold": 0.8,
+          "alertsEnabled": true
+        }
+      },
+      "team": {
+        "lead": "codex",
+        "members": [
+          "codex",
+          "watson"
+        ],
+        "stakeholders": [
+          "paul"
+        ],
+        "defaultModel": "gpt-5.3-codex"
+      },
+      "settings": {
+        "autoAssign": true,
+        "defaultTaskPriority": "high",
+        "notificationChannels": [
+          "telegram",
+          "feed"
+        ],
+        "costTrackingEnabled": true,
+        "timeTrackingEnabled": true
+      },
+      "progress": {
+        "taskCount": 3,
+        "completedTasks": 2,
+        "percentComplete": 66,
+        "currentPhase": "integration",
+        "blocked": false
+      },
+      "integrations": {
+        "github": {
+          "repo": "coachfinder-core",
+          "enabled": true
+        },
+        "hubspot": {
+          "enabled": true,
+          "syncStatus": "active"
+        },
+        "telegram": {
+          "enabled": true
+        }
+      }
+    },
+    {
+      "id": "proj-lead-intel-2024",
+      "slug": "lead-intel",
+      "name": "Lead Intel",
+      "description": "Research workflow automation for lead intelligence gathering",
+      "status": "planned",
+      "visibility": "private",
+      "metadata": {
+        "createdAt": "2026-02-08T20:00:00Z",
+        "updatedAt": "2026-02-12T14:55:00Z",
+        "createdBy": "watson",
+        "tags": [
+          "research",
+          "automation",
+          "twitter",
+          "youtube"
+        ],
+        "category": "research",
+        "priority": 2
+      },
+      "timeline": {
+        "startDate": "2026-02-08",
+        "targetDate": "",
+        "completedAt": null,
+        "sprints": []
+      },
+      "budget": {
+        "allocated": 0,
+        "currency": "USD",
+        "spent": 1.4,
+        "projected": 0,
+        "billing": {
+          "model": "actual",
+          "alertThreshold": 0.8,
+          "alertsEnabled": true
+        }
+      },
+      "team": {
+        "lead": "watson",
+        "members": [
+          "watson"
+        ],
+        "stakeholders": [
+          "paul"
+        ],
+        "defaultModel": "claude-opus-4-6"
+      },
+      "settings": {
+        "autoAssign": true,
+        "defaultTaskPriority": "medium",
+        "notificationChannels": [
+          "telegram",
+          "feed"
+        ],
+        "costTrackingEnabled": true,
+        "timeTrackingEnabled": true
+      },
+      "progress": {
+        "taskCount": 2,
+        "completedTasks": 0,
+        "percentComplete": 0,
+        "currentPhase": "planned",
+        "blocked": false
+      },
+      "integrations": {
+        "telegram": {
+          "enabled": true
+        }
+      }
+    }
+  ],
   "coachfinder": {
     "status": "development",
     "completion": 85,
