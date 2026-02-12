@@ -86,7 +86,7 @@ function renderFeed(host, actorFilter, actionFilter) {
 
       return `
         ${separator}
-        <article class="surface-card activity-item">
+        <article class="surface-card activity-item ${entry.objectType === 'task' ? 'interactive' : ''}" ${entry.objectType === 'task' ? `data-task-id="${entry.objectId}"` : ''}>
           <div class="task-top">
             <div>${ACTOR_EMOJI[actor]} ${activityText(entry)}</div>
             <span class="subtle">${relTime(entry.createdAt)}</span>
@@ -144,5 +144,18 @@ export function render(container) {
 
   actionSelect.addEventListener('change', () => {
     renderFeed(host, activeActor, actionSelect.value);
+  });
+
+  container.addEventListener('click', (event) => {
+    const card = event.target.closest('[data-task-id]');
+    if (!card || event.target.closest('a')) return;
+
+    const taskId = card.dataset.taskId;
+    import('../components/slide-over.js').then(({ openSlideOver }) => {
+      import('./task-detail.js').then(({ renderTaskDetail }) => {
+        const task = TASKS.find((item) => item.id === taskId);
+        openSlideOver({ title: task?.name || 'Task', content: renderTaskDetail(taskId) });
+      });
+    });
   });
 }

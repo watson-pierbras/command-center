@@ -91,7 +91,7 @@ export function render(container) {
         </div>
         <div class="horizontal-scroll">
           ${PROJECTS.map((project) => `
-            <article class="surface-card interactive project-card project-left-border stack-3" style="border-left-color: var(--color-project-${project.color});">
+            <article class="surface-card interactive project-card project-left-border stack-3" style="border-left-color: var(--color-project-${project.color});" data-project-id="${project.id}">
               <div class="card-top">
                 <strong>${project.name}</strong>
                 <span class="pill ${project.status}">${project.status}</span>
@@ -153,6 +153,15 @@ export function render(container) {
   `;
 
   container.addEventListener('click', (event) => {
+    const projectCard = event.target.closest('[data-project-id]');
+    if (projectCard) {
+      const projectId = projectCard.dataset.projectId;
+      if (projectId) {
+        window.location.hash = `#/projects/${projectId}`;
+      }
+      return;
+    }
+
     const card = event.target.closest('[data-task-id]');
     if (!card) return;
 
