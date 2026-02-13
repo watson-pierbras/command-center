@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-13T22:06:11Z",
+  "lastUpdated": "2026-02-13T22:11:14Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-13T17:01:07-05:00"
+      "lastActivity": "2026-02-13T17:06:11-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-13T17:01:07-05:00",
+          "lastActive": "2026-02-13T17:06:11-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,10 +494,10 @@
   ],
   "costs": {
     "summary": {
-      "today": 44.16,
-      "week": 180.81,
-      "month": 180.81,
-      "projectedMonth": 389.43,
+      "today": 44.25,
+      "week": 180.89,
+      "month": 180.89,
+      "projectedMonth": 389.62,
       "dailyAvg": 13.91
     },
     "models": [
@@ -505,12 +505,12 @@
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 180.81,
-        "tokensIn": 236788183,
-        "tokensOut": 557348,
-        "cacheRead": 228356695,
-        "cacheWrite": 8428851,
-        "calls": 2234,
+        "cost": 180.89,
+        "tokensIn": 236963617,
+        "tokensOut": 557356,
+        "cacheRead": 228532075,
+        "cacheWrite": 8428902,
+        "calls": 2235,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -839,10 +839,10 @@
       {
         "hour": "2026-02-13T22:00Z",
         "model": "claude-opus-4-6",
-        "calls": 2,
-        "tokensIn": 350665,
-        "tokensOut": 92,
-        "cost": 0.18
+        "calls": 3,
+        "tokensIn": 526099,
+        "tokensOut": 100,
+        "cost": 0.27
       },
       {
         "hour": "2026-02-13T21:00Z",
@@ -1199,15 +1199,15 @@
       {
         "hour": "2026-02-11T22:00Z",
         "model": "kimi-k2.5",
-        "calls": 53,
-        "tokensIn": 2059850,
-        "tokensOut": 13497,
+        "calls": 38,
+        "tokensIn": 1698325,
+        "tokensOut": 10091,
         "cost": 0
       },
       {
         "hour": "2026-02-11T22:00Z",
         "model": "delivery-mirror",
-        "calls": 5,
+        "calls": 3,
         "tokensIn": 0,
         "tokensOut": 0,
         "cost": 0
@@ -1241,8 +1241,8 @@
       },
       {
         "date": "2026-02-13",
-        "cost": 44.16,
-        "calls": 537
+        "cost": 44.25,
+        "calls": 538
       }
     ]
   },
