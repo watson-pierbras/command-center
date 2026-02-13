@@ -82,6 +82,8 @@ export function renderTaskDetail(taskId) {
 
   const dueLabel = formatDate(task.dueDate);
   const overdue = isOverdue(task.dueDate);
+  const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
+  const completedSubtasks = subtasks.filter((subtask) => subtask.status === 'done').length;
 
   return `
     <div class="task-detail-status priority-${escapeHtml(task.priority)}">
@@ -125,6 +127,21 @@ export function renderTaskDetail(taskId) {
     </dl>
 
     ${task.status === 'blocked' ? `<div class="task-detail-blocked">${escapeHtml(task.blockedReason || 'Blocked with no reason provided')}</div>` : ''}
+
+    ${subtasks.length > 0 ? `
+      <section class="task-detail-subtasks">
+        <h3>Subtasks (${completedSubtasks}/${subtasks.length})</h3>
+        ${subtasks.map((subtask) => {
+          const isDone = subtask.status === 'done';
+          return `
+            <div class="subtask-item ${isDone ? 'subtask-done' : ''}">
+              <span class="subtask-check">${isDone ? '☑' : '☐'}</span>
+              <span>${escapeHtml(subtask.name)}</span>
+            </div>
+          `;
+        }).join('')}
+      </section>
+    ` : ''}
 
     <section class="task-detail-timeline">
       <h3>Activity</h3>

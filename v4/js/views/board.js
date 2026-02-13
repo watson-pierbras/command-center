@@ -1,6 +1,6 @@
 import { AGENTS, PROJECTS, TASKS } from '../mock-data.js';
 
-const COLUMNS = [
+export const COLUMNS = [
   { key: 'planned', label: 'Planned' },
   { key: 'active', label: 'Active' },
   { key: 'in_review', label: 'In Review' },
@@ -15,7 +15,7 @@ function listForColumn(tasks, key) {
   return tasks.filter((task) => task.status === key);
 }
 
-function renderBoardBody(host, projectId) {
+export function renderBoardBody(host, projectId) {
   const scopedTasks = projectId === 'all' ? TASKS : TASKS.filter((task) => task.projectId === projectId);
 
   host.innerHTML = `

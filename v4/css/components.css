@@ -366,6 +366,34 @@
   border-color: var(--color-accent);
 }
 
+.view-toggle {
+  display: flex;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+.view-toggle-btn {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-primary);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all 150ms ease-out;
+}
+
+.view-toggle-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+.view-toggle-btn.active {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  border-color: var(--color-accent);
+}
+
 .more-menu:not([hidden]) {
   animation: more-menu-in 150ms ease-out both;
 }
@@ -474,6 +502,40 @@
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
+}
+
+.task-detail-subtasks {
+  border-top: 1px solid var(--color-border-primary);
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.task-detail-subtasks h3 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  font-size: var(--font-size-sm);
+}
+
+.subtask-item.subtask-done {
+  color: var(--color-text-tertiary);
+  text-decoration: line-through;
+}
+
+.subtask-check {
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
 }
 
 .task-detail-timeline {

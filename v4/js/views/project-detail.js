@@ -1,4 +1,5 @@
 import { ACTIVITIES, AGENTS, PROJECTS, TASKS } from '../mock-data.js';
+import { renderBoardBody } from './board.js';
 
 function formatDate(date) {
   if (!date) return 'None';
@@ -47,9 +48,27 @@ function renderOverview(project, projectTasks) {
   `;
 }
 
-function renderTasks(projectTasks, selectedFilter = 'all') {
+function renderTasks(project, projectTasks, selectedFilter = 'all', viewMode = 'list') {
   const filters = ['all', 'planned', 'active', 'in_review', 'done', 'blocked'];
   const filtered = selectedFilter === 'all' ? projectTasks : projectTasks.filter((task) => task.status === selectedFilter);
+  const viewToggle = `
+    <div class="view-toggle">
+      <button type="button" class="view-toggle-btn ${viewMode === 'list' ? 'active' : ''}" data-view-mode="list">☰ List</button>
+      <button type="button" class="view-toggle-btn ${viewMode === 'board' ? 'active' : ''}" data-view-mode="board">▦ Board</button>
+    </div>
+  `;
+
+  if (viewMode === 'board') {
+    return `
+      <div class="stack-3">
+        <div class="heading-row">
+          <a class="link" href="#/board/${project.id}">View on Board →</a>
+          ${viewToggle}
+        </div>
+        <div class="board-wrap" data-project-board></div>
+      </div>
+    `;
+  }
 
   return `
     <div class="stack-3">
@@ -59,6 +78,7 @@ function renderTasks(projectTasks, selectedFilter = 'all') {
             <button type="button" class="btn ${filter === selectedFilter ? 'btn-primary' : ''}" data-task-filter="${filter}">${filter.replace('_', ' ')}</button>
           `).join('')}
         </div>
+        ${viewToggle}
       </div>
       <div class="task-list">
         ${filtered.map((task) => {
@@ -144,7 +164,7 @@ export function render(container, params, query = {}) {
 
       <div id="project-tab-content" class="stack-4">
         ${currentTab === 'overview' ? renderOverview(project, projectTasks) : ''}
-        ${currentTab === 'tasks' ? renderTasks(projectTasks, 'all') : ''}
+        ${currentTab === 'tasks' ? renderTasks(project, projectTasks, 'all', 'list') : ''}
         ${currentTab === 'activity' ? renderActivity(projectActivity) : ''}
       </div>
     </section>
@@ -158,10 +178,34 @@ export function render(container, params, query = {}) {
 
   if (currentTab === 'tasks') {
     const content = container.querySelector('#project-tab-content');
+    let selectedFilter = 'all';
+    let viewMode = 'list';
+
+    function renderTaskTabContent() {
+      content.innerHTML = renderTasks(project, projectTasks, selectedFilter, viewMode);
+      if (viewMode === 'board') {
+        const boardContainer = content.querySelector('[data-project-board]');
+        if (boardContainer) {
+          renderBoardBody(boardContainer, project.id);
+        }
+      }
+    }
+
     content.addEventListener('click', (event) => {
+      const viewButton = event.target.closest('[data-view-mode]');
+      if (viewButton) {
+        const nextMode = viewButton.dataset.viewMode;
+        if (nextMode && nextMode !== viewMode) {
+          viewMode = nextMode;
+          renderTaskTabContent();
+        }
+        return;
+      }
+
       const filterButton = event.target.closest('[data-task-filter]');
       if (filterButton) {
-        content.innerHTML = renderTasks(projectTasks, filterButton.dataset.taskFilter);
+        selectedFilter = filterButton.dataset.taskFilter || 'all';
+        renderTaskTabContent();
         return;
       }
 
@@ -176,5 +220,7 @@ export function render(container, params, query = {}) {
         });
       });
     });
+
+    renderTaskTabContent();
   }
 }
