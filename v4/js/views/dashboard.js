@@ -66,21 +66,25 @@ export function render(container) {
       <h1 class="h-title">${greeting()}</h1>
 
       <div class="grid-4">
-        <article class="surface-card kpi-card stack-2">
+        <article class="surface-card kpi-card stack-2 interactive" data-stat-action="projects">
           <div class="subtle">Active Projects</div>
           <div class="kpi-value">${activeProjects}</div>
+          <div class="kpi-arrow">→</div>
         </article>
-        <article class="surface-card kpi-card stack-2">
+        <article class="surface-card kpi-card stack-2 interactive" data-stat-action="board">
           <div class="subtle">Total Tasks</div>
           <div class="kpi-value">${totalTasks}</div>
+          <div class="kpi-arrow">→</div>
         </article>
-        <article class="surface-card kpi-card stack-2">
+        <article class="surface-card kpi-card stack-2 interactive" data-stat-action="projects">
           <div class="subtle">Completion</div>
           <div class="kpi-value">${completion}%</div>
+          <div class="kpi-arrow">→</div>
         </article>
-        <article class="surface-card kpi-card stack-2">
+        <article class="surface-card kpi-card stack-2 interactive" data-stat-action="blocked">
           <div class="subtle">Blocked</div>
           <div class="kpi-value ${blockedTasks.length > 0 ? 'status-danger' : ''}">${blockedTasks.length}</div>
+          <div class="kpi-arrow">→</div>
         </article>
       </div>
 
@@ -129,7 +133,7 @@ export function render(container) {
       </div>
 
       ${blockedTasks.length > 0 ? `
-        <div class="section-stack">
+        <div class="section-stack needs-attention">
           <h2 class="h-title">Needs Attention</h2>
           <div class="task-list">
             ${blockedTasks.map((task) => {
@@ -153,6 +157,33 @@ export function render(container) {
   `;
 
   container.addEventListener('click', (event) => {
+    const statCard = event.target.closest('[data-stat-action]');
+    if (statCard) {
+      const statAction = statCard.dataset.statAction;
+      if (statAction === 'projects') {
+        window.location.hash = '#/projects';
+        return;
+      }
+      if (statAction === 'board') {
+        window.location.hash = '#/board';
+        return;
+      }
+      if (statAction === 'blocked') {
+        if (blockedTasks.length === 1) {
+          const taskId = blockedTasks[0].id;
+          import('../components/slide-over.js').then(({ openSlideOver }) => {
+            import('./task-detail.js').then(({ renderTaskDetail }) => {
+              const task = TASKS.find((item) => item.id === taskId);
+              openSlideOver({ title: task?.name || 'Task', content: renderTaskDetail(taskId) });
+            });
+          });
+        } else {
+          document.querySelector('.needs-attention')?.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+      }
+    }
+
     const projectCard = event.target.closest('[data-project-id]');
     if (projectCard) {
       const projectId = projectCard.dataset.projectId;

@@ -6,6 +6,7 @@ const COLUMNS = [
   { key: 'in_review', label: 'In Review' },
   { key: 'done', label: 'Done' }
 ];
+const BOARD_PROJECT_STORAGE_KEY = 'cc-board-project';
 
 function listForColumn(tasks, key) {
   if (key === 'active') {
@@ -33,15 +34,22 @@ function renderBoardBody(host, projectId) {
               return `
                 <article class="surface-card task-card interactive priority-${task.priority}" data-task-id="${task.id}">
                   <strong>${task.name}</strong>
-                  <div class="activity-meta">
-                    <span class="color-dot" style="background: var(--color-project-${project?.color || 'slate'});"></span>
-                    <span>${project?.name || 'Unknown project'}</span>
-                  </div>
+                  ${projectId === 'all' ? `
+                    <div class="activity-meta">
+                      <span class="color-dot" style="background: var(--color-project-${project?.color || 'slate'});"></span>
+                      <span>${project?.name || 'Unknown project'}</span>
+                    </div>
+                  ` : ''}
                   <div class="activity-meta">
                     <span>${agent?.avatar || '👤'}</span>
                     <span>${agent?.name || 'Unassigned'}</span>
                     ${task.status === 'blocked' ? '<span class="pill blocked">blocked</span>' : ''}
                   </div>
+                  ${Array.isArray(task.subtasks) && task.subtasks.length > 0 ? `
+                    <div class="activity-meta">
+                      <span>☐ ${task.subtasks.filter((subtask) => subtask.status === 'done').length}/${task.subtasks.length} subtasks</span>
+                    </div>
+                  ` : ''}
                 </article>
               `;
             }).join('') || '<div class="subtle">No tasks</div>'}
@@ -52,27 +60,63 @@ function renderBoardBody(host, projectId) {
   `;
 }
 
-export function render(container) {
+function renderProjectPills(host, selectedProjectId) {
+  host.innerHTML = `
+    ${PROJECTS.map((project) => `
+      <button class="board-project-pill ${selectedProjectId === project.id ? 'active' : ''}" data-board-project="${project.id}">
+        <span class="color-dot" style="background: var(--color-project-${project.color});"></span>
+        ${project.name}
+      </button>
+    `).join('')}
+    <button class="board-project-pill ${selectedProjectId === 'all' ? 'active' : ''}" data-board-project="all">All</button>
+  `;
+}
+
+function isValidProjectSelection(projectId) {
+  return projectId === 'all' || PROJECTS.some((project) => project.id === projectId);
+}
+
+function defaultProjectSelection() {
+  const firstActiveProject = PROJECTS.find((project) => project.status === 'active');
+  return firstActiveProject?.id || PROJECTS[0]?.id || 'all';
+}
+
+export function render(container, params) {
   container.innerHTML = `
     <section class="app-view">
-      <div class="heading-row">
-        <h1 class="h-title">Board</h1>
-        <select class="select" id="board-project-filter">
-          <option value="all">All Projects</option>
-          ${PROJECTS.map((project) => `<option value="${project.id}">${project.name}</option>`).join('')}
-        </select>
-      </div>
+      <h1 class="h-title">Board</h1>
+      <div class="board-project-bar" id="board-project-bar"></div>
       <div class="board-wrap" id="board-content"></div>
     </section>
   `;
 
-  const filter = container.querySelector('#board-project-filter');
+  const bar = container.querySelector('#board-project-bar');
   const host = container.querySelector('#board-content');
+  const routeProjectId = params?.projectId;
+  const storedProjectId = localStorage.getItem(BOARD_PROJECT_STORAGE_KEY);
+  let selectedProjectId = defaultProjectSelection();
 
-  renderBoardBody(host, 'all');
+  if (isValidProjectSelection(storedProjectId)) {
+    selectedProjectId = storedProjectId;
+  }
+  if (isValidProjectSelection(routeProjectId)) {
+    selectedProjectId = routeProjectId;
+  }
 
-  filter.addEventListener('change', () => {
-    renderBoardBody(host, filter.value);
+  renderProjectPills(bar, selectedProjectId);
+  renderBoardBody(host, selectedProjectId);
+
+  bar.addEventListener('click', (event) => {
+    const pill = event.target.closest('[data-board-project]');
+    if (!pill) return;
+
+    const projectId = pill.dataset.boardProject;
+    if (!projectId || !isValidProjectSelection(projectId) || projectId === selectedProjectId) return;
+
+    selectedProjectId = projectId;
+    localStorage.setItem(BOARD_PROJECT_STORAGE_KEY, projectId);
+    renderProjectPills(bar, selectedProjectId);
+    renderBoardBody(host, selectedProjectId);
   });
 
   host.addEventListener('click', (event) => {

@@ -210,6 +210,12 @@
 .stack-3 { display: grid; gap: var(--space-3); }
 .stack-4 { display: grid; gap: var(--space-4); }
 
+.kpi-arrow {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-xs);
+  text-align: right;
+}
+
 .grid-2,
 .grid-3,
 .grid-4 {
@@ -317,6 +323,47 @@
 .more-menu {
   bottom: calc(56px + var(--space-2) + env(safe-area-inset-bottom, 0px));
   transform-origin: bottom right;
+}
+
+/* Board project selector */
+.board-project-bar {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.board-project-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.board-project-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-primary);
+  background: transparent;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 150ms ease-out;
+  color: var(--color-text-secondary);
+}
+
+.board-project-pill:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+.board-project-pill.active {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  border-color: var(--color-accent);
 }
 
 .more-menu:not([hidden]) {

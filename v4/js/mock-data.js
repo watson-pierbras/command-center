@@ -54,13 +54,59 @@ export const PROJECTS = [
 ];
 
 export const TASKS = [
-  { id: 't1', name: 'Design dashboard view', status: 'active', priority: 'high', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1', agentId: 'a1', estimate: '4h', dueDate: '2026-02-15', tags: ['design', 'frontend'] },
-  { id: 't2', name: 'Build API layer', status: 'planned', priority: 'high', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1', agentId: 'a2', estimate: '8h', dueDate: '2026-02-20', tags: ['backend'] },
+  {
+    id: 't1',
+    name: 'Design dashboard view',
+    status: 'active',
+    priority: 'high',
+    projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1',
+    agentId: 'a1',
+    estimate: '4h',
+    dueDate: '2026-02-15',
+    tags: ['design', 'frontend'],
+    subtasks: [
+      { id: 'st1', name: 'KPI card layout', status: 'done' },
+      { id: 'st2', name: 'Project cards section', status: 'done' },
+      { id: 'st3', name: 'Activity feed section', status: 'active' },
+      { id: 'st4', name: 'Needs attention section', status: 'active' },
+      { id: 'st5', name: 'Responsive breakpoints', status: 'planned' }
+    ]
+  },
+  {
+    id: 't2',
+    name: 'Build API layer',
+    status: 'planned',
+    priority: 'high',
+    projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1',
+    agentId: 'a2',
+    estimate: '8h',
+    dueDate: '2026-02-20',
+    tags: ['backend'],
+    subtasks: [
+      { id: 'st6', name: 'Object CRUD endpoints', status: 'planned' },
+      { id: 'st7', name: 'Association endpoints', status: 'planned' },
+      { id: 'st8', name: 'Activity endpoints', status: 'planned' }
+    ]
+  },
   { id: 't3', name: 'Implement auth flow', status: 'planned', priority: 'medium', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1', agentId: 'a1', estimate: '3h', dueDate: '2026-02-22', tags: ['backend', 'security'] },
   { id: 't4', name: 'Design system tokens', status: 'done', priority: 'high', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1', agentId: 'a1', estimate: '2h', dueDate: '2026-02-10', tags: ['design'] },
   { id: 't5', name: 'Write v4 spec suite', status: 'done', priority: 'high', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1', agentId: 'a1', estimate: '12h', dueDate: '2026-02-12', tags: ['docs'] },
   { id: 't6', name: 'Router + sidebar', status: 'in_review', priority: 'medium', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA1', agentId: 'a2', estimate: '3h', dueDate: '2026-02-14', tags: ['frontend'] },
-  { id: 't7', name: 'School scraper fix', status: 'active', priority: 'high', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA2', agentId: 'a2', estimate: '6h', dueDate: '2026-02-16', tags: ['scraping'] },
+  {
+    id: 't7',
+    name: 'School scraper fix',
+    status: 'active',
+    priority: 'high',
+    projectId: '01ARYZ6S41TSV4RRFFQ69G5FA2',
+    agentId: 'a2',
+    estimate: '6h',
+    dueDate: '2026-02-16',
+    tags: ['scraping'],
+    subtasks: [
+      { id: 'st9', name: 'Fix pagination handler', status: 'done' },
+      { id: 'st10', name: 'Add retry logic', status: 'active' }
+    ]
+  },
   { id: 't8', name: 'HubSpot batch import', status: 'active', priority: 'medium', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA2', agentId: 'a1', estimate: '4h', dueDate: '2026-02-18', tags: ['integration'] },
   { id: 't9', name: 'Pipeline optimization', status: 'blocked', priority: 'high', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA2', agentId: 'a2', estimate: '5h', dueDate: '2026-02-17', blockedReason: 'Waiting on HubSpot API rate limit increase', tags: ['pipeline'] },
   { id: 't10', name: 'State validation rules', status: 'done', priority: 'medium', projectId: '01ARYZ6S41TSV4RRFFQ69G5FA2', agentId: 'a1', estimate: '2h', dueDate: '2026-02-08', tags: ['backend'] },

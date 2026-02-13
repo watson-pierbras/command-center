@@ -25,6 +25,10 @@ function resolveRoute(path) {
     if (id) return { view: projectDetailView, params: { id } };
   }
   if (path === '/board') return { view: boardView, params: {} };
+  if (path.startsWith('/board/')) {
+    const [, , projectId] = path.split('/');
+    if (projectId) return { view: boardView, params: { projectId } };
+  }
   if (path === '/activity') return { view: activityView, params: {} };
   if (path === '/agents') return { view: agentsView, params: {} };
   if (path === '/settings') return { view: settingsView, params: {} };
