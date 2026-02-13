@@ -133,3 +133,54 @@ export const ACTIVITIES = [
   { id: 'act9', objectId: 't11', objectName: 'Lead scoring model', objectType: 'task', actor: 'watson', action: 'created', data: {}, projectName: 'Lead Intelligence', projectColor: 'rose', createdAt: '2026-02-10T10:00:00Z' },
   { id: 'act10', objectId: 't13', objectName: 'Dashboard widgets', objectType: 'task', actor: 'watson', action: 'status_changed', data: { from: 'active', to: 'done' }, projectName: 'Watson Tools', projectColor: 'amber', createdAt: '2026-02-09T16:00:00Z' },
 ];
+
+export function addTask(task) {
+  const project = PROJECTS.find((item) => item.id === task.projectId);
+  const newTask = {
+    id: `t${TASKS.length + 1}`,
+    status: 'planned',
+    priority: 'medium',
+    tags: [],
+    ...task
+  };
+
+  TASKS.push(newTask);
+  ACTIVITIES.push({
+    id: `act${ACTIVITIES.length + 1}`,
+    objectType: 'task',
+    objectId: newTask.id,
+    objectName: newTask.name,
+    projectName: project?.name || 'Unknown',
+    projectColor: project?.color || 'slate',
+    action: 'created',
+    actor: 'watson',
+    data: {},
+    createdAt: new Date().toISOString()
+  });
+
+  return newTask;
+}
+
+export function updateTaskStatus(taskId, newStatus) {
+  const task = TASKS.find((item) => item.id === taskId);
+  if (!task) return null;
+
+  const oldStatus = task.status;
+  const project = PROJECTS.find((item) => item.id === task.projectId);
+  task.status = newStatus;
+
+  ACTIVITIES.push({
+    id: `act${ACTIVITIES.length + 1}`,
+    objectType: 'task',
+    objectId: task.id,
+    objectName: task.name,
+    projectName: project?.name || 'Unknown',
+    projectColor: project?.color || 'slate',
+    action: 'status_changed',
+    actor: 'watson',
+    data: { from: oldStatus, to: newStatus },
+    createdAt: new Date().toISOString()
+  });
+
+  return task;
+}

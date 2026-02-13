@@ -1,5 +1,14 @@
 import { ACTIVITIES, AGENTS, PROJECTS, TASKS } from '../mock-data.js';
-import { renderBoardBody } from './board.js';
+import { renderBoardBody, showStatusDropdown } from './board.js';
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
 
 function formatDate(date) {
   if (!date) return 'None';
@@ -40,10 +49,10 @@ function renderOverview(project, projectTasks) {
 
   return `
     <div class="surface-card task-card stack-3">
-      <p>${project.description}</p>
-      <div class="subtle">Team: ${team || 'Unassigned'}</div>
+      <p>${escapeHtml(project.description)}</p>
+      <div class="subtle">Team: ${escapeHtml(team || 'Unassigned')}</div>
       <div class="subtle">Start: ${formatDate(project.startDate)} · Target: ${formatDate(project.targetDate)}</div>
-      <div class="subtle">Priority: ${project.priority}</div>
+      <div class="subtle">Priority: ${escapeHtml(project.priority)}</div>
     </div>
   `;
 }
@@ -63,7 +72,10 @@ function renderTasks(project, projectTasks, selectedFilter = 'all', viewMode = '
       <div class="stack-3">
         <div class="heading-row">
           <a class="link" href="#/board/${project.id}">View on Board →</a>
-          ${viewToggle}
+          <div class="heading-row">
+            <button type="button" class="btn btn-primary" data-new-task>New Task</button>
+            ${viewToggle}
+          </div>
         </div>
         <div class="board-wrap" data-project-board></div>
       </div>
@@ -78,7 +90,10 @@ function renderTasks(project, projectTasks, selectedFilter = 'all', viewMode = '
             <button type="button" class="btn ${filter === selectedFilter ? 'btn-primary' : ''}" data-task-filter="${filter}">${filter.replace('_', ' ')}</button>
           `).join('')}
         </div>
-        ${viewToggle}
+        <div class="heading-row">
+          <button type="button" class="btn btn-primary" data-new-task>New Task</button>
+          ${viewToggle}
+        </div>
       </div>
       <div class="task-list">
         ${filtered.map((task) => {
@@ -86,10 +101,10 @@ function renderTasks(project, projectTasks, selectedFilter = 'all', viewMode = '
           return `
             <article class="surface-card interactive task-card priority-${task.priority}" data-task-id="${task.id}">
               <div class="task-top">
-                <strong>${task.name}</strong>
-                <span class="pill ${task.status}">${task.status.replace('_', ' ')}</span>
+                <strong>${escapeHtml(task.name)}</strong>
+                <span class="pill ${escapeHtml(task.status)} status-editable" data-task-status data-task-id="${escapeHtml(task.id)}" data-current-status="${escapeHtml(task.status)}">${escapeHtml(task.status.replace('_', ' '))}</span>
               </div>
-              <div class="subtle">Assigned: ${agent ? `${agent.avatar} ${agent.name}` : 'Unassigned'}</div>
+              <div class="subtle">Assigned: ${escapeHtml(agent ? `${agent.avatar} ${agent.name}` : 'Unassigned')}</div>
               <div class="subtle">Due ${formatDate(task.dueDate)}</div>
             </article>
           `;
@@ -104,11 +119,11 @@ function renderActivity(projectActivity) {
     <div class="activity-list">
       ${projectActivity.map((item) => `
         <article class="surface-card activity-item">
-          <div>${activityText(item)}</div>
+          <div>${escapeHtml(activityText(item))}</div>
           <div class="activity-meta">
             <span>${relativeTime(item.createdAt)}</span>
             <span>•</span>
-            <span>${item.objectName}</span>
+            <span>${escapeHtml(item.objectName)}</span>
           </div>
         </article>
       `).join('') || '<div class="subtle">No project activity yet.</div>'}
@@ -144,15 +159,15 @@ export function render(container, params, query = {}) {
 
       <article class="surface-card task-card stack-3 project-left-border" style="border-left-color: var(--color-project-${project.color});">
         <div class="task-top">
-          <h1 class="h-title">${project.name}</h1>
-          <span class="pill ${project.status}">${project.status}</span>
+          <h1 class="h-title">${escapeHtml(project.name)}</h1>
+          <span class="pill ${escapeHtml(project.status)}">${escapeHtml(project.status)}</span>
         </div>
         <div class="progress"><div class="progress-fill" style="width:${project.progress}%"></div></div>
         <div class="project-summary">
           <span>Tasks: ${projectTasks.length}</span>
           <span>Completion: ${completion}%</span>
           <span>Target: ${formatDate(project.targetDate)}</span>
-          <span>Priority: ${project.priority}</span>
+          <span>Priority: ${escapeHtml(project.priority)}</span>
         </div>
       </article>
 
@@ -181,6 +196,26 @@ export function render(container, params, query = {}) {
     let selectedFilter = 'all';
     let viewMode = 'list';
 
+    function openCreateTaskForm() {
+      Promise.all([
+        import('../components/slide-over.js'),
+        import('../components/task-form.js')
+      ]).then(([slideOver, taskForm]) => {
+        slideOver.openSlideOver({
+          title: 'Create Task',
+          content: taskForm.renderTaskForm({ projectId: project.id })
+        });
+
+        const form = document.getElementById('task-create-form');
+        taskForm.initTaskForm(form, (task) => {
+          slideOver.closeSlideOver();
+          if (task?.projectId) {
+            window.location.hash = `#/board/${task.projectId}`;
+          }
+        });
+      });
+    }
+
     function renderTaskTabContent() {
       content.innerHTML = renderTasks(project, projectTasks, selectedFilter, viewMode);
       if (viewMode === 'board') {
@@ -192,6 +227,25 @@ export function render(container, params, query = {}) {
     }
 
     content.addEventListener('click', (event) => {
+      const createTaskButton = event.target.closest('[data-new-task]');
+      if (createTaskButton) {
+        openCreateTaskForm();
+        return;
+      }
+
+      const statusPill = event.target.closest('[data-task-status]');
+      if (statusPill) {
+        event.preventDefault();
+        event.stopPropagation();
+        const taskId = statusPill.dataset.taskId;
+        const currentStatus = statusPill.dataset.currentStatus;
+        if (!taskId || !currentStatus) return;
+        showStatusDropdown(statusPill, taskId, currentStatus, () => {
+          renderTaskTabContent();
+        });
+        return;
+      }
+
       const viewButton = event.target.closest('[data-view-mode]');
       if (viewButton) {
         const nextMode = viewButton.dataset.viewMode;

@@ -1,5 +1,14 @@
 import { ACTIVITIES, AGENTS, PROJECTS, TASKS } from '../mock-data.js';
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
 function actorLabel(actor) {
   const value = actor.toLowerCase();
   if (value === 'watson') return 'Watson';
@@ -97,8 +106,8 @@ export function render(container) {
           ${PROJECTS.map((project) => `
             <article class="surface-card interactive project-card project-left-border stack-3" style="border-left-color: var(--color-project-${project.color});" data-project-id="${project.id}">
               <div class="card-top">
-                <strong>${project.name}</strong>
-                <span class="pill ${project.status}">${project.status}</span>
+                <strong>${escapeHtml(project.name)}</strong>
+                <span class="pill ${escapeHtml(project.status)}">${escapeHtml(project.status)}</span>
               </div>
               <div class="stack-2">
                 <div class="progress"><div class="progress-fill" style="width:${project.progress}%"></div></div>
@@ -109,7 +118,7 @@ export function render(container) {
                   <span>Review: ${project.taskCounts.inReview}</span>
                 </div>
               </div>
-              <div class="subtle">Last activity ${project.lastActivity}</div>
+              <div class="subtle">Last activity ${escapeHtml(project.lastActivity)}</div>
             </article>
           `).join('')}
         </div>
@@ -120,12 +129,12 @@ export function render(container) {
         <div class="activity-list">
           ${recentActivities.map((activity) => `
             <article class="surface-card activity-item ${activity.objectType === 'task' ? 'interactive' : ''}" ${activity.objectType === 'task' ? `data-task-id="${activity.objectId}"` : ''}>
-              <div>${actorAvatar(activity.actor)} ${describeActivity(activity)}</div>
+              <div>${escapeHtml(actorAvatar(activity.actor))} ${escapeHtml(describeActivity(activity))}</div>
               <div class="activity-meta">
                 <span>${relativeTime(activity.createdAt)}</span>
                 <span>•</span>
                 <span class="color-dot" style="background: var(--color-project-${activity.projectColor});"></span>
-                <span>${activity.projectName}</span>
+                <span>${escapeHtml(activity.projectName)}</span>
               </div>
             </article>
           `).join('')}
@@ -142,21 +151,45 @@ export function render(container) {
               return `
                 <article class="surface-card task-card interactive priority-high" data-task-id="${task.id}">
                   <div class="task-top">
-                    <strong>${task.name}</strong>
+                    <strong>${escapeHtml(task.name)}</strong>
                     <span class="pill blocked">blocked</span>
                   </div>
                   <div class="subtle">Blocked for ${duration}</div>
-                  <div class="subtle">${task.blockedReason || 'No reason provided'}</div>
+                  <div class="subtle">${escapeHtml(task.blockedReason || 'No reason provided')}</div>
                 </article>
               `;
             }).join('')}
           </div>
         </div>
       ` : ''}
+
+      <button class="fab" id="create-task-fab" title="New Task" aria-label="Create new task">+</button>
     </section>
   `;
 
   container.addEventListener('click', (event) => {
+    const createButton = event.target.closest('#create-task-fab');
+    if (createButton) {
+      Promise.all([
+        import('../components/slide-over.js'),
+        import('../components/task-form.js')
+      ]).then(([slideOver, taskForm]) => {
+        slideOver.openSlideOver({
+          title: 'Create Task',
+          content: taskForm.renderTaskForm()
+        });
+
+        const form = document.getElementById('task-create-form');
+        taskForm.initTaskForm(form, (task) => {
+          slideOver.closeSlideOver();
+          if (task?.projectId) {
+            window.location.hash = `#/board/${task.projectId}`;
+          }
+        });
+      });
+      return;
+    }
+
     const statCard = event.target.closest('[data-stat-action]');
     if (statCard) {
       const statAction = statCard.dataset.statAction;
