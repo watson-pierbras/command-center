@@ -981,6 +981,45 @@ body:has(.slide-over-backdrop.open) .fab {
   display: none;
 }
 
+/* Agent workload */
+.agent-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.agent-avatar {
+  font-size: 1.5rem;
+}
+
+.workload-section {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.workload-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.workload-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.workload-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.agent-recent {
+  font-size: var(--font-size-sm);
+}
+
 .shortcuts-panel {
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border-primary);
@@ -1033,4 +1072,53 @@ kbd {
   font-size: var(--font-size-xs);
   font-family: inherit;
   color: var(--color-text-primary);
+}
+
+/* Activity grouping */
+.activity-group {
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.activity-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3);
+  background: var(--color-bg-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+.activity-group-header:hover {
+  background: var(--color-bg-tertiary);
+}
+
+.activity-group-items {
+  border-top: 1px solid var(--color-border-primary);
+}
+
+.activity-group-items .activity-item {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.activity-group-items .activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-date-header {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-2) 0;
+  margin-top: var(--space-3);
+}
+
+.activity-date-header:first-child {
+  margin-top: 0;
 }

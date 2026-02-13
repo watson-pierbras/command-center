@@ -13,6 +13,9 @@ const ACTOR_EMOJI = {
   system: '🧠'
 };
 
+const ONE_HOUR_MS = 3600000;
+const ONE_DAY_MS = 86400000;
+
 function relTime(input) {
   const date = new Date(input);
   const diffMs = Date.now() - date.getTime();
@@ -24,16 +27,15 @@ function relTime(input) {
   return `${days}d ago`;
 }
 
-function dateLabel(input) {
+function sectionDateLabel(input) {
   const date = new Date(input);
   const today = new Date();
   const start = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
   const item = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-  const oneDay = 86400000;
 
   if (item === start) return 'Today';
-  if (item === start - oneDay) return 'Yesterday';
-  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  if (item === start - ONE_DAY_MS) return 'Yesterday';
+  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 function activityText(activity) {
@@ -64,49 +66,101 @@ function objectLink(activity) {
   return '#/';
 }
 
+export function groupActivities(activities) {
+  const sorted = [...activities].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const groups = [];
+
+  sorted.forEach((entry) => {
+    const actor = ACTOR_LABELS[entry.actor] ? entry.actor : 'system';
+    const entryTime = new Date(entry.createdAt).getTime();
+    const lastGroup = groups[groups.length - 1];
+
+    if (lastGroup) {
+      const lastItem = lastGroup.items[lastGroup.items.length - 1];
+      const lastTime = new Date(lastItem.createdAt).getTime();
+      const withinHour = lastTime - entryTime <= ONE_HOUR_MS;
+      if (lastGroup.actor === actor && withinHour) {
+        lastGroup.items.push(entry);
+        return;
+      }
+    }
+
+    groups.push({
+      actor,
+      items: [entry],
+      latestTime: entry.createdAt
+    });
+  });
+
+  return groups;
+}
+
+function renderActivityItem(entry) {
+  const actor = ACTOR_LABELS[entry.actor] ? entry.actor : 'system';
+  return `
+    <article class="surface-card activity-item ${entry.objectType === 'task' ? 'interactive' : ''}" ${entry.objectType === 'task' ? `data-task-id="${entry.objectId}"` : ''}>
+      <div class="task-top">
+        <div>${ACTOR_EMOJI[actor]} ${activityText(entry)}</div>
+        <span class="subtle">${relTime(entry.createdAt)}</span>
+      </div>
+      <div class="activity-meta">
+        <a class="link" href="${objectLink(entry)}">${entry.objectName}</a>
+        <span>•</span>
+        <span class="color-dot" style="background: var(--color-project-${entry.projectColor});"></span>
+        <span>${entry.projectName}</span>
+      </div>
+    </article>
+  `;
+}
+
+function renderActivityGroup(group) {
+  if (group.items.length === 1) {
+    return renderActivityItem(group.items[0]);
+  }
+
+  const actor = ACTOR_LABELS[group.actor] ? group.actor : 'system';
+  return `
+    <div class="activity-group">
+      <div class="activity-group-header interactive" data-toggle-group>
+        <span>${ACTOR_EMOJI[actor]} ${ACTOR_LABELS[actor]} made ${group.items.length} changes</span>
+        <span class="activity-meta"><span>${relTime(group.latestTime)}</span><span>·</span><span data-toggle-indicator>▾</span></span>
+      </div>
+      <div class="activity-group-items" hidden>
+        ${group.items.map((entry) => renderActivityItem(entry)).join('')}
+      </div>
+    </div>
+  `;
+}
+
 function renderFeed(host, actorFilter, actionFilter) {
-  const filtered = [...ACTIVITIES]
+  const filtered = ACTIVITIES
     .filter((entry) => {
       if (actorFilter !== 'all') {
         return entry.actor === actorFilter;
       }
       return true;
     })
-    .filter((entry) => (actionFilter === 'all' ? true : entry.action === actionFilter))
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    .filter((entry) => (actionFilter === 'all' ? true : entry.action === actionFilter));
 
-  let lastLabel = '';
-
-  host.innerHTML = filtered
-    .map((entry) => {
-      const label = dateLabel(entry.createdAt);
-      const separator = label !== lastLabel ? `<div class="subtle" style="margin-top: var(--space-2);">${label}</div>` : '';
-      lastLabel = label;
-      const actor = ACTOR_LABELS[entry.actor] ? entry.actor : 'system';
-
-      return `
-        ${separator}
-        <article class="surface-card activity-item ${entry.objectType === 'task' ? 'interactive' : ''}" ${entry.objectType === 'task' ? `data-task-id="${entry.objectId}"` : ''}>
-          <div class="task-top">
-            <div>${ACTOR_EMOJI[actor]} ${activityText(entry)}</div>
-            <span class="subtle">${relTime(entry.createdAt)}</span>
-          </div>
-          <div class="activity-meta">
-            <a class="link" href="${objectLink(entry)}">${entry.objectName}</a>
-            <span>•</span>
-            <span class="color-dot" style="background: var(--color-project-${entry.projectColor});"></span>
-            <span>${entry.projectName}</span>
-          </div>
-        </article>
-      `;
-    })
-    .join('') || `
+  const groups = groupActivities(filtered);
+  if (groups.length === 0) {
+    host.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">🕐</div>
         <div class="empty-state-title">No activity recorded</div>
         <div class="empty-state-desc">Changes to tasks and projects will show up here.</div>
       </div>
     `;
+    return;
+  }
+
+  let lastLabel = '';
+  host.innerHTML = groups.map((group) => {
+    const label = sectionDateLabel(group.latestTime);
+    const separator = label !== lastLabel ? `<h3 class="activity-date-header">${label}</h3>` : '';
+    lastLabel = label;
+    return `${separator}${renderActivityGroup(group)}`;
+  }).join('');
 }
 
 export function render(container) {
@@ -153,6 +207,19 @@ export function render(container) {
   });
 
   container.addEventListener('click', (event) => {
+    const groupHeader = event.target.closest('[data-toggle-group]');
+    if (groupHeader) {
+      const items = groupHeader.nextElementSibling;
+      if (items) {
+        items.hidden = !items.hidden;
+        const indicator = groupHeader.querySelector('[data-toggle-indicator]');
+        if (indicator) {
+          indicator.textContent = items.hidden ? '▾' : '▴';
+        }
+      }
+      return;
+    }
+
     const card = event.target.closest('[data-task-id]');
     if (!card || event.target.closest('a')) return;
 

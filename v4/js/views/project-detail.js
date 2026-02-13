@@ -1,5 +1,6 @@
 import { ACTIVITIES, AGENTS, PROJECTS, TASKS } from '../mock-data.js';
 import { renderBoardBody, showStatusDropdown } from './board.js';
+import { groupActivities } from './activity.js';
 
 function escapeHtml(value) {
   return String(value)
@@ -32,11 +33,30 @@ function actorName(actor) {
   return 'System';
 }
 
+function actorAvatar(actor) {
+  if (actor === 'watson') return '🔍';
+  if (actor === 'codex') return '⚡';
+  return '🧠';
+}
+
 function activityText(activity) {
   if (activity.action === 'status_changed') return `${actorName(activity.actor)} changed status to ${activity.data.to}`;
   if (activity.action === 'blocked') return `${actorName(activity.actor)} blocked task`;
   if (activity.action === 'updated') return `${actorName(activity.actor)} updated project`;
   return `${actorName(activity.actor)} created item`;
+}
+
+function renderProjectActivityItem(item) {
+  return `
+    <article class="surface-card activity-item">
+      <div>${escapeHtml(activityText(item))}</div>
+      <div class="activity-meta">
+        <span>${relativeTime(item.createdAt)}</span>
+        <span>•</span>
+        <span>${escapeHtml(item.objectName)}</span>
+      </div>
+    </article>
+  `;
 }
 
 function renderOverview(project, projectTasks) {
@@ -121,18 +141,26 @@ function renderTasks(project, projectTasks, selectedFilter = 'all', viewMode = '
 }
 
 function renderActivity(projectActivity) {
+  const groups = groupActivities(projectActivity);
   return `
     <div class="activity-list">
-      ${projectActivity.map((item) => `
-        <article class="surface-card activity-item">
-          <div>${escapeHtml(activityText(item))}</div>
-          <div class="activity-meta">
-            <span>${relativeTime(item.createdAt)}</span>
-            <span>•</span>
-            <span>${escapeHtml(item.objectName)}</span>
+      ${groups.map((group) => {
+        if (group.items.length === 1) {
+          return renderProjectActivityItem(group.items[0]);
+        }
+
+        return `
+          <div class="activity-group">
+            <div class="activity-group-header interactive" data-toggle-group>
+              <span>${actorAvatar(group.actor)} ${actorName(group.actor)} made ${group.items.length} changes</span>
+              <span class="activity-meta"><span>${relativeTime(group.latestTime)}</span><span>·</span><span data-toggle-indicator>▾</span></span>
+            </div>
+            <div class="activity-group-items" hidden>
+              ${group.items.map((item) => renderProjectActivityItem(item)).join('')}
+            </div>
           </div>
-        </article>
-      `).join('') || `
+        `;
+      }).join('') || `
         <div class="empty-state">
           <div class="empty-state-icon">📝</div>
           <div class="empty-state-title">No activity yet</div>
@@ -201,6 +229,19 @@ export function render(container, params, query = {}) {
     button.addEventListener('click', () => {
       window.location.hash = `#/projects/${project.id}?tab=${button.dataset.projectTab}`;
     });
+  });
+
+  container.addEventListener('click', (event) => {
+    const groupHeader = event.target.closest('[data-toggle-group]');
+    if (!groupHeader) return;
+    const items = groupHeader.nextElementSibling;
+    if (items) {
+      items.hidden = !items.hidden;
+      const indicator = groupHeader.querySelector('[data-toggle-indicator]');
+      if (indicator) {
+        indicator.textContent = items.hidden ? '▾' : '▴';
+      }
+    }
   });
 
   if (currentTab === 'tasks') {
