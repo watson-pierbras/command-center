@@ -108,7 +108,13 @@ function renderTasks(project, projectTasks, selectedFilter = 'all', viewMode = '
               <div class="subtle">Due ${formatDate(task.dueDate)}</div>
             </article>
           `;
-        }).join('') || '<div class="subtle">No tasks for this filter.</div>'}
+        }).join('') || `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <div class="empty-state-title">No tasks match this filter</div>
+            <div class="empty-state-desc">Try selecting a different filter or create a new task.</div>
+          </div>
+        `}
       </div>
     </div>
   `;
@@ -126,7 +132,13 @@ function renderActivity(projectActivity) {
             <span>${escapeHtml(item.objectName)}</span>
           </div>
         </article>
-      `).join('') || '<div class="subtle">No project activity yet.</div>'}
+      `).join('') || `
+        <div class="empty-state">
+          <div class="empty-state-icon">📝</div>
+          <div class="empty-state-title">No activity yet</div>
+          <div class="empty-state-desc">Activity will appear here as tasks are created and updated.</div>
+        </div>
+      `}
     </div>
   `;
 }

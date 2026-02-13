@@ -105,7 +105,12 @@ export function renderBoardBody(host, projectId) {
                   ` : ''}
                 </article>
               `;
-            }).join('') || '<div class="subtle">No tasks</div>'}
+            }).join('') || `
+              <div class="empty-state-mini">
+                <span class="empty-state-icon">📋</span>
+                <span>No tasks yet</span>
+              </div>
+            `}
           </section>
         `;
       }).join('')}

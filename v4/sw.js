@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cc-v4-cache-v1';
+const CACHE_NAME = 'cc-v4-cache-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -23,7 +23,8 @@ const ASSETS = [
   './js/views/activity.js',
   './js/views/agents.js',
   './js/views/settings.js',
-  './js/views/task-detail.js'
+  './js/views/task-detail.js',
+  './js/components/task-form.js'
 ];
 
 self.addEventListener('install', (event) => {

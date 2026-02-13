@@ -5,11 +5,15 @@ let isOpen = false;
 let previousBodyOverflow = '';
 let debounceTimer = null;
 let selectedIndex = -1;
+let pendingPrefix = null;
+let prefixTimer = null;
 
 let backdropEl;
 let inputEl;
 let resultsEl;
 let resultEls = [];
+let shortcutsOverlayEl;
+let shortcutsCloseEl;
 
 function isMacPlatform() {
   return /Mac|iPhone|iPad|iPod/.test(navigator.platform || '');
@@ -132,7 +136,168 @@ function ensureElements() {
     }
   });
 
-  window.addEventListener('hashchange', closePalette);
+  ensureShortcutsOverlay();
+  window.addEventListener('hashchange', () => {
+    closePalette();
+    closeShortcutsOverlay();
+    clearPendingPrefix();
+  });
+}
+
+function ensureShortcutsOverlay() {
+  if (shortcutsOverlayEl) return;
+
+  shortcutsOverlayEl = document.createElement('div');
+  shortcutsOverlayEl.className = 'shortcuts-overlay';
+  shortcutsOverlayEl.id = 'shortcuts-overlay';
+  shortcutsOverlayEl.hidden = true;
+
+  const shortcutsPanelEl = document.createElement('div');
+  shortcutsPanelEl.className = 'shortcuts-panel';
+
+  const headerEl = document.createElement('div');
+  headerEl.className = 'shortcuts-header';
+
+  const headingEl = document.createElement('h2');
+  headingEl.textContent = 'Keyboard Shortcuts';
+
+  shortcutsCloseEl = document.createElement('button');
+  shortcutsCloseEl.type = 'button';
+  shortcutsCloseEl.className = 'slide-over-close';
+  shortcutsCloseEl.id = 'shortcuts-close';
+  shortcutsCloseEl.textContent = '\u00D7';
+
+  const gridEl = document.createElement('div');
+  gridEl.className = 'shortcuts-grid';
+
+  const rows = [
+    { keys: ['\u2318K'], label: 'Command palette' },
+    { keys: ['g', 'd'], label: 'Go to Dashboard' },
+    { keys: ['g', 'p'], label: 'Go to Projects' },
+    { keys: ['g', 'b'], label: 'Go to Board' },
+    { keys: ['g', 'a'], label: 'Go to Activity' },
+    { keys: ['g', 's'], label: 'Go to Settings' },
+    { keys: ['n'], label: 'New task' },
+    { keys: ['?'], label: 'Show this help' },
+    { keys: ['Esc'], label: 'Close overlay' }
+  ];
+
+  rows.forEach((row) => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'shortcut-row';
+
+    row.keys.forEach((key) => {
+      const keyEl = document.createElement('kbd');
+      keyEl.textContent = key;
+      rowEl.append(keyEl);
+    });
+
+    const textEl = document.createElement('span');
+    textEl.textContent = row.label;
+    rowEl.append(textEl);
+    gridEl.append(rowEl);
+  });
+
+  headerEl.append(headingEl, shortcutsCloseEl);
+  shortcutsPanelEl.append(headerEl, gridEl);
+  shortcutsOverlayEl.append(shortcutsPanelEl);
+  document.body.append(shortcutsOverlayEl);
+
+  shortcutsCloseEl.addEventListener('click', closeShortcutsOverlay);
+  shortcutsOverlayEl.addEventListener('click', (event) => {
+    if (event.target === shortcutsOverlayEl) {
+      closeShortcutsOverlay();
+    }
+  });
+}
+
+function isShortcutsOverlayOpen() {
+  return Boolean(shortcutsOverlayEl && !shortcutsOverlayEl.hidden);
+}
+
+function openShortcutsOverlay() {
+  ensureShortcutsOverlay();
+  shortcutsOverlayEl.hidden = false;
+  shortcutsCloseEl.focus();
+}
+
+function closeShortcutsOverlay() {
+  if (!shortcutsOverlayEl) return;
+  shortcutsOverlayEl.hidden = true;
+}
+
+function toggleShortcutsOverlay() {
+  if (isShortcutsOverlayOpen()) {
+    closeShortcutsOverlay();
+    return;
+  }
+  openShortcutsOverlay();
+}
+
+function clearPendingPrefix() {
+  pendingPrefix = null;
+  if (prefixTimer) {
+    window.clearTimeout(prefixTimer);
+    prefixTimer = null;
+  }
+}
+
+function setPendingPrefix(prefix) {
+  clearPendingPrefix();
+  pendingPrefix = prefix;
+  prefixTimer = window.setTimeout(() => {
+    pendingPrefix = null;
+    prefixTimer = null;
+  }, 1000);
+}
+
+function isTypingInField() {
+  const activeEl = document.activeElement;
+  if (!activeEl) return false;
+  if (activeEl.matches('input, textarea, select')) return true;
+  if (activeEl.closest('[contenteditable]')) return true;
+  return false;
+}
+
+function isPaletteOpenForShortcutGuard() {
+  return isOpen ||
+    Boolean(document.querySelector('.cmd-palette-backdrop.open')) ||
+    Boolean(document.querySelector('.cmd-backdrop.open'));
+}
+
+function openNewTaskForm() {
+  const createTaskTrigger = document.querySelector('#create-task-fab, [data-new-task]');
+  if (createTaskTrigger instanceof HTMLElement) {
+    createTaskTrigger.click();
+    return;
+  }
+  window.dispatchEvent(new CustomEvent('cc:new-task'));
+}
+
+function navigateShortcut(path) {
+  window.location.hash = `#${path}`;
+}
+
+function handlePrefixShortcut(key) {
+  if (pendingPrefix !== 'g') return false;
+
+  const routes = {
+    d: '/',
+    p: '/projects',
+    b: '/board',
+    a: '/activity',
+    s: '/settings'
+  };
+
+  const path = routes[key];
+  if (!path) {
+    clearPendingPrefix();
+    return false;
+  }
+
+  navigateShortcut(path);
+  clearPendingPrefix();
+  return true;
 }
 
 function getTaskItem(task) {
@@ -357,6 +522,7 @@ function onGlobalKeydown(event) {
 
   if (openCombo) {
     event.preventDefault();
+    clearPendingPrefix();
     openPalette();
     return;
   }
@@ -364,6 +530,49 @@ function onGlobalKeydown(event) {
   if (isOpen && event.key === 'Escape') {
     event.preventDefault();
     closePalette();
+    clearPendingPrefix();
+    return;
+  }
+
+  if (isShortcutsOverlayOpen() && event.key === 'Escape') {
+    event.preventDefault();
+    closeShortcutsOverlay();
+    clearPendingPrefix();
+    return;
+  }
+
+  if (event.metaKey || event.ctrlKey || event.altKey) {
+    clearPendingPrefix();
+    return;
+  }
+
+  if (isTypingInField() || isPaletteOpenForShortcutGuard()) {
+    clearPendingPrefix();
+    return;
+  }
+
+  if (handlePrefixShortcut(key)) {
+    event.preventDefault();
+    return;
+  }
+
+  if (key === 'g') {
+    event.preventDefault();
+    setPendingPrefix('g');
+    return;
+  }
+
+  clearPendingPrefix();
+
+  if (key === 'n') {
+    event.preventDefault();
+    openNewTaskForm();
+    return;
+  }
+
+  if (event.key === '?') {
+    event.preventDefault();
+    toggleShortcutsOverlay();
   }
 }
 

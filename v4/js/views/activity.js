@@ -100,7 +100,13 @@ function renderFeed(host, actorFilter, actionFilter) {
         </article>
       `;
     })
-    .join('') || '<div class="subtle">No activity for this filter.</div>';
+    .join('') || `
+      <div class="empty-state">
+        <div class="empty-state-icon">🕐</div>
+        <div class="empty-state-title">No activity recorded</div>
+        <div class="empty-state-desc">Changes to tasks and projects will show up here.</div>
+      </div>
+    `;
 }
 
 export function render(container) {
