@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-14T02:08:42Z",
+  "lastUpdated": "2026-02-14T02:13:46Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-13T21:03:39-05:00"
+      "lastActivity": "2026-02-13T21:08:43-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-13T21:03:39-05:00",
+          "lastActive": "2026-02-13T21:08:43-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,10 +494,10 @@
   ],
   "costs": {
     "summary": {
-      "today": 1.08,
-      "week": 182.78,
-      "month": 182.78,
-      "projectedMonth": 365.56,
+      "today": 1.17,
+      "week": 182.87,
+      "month": 182.87,
+      "projectedMonth": 365.73,
       "dailyAvg": 13.06
     },
     "models": [
@@ -505,12 +505,12 @@
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 182.78,
-        "tokensIn": 240673559,
-        "tokensOut": 557979,
-        "cacheRead": 232239621,
-        "cacheWrite": 8431247,
-        "calls": 2256,
+        "cost": 182.87,
+        "tokensIn": 240851391,
+        "tokensOut": 557987,
+        "cacheRead": 232417397,
+        "cacheWrite": 8431300,
+        "calls": 2257,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -839,10 +839,10 @@
       {
         "hour": "2026-02-14T02:00Z",
         "model": "claude-opus-4-6",
-        "calls": 1,
-        "tokensIn": 177779,
-        "tokensOut": 8,
-        "cost": 0.09
+        "calls": 2,
+        "tokensIn": 355611,
+        "tokensOut": 16,
+        "cost": 0.18
       },
       {
         "hour": "2026-02-14T01:00Z",
@@ -1238,8 +1238,8 @@
       },
       {
         "date": "2026-02-14",
-        "cost": 1.08,
-        "calls": 12
+        "cost": 1.17,
+        "calls": 13
       }
     ]
   },
