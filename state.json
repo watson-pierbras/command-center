@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-14T02:33:58Z",
+  "lastUpdated": "2026-02-14T02:39:01Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-13T21:28:55-05:00"
+      "lastActivity": "2026-02-13T21:33:58-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-13T21:28:55-05:00",
+          "lastActive": "2026-02-13T21:33:58-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,25 +494,25 @@
   ],
   "costs": {
     "summary": {
-      "today": 1.17,
-      "week": 182.87,
-      "month": 182.87,
-      "projectedMonth": 365.73,
-      "dailyAvg": 13.06
+      "today": 1.26,
+      "week": 182.96,
+      "month": 182.96,
+      "projectedMonth": 365.92,
+      "dailyAvg": 13.07
     },
     "models": [
       {
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 182.87,
-        "tokensIn": 240851391,
-        "tokensOut": 557987,
-        "cacheRead": 232417397,
-        "cacheWrite": 8431300,
-        "calls": 2257,
+        "cost": 182.96,
+        "tokensIn": 241029397,
+        "tokensOut": 557995,
+        "cacheRead": 232595226,
+        "cacheWrite": 8431474,
+        "calls": 2258,
         "avgCost": 0.08,
-        "cacheHitRate": 0.96
+        "cacheHitRate": 0.97
       },
       {
         "id": "openclaw/delivery-mirror",
@@ -839,10 +839,10 @@
       {
         "hour": "2026-02-14T02:00Z",
         "model": "claude-opus-4-6",
-        "calls": 2,
-        "tokensIn": 355611,
-        "tokensOut": 16,
-        "cost": 0.18
+        "calls": 3,
+        "tokensIn": 533617,
+        "tokensOut": 24,
+        "cost": 0.27
       },
       {
         "hour": "2026-02-14T01:00Z",
@@ -1238,8 +1238,8 @@
       },
       {
         "date": "2026-02-14",
-        "cost": 1.17,
-        "calls": 13
+        "cost": 1.26,
+        "calls": 14
       }
     ]
   },
