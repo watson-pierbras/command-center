@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-14T15:57:16Z",
+  "lastUpdated": "2026-02-14T16:02:19Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-14T10:52:13-05:00"
+      "lastActivity": "2026-02-14T10:57:16-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-14T10:52:13-05:00",
+          "lastActive": "2026-02-14T10:57:16-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -1191,9 +1191,9 @@
       {
         "hour": "2026-02-12T16:00Z",
         "model": "kimi-k2.5",
-        "calls": 46,
-        "tokensIn": 7385697,
-        "tokensOut": 15209,
+        "calls": 44,
+        "tokensIn": 7099405,
+        "tokensOut": 15054,
         "cost": 0
       },
       {
@@ -1202,14 +1202,6 @@
         "calls": 6,
         "tokensIn": 0,
         "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-12T15:00Z",
-        "model": "kimi-k2.5",
-        "calls": 3,
-        "tokensIn": 428304,
-        "tokensOut": 205,
         "cost": 0
       }
     ],
