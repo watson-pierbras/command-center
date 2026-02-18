@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-18T18:30:37Z",
+  "lastUpdated": "2026-02-18T18:35:40Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-18T13:25:33-05:00"
+      "lastActivity": "2026-02-18T13:30:37-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-18T13:25:33-05:00",
+          "lastActive": "2026-02-18T13:30:37-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,25 +494,38 @@
   ],
   "costs": {
     "summary": {
-      "today": 15.03,
-      "week": 104.17,
-      "month": 198.8,
-      "projectedMonth": 309.24,
-      "dailyAvg": 11.04
+      "today": 0.66,
+      "week": 89.81,
+      "month": 184.43,
+      "projectedMonth": 286.9,
+      "dailyAvg": 10.25
     },
     "models": [
       {
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 198.8,
-        "tokensIn": 253282584,
-        "tokensOut": 593738,
-        "cacheRead": 243314493,
-        "cacheWrite": 9965116,
-        "calls": 2421,
+        "cost": 184.43,
+        "tokensIn": 242860671,
+        "tokensOut": 560462,
+        "cacheRead": 234339907,
+        "cacheWrite": 8518019,
+        "calls": 2281,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
+      },
+      {
+        "id": "openclaw/gateway-injected",
+        "name": "gateway-injected",
+        "provider": "openclaw",
+        "cost": 0,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "calls": 1,
+        "avgCost": 0,
+        "cacheHitRate": 0
       },
       {
         "id": "openclaw/delivery-mirror",
@@ -523,7 +536,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 136,
+        "calls": 126,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -532,11 +545,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 72969404,
-        "tokensOut": 179623,
-        "cacheRead": 68812288,
+        "tokensIn": 71475857,
+        "tokensOut": 169638,
+        "cacheRead": 67575552,
         "cacheWrite": 0,
-        "calls": 1168,
+        "calls": 1115,
         "avgCost": 0,
         "cacheHitRate": 1
       },
@@ -852,9 +865,17 @@
       {
         "hour": "2026-02-18T18:00Z",
         "model": "kimi-k2.5",
-        "calls": 5,
-        "tokensIn": 328233,
-        "tokensOut": 1952,
+        "calls": 6,
+        "tokensIn": 345336,
+        "tokensOut": 2171,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-18T18:00Z",
+        "model": "gateway-injected",
+        "calls": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
         "cost": 0
       },
       {
@@ -876,10 +897,10 @@
       {
         "hour": "2026-02-18T18:00Z",
         "model": "claude-opus-4-6",
-        "calls": 45,
-        "tokensIn": 1648323,
-        "tokensOut": 10292,
-        "cost": 2.97
+        "calls": 14,
+        "tokensIn": 224415,
+        "tokensOut": 2395,
+        "cost": 0.66
       },
       {
         "hour": "2026-02-18T17:00Z",
@@ -890,83 +911,11 @@
         "cost": 0
       },
       {
-        "hour": "2026-02-18T17:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 13,
-        "tokensIn": 598866,
-        "tokensOut": 2335,
-        "cost": 1.2
-      },
-      {
         "hour": "2026-02-18T16:00Z",
         "model": "kimi-k2.5",
         "calls": 2,
         "tokensIn": 31533,
         "tokensOut": 271,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-18T16:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 47,
-        "tokensIn": 4255502,
-        "tokensOut": 9450,
-        "cost": 4.82
-      },
-      {
-        "hour": "2026-02-18T15:00Z",
-        "model": "kimi-k2.5",
-        "calls": 4,
-        "tokensIn": 205727,
-        "tokensOut": 2843,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-18T15:00Z",
-        "model": "delivery-mirror",
-        "calls": 6,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-18T15:00Z",
-        "model": "claude-opus-4-6",
-        "calls": 49,
-        "tokensIn": 4143637,
-        "tokensOut": 13594,
-        "cost": 6.04
-      },
-      {
-        "hour": "2026-02-18T14:00Z",
-        "model": "kimi-k2.5",
-        "calls": 38,
-        "tokensIn": 1115172,
-        "tokensOut": 6049,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-18T14:00Z",
-        "model": "delivery-mirror",
-        "calls": 1,
-        "tokensIn": 0,
-        "tokensOut": 0,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-18T13:00Z",
-        "model": "kimi-k2.5",
-        "calls": 12,
-        "tokensIn": 189751,
-        "tokensOut": 1312,
-        "cost": 0
-      },
-      {
-        "hour": "2026-02-18T13:00Z",
-        "model": "delivery-mirror",
-        "calls": 3,
-        "tokensIn": 0,
-        "tokensOut": 0,
         "cost": 0
       },
       {
@@ -1167,8 +1116,8 @@
       },
       {
         "date": "2026-02-18",
-        "cost": 15.03,
-        "calls": 228
+        "cost": 0.66,
+        "calls": 26
       }
     ]
   },
