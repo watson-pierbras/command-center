@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-02-18T18:10:22Z",
+  "lastUpdated": "2026-02-18T18:15:26Z",
   "agents": {
     "watson": {
       "status": "online",
       "model": "anthropic/claude-opus-4-6",
-      "lastActivity": "2026-02-18T15:22:12Z"
+      "lastActivity": "2026-02-18T18:10:29Z"
     },
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-18T13:05:19-05:00"
+      "lastActivity": "2026-02-18T13:10:22-05:00"
     },
     "ollama": {
       "status": "online",
@@ -156,7 +156,7 @@
           "reworkRate": 0.05
         },
         "history": {
-          "lastActive": "2026-02-18T15:22:12Z",
+          "lastActive": "2026-02-18T18:10:29Z",
           "currentStreak": 5,
           "joinedAt": "2026-02-08T16:30:00Z"
         }
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-18T13:05:19-05:00",
+          "lastActive": "2026-02-18T13:10:22-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,23 +494,23 @@
   ],
   "costs": {
     "summary": {
-      "today": 13.57,
-      "week": 102.71,
-      "month": 197.34,
-      "projectedMonth": 306.97,
-      "dailyAvg": 10.96
+      "today": 15.03,
+      "week": 104.17,
+      "month": 198.8,
+      "projectedMonth": 309.24,
+      "dailyAvg": 11.04
     },
     "models": [
       {
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 197.34,
-        "tokensIn": 252722036,
-        "tokensOut": 590470,
-        "cacheRead": 242944431,
-        "cacheWrite": 9774651,
-        "calls": 2399,
+        "cost": 198.8,
+        "tokensIn": 253282584,
+        "tokensOut": 593738,
+        "cacheRead": 243314493,
+        "cacheWrite": 9965116,
+        "calls": 2412,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -523,7 +523,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 135,
+        "calls": 136,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -532,13 +532,26 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 72641171,
-        "tokensOut": 177671,
-        "cacheRead": 68581376,
+        "tokensIn": 72969404,
+        "tokensOut": 179623,
+        "cacheRead": 68812288,
         "cacheWrite": 0,
-        "calls": 1163,
+        "calls": 1168,
         "avgCost": 0,
         "cacheHitRate": 1
+      },
+      {
+        "id": "anthropic/claude-sonnet-4-6-20250122",
+        "name": "claude-sonnet-4-6-20250122",
+        "provider": "anthropic",
+        "cost": 0,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "calls": 1,
+        "avgCost": 0,
+        "cacheHitRate": 0
       }
     ],
     "projects": [
@@ -838,11 +851,35 @@
     "activity": [
       {
         "hour": "2026-02-18T18:00Z",
+        "model": "kimi-k2.5",
+        "calls": 5,
+        "tokensIn": 328233,
+        "tokensOut": 1952,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-18T18:00Z",
+        "model": "delivery-mirror",
+        "calls": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-18T18:00Z",
+        "model": "claude-sonnet-4-6-20250122",
+        "calls": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-18T18:00Z",
         "model": "claude-opus-4-6",
-        "calls": 23,
-        "tokensIn": 1087775,
-        "tokensOut": 7024,
-        "cost": 1.51
+        "calls": 36,
+        "tokensIn": 1648323,
+        "tokensOut": 10292,
+        "cost": 2.97
       },
       {
         "hour": "2026-02-18T17:00Z",
@@ -1130,8 +1167,8 @@
       },
       {
         "date": "2026-02-18",
-        "cost": 13.57,
-        "calls": 199
+        "cost": 15.03,
+        "calls": 219
       }
     ]
   },
