@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-02-18T14:42:57Z",
+  "lastUpdated": "2026-02-18T14:48:02Z",
   "agents": {
     "watson": {
       "status": "online",
       "model": "anthropic/claude-opus-4-6",
-      "lastActivity": "2026-02-13T15:12:51Z"
+      "lastActivity": "2026-02-18T14:46:07Z"
     },
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-18T09:37:53-05:00"
+      "lastActivity": "2026-02-18T09:42:57-05:00"
     },
     "ollama": {
       "status": "online",
@@ -156,7 +156,7 @@
           "reworkRate": 0.05
         },
         "history": {
-          "lastActive": "2026-02-13T15:12:51Z",
+          "lastActive": "2026-02-18T14:46:07Z",
           "currentStreak": 5,
           "joinedAt": "2026-02-08T16:30:00Z"
         }
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-18T09:37:53-05:00",
+          "lastActive": "2026-02-18T09:42:57-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -523,7 +523,7 @@
         "tokensOut": 0,
         "cacheRead": 0,
         "cacheWrite": 0,
-        "calls": 128,
+        "calls": 129,
         "avgCost": 0,
         "cacheHitRate": 0
       },
@@ -532,11 +532,11 @@
         "name": "kimi-k2.5",
         "provider": "moonshot",
         "cost": 0,
-        "tokensIn": 71445050,
-        "tokensOut": 169230,
-        "cacheRead": 67612416,
+        "tokensIn": 71876665,
+        "tokensOut": 172187,
+        "cacheRead": 67991296,
         "cacheWrite": 0,
-        "calls": 1127,
+        "calls": 1142,
         "avgCost": 0,
         "cacheHitRate": 1
       }
@@ -839,9 +839,17 @@
       {
         "hour": "2026-02-18T14:00Z",
         "model": "kimi-k2.5",
-        "calls": 9,
-        "tokensIn": 172393,
-        "tokensOut": 833,
+        "calls": 24,
+        "tokensIn": 604008,
+        "tokensOut": 3790,
+        "cost": 0
+      },
+      {
+        "hour": "2026-02-18T14:00Z",
+        "model": "delivery-mirror",
+        "calls": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
         "cost": 0
       },
       {
@@ -1083,7 +1091,7 @@
       {
         "date": "2026-02-18",
         "cost": 0,
-        "calls": 24
+        "calls": 40
       }
     ]
   },
