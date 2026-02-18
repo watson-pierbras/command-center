@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-18T15:38:39Z",
+  "lastUpdated": "2026-02-18T15:43:42Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-18T10:33:36-05:00"
+      "lastActivity": "2026-02-18T10:38:39-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-18T10:33:36-05:00",
+          "lastActive": "2026-02-18T10:38:39-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,10 +494,10 @@
   ],
   "costs": {
     "summary": {
-      "today": 4.84,
-      "week": 93.98,
-      "month": 188.61,
-      "projectedMonth": 293.39,
+      "today": 4.92,
+      "week": 94.06,
+      "month": 188.69,
+      "projectedMonth": 293.52,
       "dailyAvg": 10.48
     },
     "models": [
@@ -505,12 +505,12 @@
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 188.61,
-        "tokensIn": 245696174,
-        "tokensOut": 569012,
-        "cacheRead": 236732943,
-        "cacheWrite": 8960449,
-        "calls": 2304,
+        "cost": 188.69,
+        "tokensIn": 245792392,
+        "tokensOut": 570080,
+        "cacheRead": 236828071,
+        "cacheWrite": 8961536,
+        "calls": 2305,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -855,10 +855,10 @@
       {
         "hour": "2026-02-18T15:00Z",
         "model": "claude-opus-4-6",
-        "calls": 37,
-        "tokensIn": 3059918,
-        "tokensOut": 10945,
-        "cost": 4.84
+        "calls": 38,
+        "tokensIn": 3156136,
+        "tokensOut": 12013,
+        "cost": 4.92
       },
       {
         "hour": "2026-02-18T14:00Z",
@@ -1051,14 +1051,6 @@
         "tokensIn": 208375,
         "tokensOut": 636,
         "cost": 0
-      },
-      {
-        "hour": "2026-02-16T15:00Z",
-        "model": "kimi-k2.5",
-        "calls": 1,
-        "tokensIn": 19990,
-        "tokensOut": 13,
-        "cost": 0
       }
     ],
     "dailyHistory": [
@@ -1114,8 +1106,8 @@
       },
       {
         "date": "2026-02-18",
-        "cost": 4.84,
-        "calls": 101
+        "cost": 4.92,
+        "calls": 102
       }
     ]
   },
