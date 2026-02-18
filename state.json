@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-18T16:08:59Z",
+  "lastUpdated": "2026-02-18T16:14:03Z",
   "agents": {
     "watson": {
       "status": "online",
@@ -9,7 +9,7 @@
     "codex": {
       "status": "idle",
       "model": "gpt-5.3-codex",
-      "lastActivity": "2026-02-18T11:03:56-05:00"
+      "lastActivity": "2026-02-18T11:08:59-05:00"
     },
     "ollama": {
       "status": "online",
@@ -327,7 +327,7 @@
           "reworkRate": 0.10
         },
         "history": {
-          "lastActive": "2026-02-18T11:03:56-05:00",
+          "lastActive": "2026-02-18T11:08:59-05:00",
           "currentStreak": 3,
           "joinedAt": "2026-02-08T17:00:00Z"
         }
@@ -494,10 +494,10 @@
   ],
   "costs": {
     "summary": {
-      "today": 8.42,
-      "week": 97.56,
-      "month": 192.19,
-      "projectedMonth": 298.96,
+      "today": 8.49,
+      "week": 97.63,
+      "month": 192.26,
+      "projectedMonth": 299.07,
       "dailyAvg": 10.68
     },
     "models": [
@@ -505,12 +505,12 @@
         "id": "anthropic/claude-opus-4-6",
         "name": "claude-opus-4-6",
         "provider": "anthropic",
-        "cost": 192.19,
-        "tokensIn": 248568704,
-        "tokensOut": 573690,
-        "cacheRead": 239253322,
-        "cacheWrite": 9312553,
-        "calls": 2332,
+        "cost": 192.26,
+        "tokensIn": 248686856,
+        "tokensOut": 574078,
+        "cacheRead": 239370964,
+        "cacheWrite": 9313060,
+        "calls": 2333,
         "avgCost": 0.08,
         "cacheHitRate": 0.96
       },
@@ -839,10 +839,10 @@
       {
         "hour": "2026-02-18T16:00Z",
         "model": "claude-opus-4-6",
-        "calls": 16,
-        "tokensIn": 1788811,
-        "tokensOut": 2029,
-        "cost": 2.38
+        "calls": 17,
+        "tokensIn": 1906963,
+        "tokensOut": 2417,
+        "cost": 2.45
       },
       {
         "hour": "2026-02-18T15:00Z",
@@ -1055,9 +1055,9 @@
       {
         "hour": "2026-02-16T16:00Z",
         "model": "kimi-k2.5",
-        "calls": 7,
-        "tokensIn": 147571,
-        "tokensOut": 388,
+        "calls": 6,
+        "tokensIn": 127128,
+        "tokensOut": 373,
         "cost": 0
       }
     ],
@@ -1114,8 +1114,8 @@
       },
       {
         "date": "2026-02-18",
-        "cost": 8.42,
-        "calls": 129
+        "cost": 8.49,
+        "calls": 130
       }
     ]
   },
